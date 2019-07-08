@@ -101,6 +101,26 @@ export default class Index extends Component {
             />
           </View>
         </View>
+        <View style={{flex:1, marginTop:10, alignItems:'center'}}>
+          <View>
+            <Button
+              onPress={() => this.props.navigation.navigate('EselonIndex')}
+              title="Statistik Peserta Apel"
+              type="outline"
+              buttonStyle={{borderColor:'#696969'}}
+              titleStyle={{color:'red'}}
+              icon={
+                <Icon
+                  name="bar-chart"
+                  size={19}
+                  type='font-awesome'
+                  iconStyle={{marginRight:5}}
+                  color='red'
+                />
+              }
+            />
+          </View>
+        </View>
       </View>
     );
   }

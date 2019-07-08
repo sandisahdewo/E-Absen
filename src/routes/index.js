@@ -4,6 +4,7 @@ import Login from '../pages/login'
 import ProfileIndex from '../pages/profile'
 import ApelIndex from '../pages/e-apel'
 import IzinIndex from '../pages/e-izin'
+import EselonIndex from '../pages/e-eselon'
 
 import {
   createStackNavigator,
@@ -28,6 +29,9 @@ const PageStack = createStackNavigator({
   },
   ApelIndex: {
     screen: ApelIndex
+  },
+  EselonIndex: {
+    screen: EselonIndex
   },
 })
 
