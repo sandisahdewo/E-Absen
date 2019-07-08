@@ -112,14 +112,14 @@ android {
     splits {
         abi {
             reset()
-            enable enableSeparateBuildPerCPUArchitecture
+            enable enableSeparateBuildPerCPUArchitecture = true
             universalApk false  // If true, also generate a universal APK
             include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
     buildTypes {
         release {
-            minifyEnabled enableProguardInReleaseBuilds
+            minifyEnabled enableProguardInReleaseBuilds = true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
