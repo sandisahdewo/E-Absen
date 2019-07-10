@@ -38,7 +38,7 @@ export default class Index extends Component {
     return ( 
       <View style={{flex:1}}>
         {(this.state.open_swafoto) && 
-          <Camera onPickFoto={(data) => { this.handlePickSwaFoto(data) }}/>
+          <Camera type='front' onPickFoto={(data) => { this.handlePickSwaFoto(data) }}/>
         } 
         {(this.state.open_lampiran) && 
           <Camera onPickFoto={(data) => { this.handlePickLampiran(data) }}/>
@@ -71,7 +71,7 @@ export default class Index extends Component {
                   />
                 </View>
                 <View style={{flex:1, marginVertical:5, marginLeft:5}}>
-                  <Text>Unggah Lampiran</Text>
+                  <Text>Unggah Bukti: </Text>
                   <View style={{backgroundColor:'white', borderColor:'#808080', height:150, borderWidth:1}}>
                     <Image style={{flex:1, height: undefined, width: undefined }} source={{ uri:this.state.image_lampiran_base64} } />
                   </View>

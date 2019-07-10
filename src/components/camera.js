@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import {RNCamera} from 'react-native-camera';
+import PropTypes from 'prop-types';
 
-export default class Camera extends Component {
+class Camera extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,6 +13,7 @@ export default class Camera extends Component {
   }
 
   render() {
+    const cameraType = this.props.type == 'front' ? RNCamera.Constants.Type.front : RNCamera.Constants.Type.back;
     return ( 
       <View style={styles.container}>
         <RNCamera
@@ -19,8 +21,8 @@ export default class Camera extends Component {
             this.camera = ref;
           }}
           style={styles.preview}
-          type={RNCamera.Constants.Type.back}
-          flashMode={RNCamera.Constants.FlashMode.on}
+          type={cameraType}
+          flashMode={RNCamera.Constants.FlashMode.off}
           androidCameraPermissionOptions={{
             title: 'Permission to use camera',
             message: 'We need your permission to use your camera',
@@ -58,6 +60,12 @@ export default class Camera extends Component {
   };
 }
 
+Camera.propTypes = {
+  type: PropTypes.oneOfType([
+    'back', 'front'
+  ])
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -79,3 +87,5 @@ const styles = StyleSheet.create({
     margin: 20,
   },
 });
+
+export default Camera;

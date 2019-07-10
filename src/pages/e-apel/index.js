@@ -44,7 +44,7 @@ export default class Index extends Component {
       <View style={{flex:1}}>
         {(this.state.open_camera) && 
           <View style={{flex:1}}>
-            <Camera onPickFoto={(data) => { this.handlePickFoto(data) }}/>
+            <Camera type='front' onPickFoto={(data) => { this.handlePickFoto(data) }}/>
           </View>
         } 
         { (!this.state.open_camera) && 
