@@ -78,6 +78,10 @@
 		123B96E281264A36958C6585 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BB32278F49C462C8B163D1A /* SimpleLineIcons.ttf */; };
 		B4DFEDC0D8D341F2AF0F13D7 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D2C9341A518F41AA950F9890 /* Zocial.ttf */; };
 		1033347C291445D98E1F28FE /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A075DD8B85DE47F294868CD1 /* libRNCamera.a */; };
+		716DE52722BC4B2FB49AA188 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB24830A49914EFEB1BE43B6 /* libAirMaps.a */; };
+		AB4B48D9F51248B08318BBEF /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FFA54934A98413097AAAE6D /* libFastImage.a */; };
+		B88C475ABE5840AEB763FAB6 /* libFastImage-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E79590BF38184AEF8253B8E8 /* libFastImage-tvOS.a */; };
+		B493FBDC123E42C598392681 /* libRNCGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BA50472FE44FA98ED5163F /* libRNCGeolocation.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -427,6 +431,13 @@
 		D2C9341A518F41AA950F9890 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		9633E84C7FCF4DC7BED528A9 /* RNCamera.xcodeproj */ = {isa = PBXFileReference; name = "RNCamera.xcodeproj"; path = "../node_modules/react-native-camera/ios/RNCamera.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		A075DD8B85DE47F294868CD1 /* libRNCamera.a */ = {isa = PBXFileReference; name = "libRNCamera.a"; path = "libRNCamera.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		67B8DB34107541A5B93873E7 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; name = "AirMaps.xcodeproj"; path = "../node_modules/react-native-maps/lib/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		EB24830A49914EFEB1BE43B6 /* libAirMaps.a */ = {isa = PBXFileReference; name = "libAirMaps.a"; path = "libAirMaps.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		B906D894C1FE4C0B818C497D /* FastImage.xcodeproj */ = {isa = PBXFileReference; name = "FastImage.xcodeproj"; path = "../node_modules/react-native-fast-image/ios/FastImage.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		8FFA54934A98413097AAAE6D /* libFastImage.a */ = {isa = PBXFileReference; name = "libFastImage.a"; path = "libFastImage.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		E79590BF38184AEF8253B8E8 /* libFastImage-tvOS.a */ = {isa = PBXFileReference; name = "libFastImage-tvOS.a"; path = "libFastImage-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		D9D8EDBFBC8541CBA20A82AB /* RNCGeolocation.xcodeproj */ = {isa = PBXFileReference; name = "RNCGeolocation.xcodeproj"; path = "../node_modules/@react-native-community/geolocation/ios/RNCGeolocation.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		D6BA50472FE44FA98ED5163F /* libRNCGeolocation.a */ = {isa = PBXFileReference; name = "libRNCGeolocation.a"; path = "libRNCGeolocation.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -458,6 +469,9 @@
 				50EACD14D82D4A239A3E923D /* libRNGestureHandler.a in Frameworks */,
 				CA1A67B206B248798A71AD76 /* libRNVectorIcons.a in Frameworks */,
 				1033347C291445D98E1F28FE /* libRNCamera.a in Frameworks */,
+				716DE52722BC4B2FB49AA188 /* libAirMaps.a in Frameworks */,
+				AB4B48D9F51248B08318BBEF /* libFastImage.a in Frameworks */,
+				B493FBDC123E42C598392681 /* libRNCGeolocation.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -476,6 +490,7 @@
 				2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */,
 				56A38F4CA7D547F485F0C258 /* libRNGestureHandler-tvOS.a in Frameworks */,
 				87BBCF3F070E4C089F9B4201 /* libRNVectorIcons-tvOS.a in Frameworks */,
+				B88C475ABE5840AEB763FAB6 /* libFastImage-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -652,6 +667,9 @@
 				A3B09D7B8B624D799499A01F /* RNGestureHandler.xcodeproj */,
 				73FDCA190A6946569F4D1ADA /* RNVectorIcons.xcodeproj */,
 				9633E84C7FCF4DC7BED528A9 /* RNCamera.xcodeproj */,
+				67B8DB34107541A5B93873E7 /* AirMaps.xcodeproj */,
+				B906D894C1FE4C0B818C497D /* FastImage.xcodeproj */,
+				D9D8EDBFBC8541CBA20A82AB /* RNCGeolocation.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1357,12 +1375,19 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
+					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage",
+					"$(SRCROOT)/../node_modules/@react-native-community/geolocation/ios",
 				);
 			};
 			name = Debug;
@@ -1385,12 +1410,19 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
+					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage",
+					"$(SRCROOT)/../node_modules/@react-native-community/geolocation/ios",
 				);
 			};
 			name = Release;
@@ -1416,6 +1448,9 @@
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
+					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage",
+					"$(SRCROOT)/../node_modules/@react-native-community/geolocation/ios",
 				);
 			};
 			name = Debug;
@@ -1440,6 +1475,9 @@
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
+					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage",
+					"$(SRCROOT)/../node_modules/@react-native-community/geolocation/ios",
 				);
 			};
 			name = Release;
@@ -1470,12 +1508,19 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
+					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage",
+					"$(SRCROOT)/../node_modules/@react-native-community/geolocation/ios",
 				);
 			};
 			name = Debug;
@@ -1506,12 +1551,19 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
+					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage",
+					"$(SRCROOT)/../node_modules/@react-native-community/geolocation/ios",
 				);
 			};
 			name = Release;
@@ -1541,12 +1593,19 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
+					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage",
+					"$(SRCROOT)/../node_modules/@react-native-community/geolocation/ios",
 				);
 			};
 			name = Debug;
@@ -1576,12 +1635,19 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
+					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage",
+					"$(SRCROOT)/../node_modules/@react-native-community/geolocation/ios",
 				);
 			};
 			name = Release;
