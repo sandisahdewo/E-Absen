@@ -63,8 +63,8 @@ export default class Index extends Component {
 						renderItem={this.renderItem}
 					/>
         </View>
-        <View style={{flexDirection:'row', marginTop:20}}>
-          <View style={{flex:1, alignItems:'flex-end', marginRight:4}}>
+        <View style={{alignItems:'center', marginTop:20}}>
+          {/* <View style={{flex:1, alignItems:'flex-end', marginRight:4}}>
             <Button
               onPress={() => this.props.navigation.navigate('IzinIndex')}
               title="E-Izin"
@@ -81,8 +81,8 @@ export default class Index extends Component {
                 />
               }
             />
-          </View>
-          <View style={{flex:1, alignItems:'flex-start', marginLeft:4}}>
+          </View> */}
+          <View style={{alignItems:'flex-start', marginLeft:4}}>
             <Button
               onPress={() => this.props.navigation.navigate('ApelIndex')}
               title="E-Apel"
@@ -101,7 +101,7 @@ export default class Index extends Component {
             />
           </View>
         </View>
-        <View style={{flex:1, marginTop:10, alignItems:'center'}}>
+        <View style={{marginTop:10, alignItems:'center'}}>
           <View>
             <Button
               onPress={() => this.props.navigation.navigate('EselonIndex')}

@@ -6,7 +6,7 @@ import { Icon } from 'react-native-elements';
 export default class ListCekIn extends Component {
   render() {
     return ( 
-      <Card style={{marginLeft:10, marginRight:10, padding:8}}>
+      <Card style={{padding:8}}>
         <View style={{flexDirection:'row', marginBottom:5}}>
           <Icon
               name="flag"

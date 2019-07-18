@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import {RNCamera} from 'react-native-camera';
+import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 import PropTypes from 'prop-types';
 
 class Camera extends Component {
@@ -38,7 +39,9 @@ class Camera extends Component {
         />
         <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
           <TouchableOpacity onPress={this.takePicture} style={styles.capture}>
-            <Text style={{ fontSize: 14 }}> SNAP </Text>
+            <Text style={{ fontSize: 14 }}>
+              <IconFA5 name="camera" size={30} color='#696969'/>
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

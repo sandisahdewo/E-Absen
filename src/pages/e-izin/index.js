@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert,Text, View, TouchableHighlight, KeyboardAvoidingView, Image, ScrollView, StyleSheet, Platform, BackHandler, DeviceEventEmitter } from 'react-native';
 import IconFA5 from 'react-native-vector-icons/FontAwesome5';
-import { CheckBox, Textarea, Content } from 'native-base';
+import { Textarea, Picker, Input, Item, Label } from 'native-base';
 import { Button } from 'react-native-elements';
 import ActionButton from 'react-native-action-button';
 import Camera from '../../components/camera';
@@ -42,7 +42,7 @@ export default class Index extends Component {
       console.log(status); //  status => {enabled: false, status: "disabled"} or {enabled: true, status: "enabled"}
     });
     this.state = {
-      checkbox_selected: 'terlambat',
+      status_izin: '',
       open_swafoto: false,
       open_lampiran: false,
       image_swafoto_base64: '',
@@ -54,6 +54,10 @@ export default class Index extends Component {
         longitudeDelta: 0.0421,
       },
       ready: true,
+      lama_izin: '0',
+      list_lama_izin : [
+        'sakit', 'dinas_luar', 'tugas_belajar', 'cuti'
+      ]
     }
   }
   async checkIsLocation(): Promise {
@@ -204,43 +208,29 @@ export default class Index extends Component {
                 {/* Status Perizinan */}
                 <View>
                   <Text>Status Perizinan: </Text>
-                  <View style={{ flexDirection: 'row', marginVertical: 10 }}>
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                      <CheckBox
-                        onPress={() => this.handleCheckBoxStatusIzin('terlambat')}
-                        checked={(this.state.checkbox_selected == 'terlambat')}
-                        color='#696969'
-                      />
-                      <Text style={{ marginLeft: 15 }}>Terlambat</Text>
-                    </View>
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                      <CheckBox
-                        onPress={() => this.handleCheckBoxStatusIzin('cuti')}
-                        checked={(this.state.checkbox_selected == 'cuti')}
-                        color='#696969'
-                      />
-                      <Text style={{ marginLeft: 15 }}>Cuti</Text>
-                    </View>
-                  </View>
-                  <View style={{ flexDirection: 'row' }}>
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                      <CheckBox
-                        onPress={() => this.handleCheckBoxStatusIzin('izin')}
-                        checked={(this.state.checkbox_selected == 'izin')}
-                        color='#696969'
-                      />
-                      <Text style={{ marginLeft: 15 }}>Izin</Text>
-                    </View>
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                      <CheckBox
-                        onPress={() => this.handleCheckBoxStatusIzin('tugas-dinas')}
-                        checked={(this.state.checkbox_selected == 'tugas-dinas')}
-                        color='#696969'
-                      />
-                      <Text style={{ marginLeft: 15 }}>Tugas Dinas</Text>
-                    </View>
-                  </View>
+                  <Picker
+                    note
+                    mode="dropdown"
+                    // style={{ width: 120 }}
+                    selectedValue={this.state.status_izin}
+                    onValueChange={(status_izin) => this.setState({status_izin}) }
+                  >
+                    <Picker.Item label="Dinas Luar" value="dinas_luar" />
+                    <Picker.Item label="Diklat" value="diklat" />
+                    <Picker.Item label="Lepas Piket" value="lepas_piket" />
+                    <Picker.Item label="Tugas Belajar" value="tugas_belajar" />
+                    <Picker.Item label="Sakit" value="sakit" />
+                    <Picker.Item label="Cuti" value="cuti" />
+                  </Picker>
                 </View>
+                {(this.state.list_lama_izin.includes(this.state.status_izin)) && 
+                  <View style={{marginTop:5}}>
+                    <Item floatingLabel>
+                      <Label style={{fontSize:14, color:'#696969'}}>Lama Izin: (hari)</Label>
+                      <Input keyboardType='number-pad' value={this.state.lama_izin} onChangeText={(lama_izin) => this.setState({lama_izin})}/>
+                    </Item>
+                  </View>
+                }
                 {/* Form Keterangan Izin */}
                 <View style={{ marginTop: 10 }}>
                   <Textarea rowSpan={3} bordered placeholder="Keterangan Izin" />
@@ -248,7 +238,7 @@ export default class Index extends Component {
                 {/* Tombol Kirim */}
                 <View style={{ marginTop: 15 }}>
                   <Button
-                    title="Kirim"
+                    title="Simpan"
                     type="outline"
                     buttonStyle={{ borderColor: '#696969' }}
                     titleStyle={{ color: '#696969' }}
@@ -263,10 +253,6 @@ export default class Index extends Component {
         }
       </View>
     );
-  }
-
-  handleCheckBoxStatusIzin = (value) => {
-    this.setState({ checkbox_selected: value })
   }
 
   handlePickSwaFoto = (data) => {

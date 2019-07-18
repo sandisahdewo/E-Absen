@@ -39,7 +39,7 @@ const AppSwitch = createSwitchNavigator({
   App: PageStack,
   Auth: LoginStack
 }, {
-  initialRouteName: 'Auth'
+  initialRouteName: 'App'
 })
 
 const Navigator = createAppContainer(AppSwitch)
