@@ -3,6 +3,7 @@ import { Text, View, FlatList, TouchableHighlight } from 'react-native';
 import { Thumbnail, Card } from 'native-base';
 import { ListItem, Button, Icon } from 'react-native-elements';
 import IconFA5 from 'react-native-vector-icons/FontAwesome5';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class Index extends Component {
 
@@ -38,7 +39,7 @@ export default class Index extends Component {
 
   render() {
     return ( 
-      <View style={{flex:1}}>
+      <ScrollView style={{flex:1}}>
         <View style={{alignItems: 'center', backgroundColor:'#eeeeee', paddingBottom:20}}>
           <Thumbnail large source={require('../../assets/avatars/sari.jpg')}/> 
           <Text style={{fontSize: 20, fontWeight: 'bold'}}> Sandi Sahdewo</Text>
@@ -106,7 +107,7 @@ export default class Index extends Component {
             />
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

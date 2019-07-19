@@ -48,7 +48,6 @@ export default class Index extends Component {
         longitudeDelta: 0.0421,
       },
       ready: true,
-      lama_izin: '0',
       list_lama_izin : [
         'sakit', 'dinas_luar', 'tugas_belajar', 'cuti'
       ],
@@ -217,23 +216,25 @@ export default class Index extends Component {
                     <Picker.Item label="Cuti" value="cuti" />
                   </Picker>
                 </View>
-                <View>
-                  <Text style={{fontSize:14, fontWeight:'bold'}}>Terhitung Mulai Tanggal:</Text>
-                  <View style={{flexDirection:'row'}}>
-                    <View style={{flex:1, marginTop:10}}>
-                      <Item floatingLabel>
-                        <Label style={{fontSize:13}}>Tanggal Awal Izin:</Label>
-                        <Input value={this.state.tanggal_awal_izin} onTouchStart={() => this.openDate('tanggal_awal_izin')} />
-                      </Item>
-                    </View>
-                    <View style={{flex:1, marginTop:10}}>
-                      <Item floatingLabel>
-                        <Label style={{fontSize:13}}>Tanggal Akhir Izin:</Label>
-                        <Input value={this.state.tanggal_akhir_izin} onTouchStart={() => this.openDate('tanggal_akhir_izin')} />
-                      </Item>
+                {this.state.list_lama_izin.includes(this.state.status_izin) &&
+                  <View>
+                    <Text style={{fontSize:14, fontWeight:'bold'}}>Terhitung Mulai Tanggal:</Text>
+                    <View style={{flexDirection:'row'}}>
+                      <View style={{flex:1, marginTop:10}}>
+                        <Item floatingLabel>
+                          <Label style={{fontSize:13}}>Tanggal Awal Izin:</Label>
+                          <Input value={this.state.tanggal_awal_izin} onTouchStart={() => this.openDate('tanggal_awal_izin')} />
+                        </Item>
+                      </View>
+                      <View style={{flex:1, marginTop:10}}>
+                        <Item floatingLabel>
+                          <Label style={{fontSize:13}}>Tanggal Akhir Izin:</Label>
+                          <Input value={this.state.tanggal_akhir_izin} onTouchStart={() => this.openDate('tanggal_akhir_izin')} />
+                        </Item>
+                      </View>
                     </View>
                   </View>
-                </View>
+                }
                 {/* Tombol Kirim */}
                 <View style={{ marginTop: 15 }}>
                   <Button
