@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Alert,Text, View, TouchableHighlight, KeyboardAvoidingView, Image, ScrollView, StyleSheet, Platform, BackHandler, DeviceEventEmitter } from 'react-native';
-import IconFA5 from 'react-native-vector-icons/FontAwesome5';
-import { Textarea, Picker, Input, Item, Label } from 'native-base';
+import { Picker, Item, Label, Input } from 'native-base';
+import { format } from 'date-fns'
+import MapView from 'react-native-maps';
+import Camera from '../../components/camera';
 import { Button } from 'react-native-elements';
 import ActionButton from 'react-native-action-button';
-import Camera from '../../components/camera';
-import MapView from 'react-native-maps';
+import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from '@react-native-community/geolocation';
 import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
+import { Alert,Text, View, KeyboardAvoidingView, Image, ScrollView, StyleSheet, Platform, BackHandler, DeviceEventEmitter, DatePickerAndroid } from 'react-native';
 
 const LATITUDE_DELTA = 0.01;
 const LONGITUDE_DELTA = 0.01;
@@ -26,13 +27,6 @@ export default class Index extends Component {
     },
     headerTintColor: '#808080',
     title: 'E-Izin',
-    // headerLeft: (
-    //   <TouchableHighlight>
-    //     <View style={{marginLeft: 15}}>
-    //       <IconFA5 name="arrow-left" size={22} color="#808080"/>
-    //     </View>
-    //   </TouchableHighlight>
-    // )
   };
 
   constructor(props) {
@@ -57,7 +51,9 @@ export default class Index extends Component {
       lama_izin: '0',
       list_lama_izin : [
         'sakit', 'dinas_luar', 'tugas_belajar', 'cuti'
-      ]
+      ],
+      tanggal_awal_izin: '',
+      tanggal_akhir_izin: ''
     }
   }
   async checkIsLocation(): Promise {
@@ -148,8 +144,7 @@ export default class Index extends Component {
               <View style={{ flex: 1, padding: 8 }}>
               
                 <View>
-                  <Text>Hai Sari, Anda telat 28 menit</Text>
-                  <Text>Lokasi Anda saat ini adalah:</Text>
+                  <Text style={{fontWeight:'bold', fontSize:16}}>Anda saat ini izin tidak mengikuti apel, silakan isi data dibawah ini:</Text>
                 </View>
                 {/* Maps */}
                 <View style={styles.mapContainer}>
@@ -178,7 +173,7 @@ export default class Index extends Component {
                 {/* Unggah Foto & Lampiran */}
                 <View style={{ height: 180, flexDirection: 'row' }}>
                   <View style={{ flex: 1, marginVertical: 5, marginRight: 5 }}>
-                    <Text>Unggah Swafoto: </Text>
+                    <Text style={{fontSize:14, fontWeight:'bold'}}>Ambil Swafoto: </Text>
                     <View style={{ backgroundColor: 'white', borderColor: '#808080', height: 150, borderWidth: 1 }}>
                       <Image style={{ flex: 1, height: undefined, width: undefined }} source={{ uri: this.state.image_swafoto_base64 }} />
                     </View>
@@ -191,7 +186,7 @@ export default class Index extends Component {
                     />
                   </View>
                   <View style={{ flex: 1, marginVertical: 5, marginLeft: 5 }}>
-                    <Text>Unggah Bukti: </Text>
+                    <Text style={{fontSize:14, fontWeight:'bold'}}>Unggah Bukti Izin: </Text>
                     <View style={{ backgroundColor: 'white', borderColor: '#808080', height: 150, borderWidth: 1 }}>
                       <Image style={{ flex: 1, height: undefined, width: undefined }} source={{ uri: this.state.image_lampiran_base64 }} />
                     </View>
@@ -207,11 +202,10 @@ export default class Index extends Component {
 
                 {/* Status Perizinan */}
                 <View>
-                  <Text>Status Perizinan: </Text>
+                  <Text style={{fontSize:14, fontWeight:'bold'}}>Status Perizinan: </Text>
                   <Picker
                     note
                     mode="dropdown"
-                    // style={{ width: 120 }}
                     selectedValue={this.state.status_izin}
                     onValueChange={(status_izin) => this.setState({status_izin}) }
                   >
@@ -223,17 +217,22 @@ export default class Index extends Component {
                     <Picker.Item label="Cuti" value="cuti" />
                   </Picker>
                 </View>
-                {(this.state.list_lama_izin.includes(this.state.status_izin)) && 
-                  <View style={{marginTop:5}}>
-                    <Item floatingLabel>
-                      <Label style={{fontSize:14, color:'#696969'}}>Lama Izin: (hari)</Label>
-                      <Input keyboardType='number-pad' value={this.state.lama_izin} onChangeText={(lama_izin) => this.setState({lama_izin})}/>
-                    </Item>
+                <View>
+                  <Text style={{fontSize:14, fontWeight:'bold'}}>Terhitung Mulai Tanggal:</Text>
+                  <View style={{flexDirection:'row'}}>
+                    <View style={{flex:1, marginTop:10}}>
+                      <Item floatingLabel>
+                        <Label style={{fontSize:13}}>Tanggal Awal Izin:</Label>
+                        <Input value={this.state.tanggal_awal_izin} onTouchStart={() => this.openDate('tanggal_awal_izin')} />
+                      </Item>
+                    </View>
+                    <View style={{flex:1, marginTop:10}}>
+                      <Item floatingLabel>
+                        <Label style={{fontSize:13}}>Tanggal Akhir Izin:</Label>
+                        <Input value={this.state.tanggal_akhir_izin} onTouchStart={() => this.openDate('tanggal_akhir_izin')} />
+                      </Item>
+                    </View>
                   </View>
-                }
-                {/* Form Keterangan Izin */}
-                <View style={{ marginTop: 10 }}>
-                  <Textarea rowSpan={3} bordered placeholder="Keterangan Izin" />
                 </View>
                 {/* Tombol Kirim */}
                 <View style={{ marginTop: 15 }}>
@@ -268,6 +267,28 @@ export default class Index extends Component {
       open_lampiran: false
     })
   }
+
+  openDate = async (jenis) => {
+    try {
+      const {
+        action, year, month, day,
+      } = await DatePickerAndroid.open({
+      date: new Date(),
+      maxDate: new Date(),
+      });
+      if (action !== DatePickerAndroid.dismissedAction) {
+        let value = String(format(new Date(year, month, day), 'DD-MM-YYYY'))
+        if(jenis == 'tanggal_awal_izin') {
+          this.setState({tanggal_awal_izin: value})
+        } 
+        if(jenis == 'tanggal_akhir_izin') {
+          this.setState({tanggal_akhir_izin: value})
+        }
+      }
+    } catch ({ code, message }) {
+      console.warn('Cannot open date picker', message);
+    }
+  };
 
 }
 
