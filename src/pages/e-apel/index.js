@@ -14,13 +14,6 @@ import { Toast } from 'native-base';
 const LATITUDE_DELTA = 0.01;
 const LONGITUDE_DELTA = 0.01;
 
-const initialRegion = {
-  latitude: -7.765437,
-  longitude: 113.243183,
-  latitudeDelta: 0.0922,
-  longitudeDelta: 0.0421,
-}
-
 export default class Index extends Component {
   static navigationOptions = {
     headerStyle: {
@@ -44,7 +37,13 @@ export default class Index extends Component {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
-      user: {}
+      user: {},
+      lat: '-8.034031',
+      long: '112.648491',
+      dist: '0',
+      updatesEnabled: false,
+      lastPosition:'',
+      location:{}
     }
 
   }
@@ -101,7 +100,12 @@ export default class Index extends Component {
       this.watchID = Geolocation.watchPosition(position => {
         const lastPosition = JSON.stringify(position);
         this.setState({ lastPosition });
+        let dist = this.distance(this.state.lat, this.state.long, position.coords.latitude, position.coords.longitude, "K");
+        // let dist = this.long;
+        this.setState({ dist })
+        console.log('position ' + position);
       });
+
     } catch (e) {
       alert(e.message || "");
     }
@@ -115,6 +119,75 @@ export default class Index extends Component {
 
   componentWillUnmount() {
     Geolocation.clearWatch(this.watchID);
+  }
+
+  distance = (lat1, lon1, lat2, lon2, unit) => {
+    var radlat1 = Math.PI * lat1 / 180
+    var radlat2 = Math.PI * lat2 / 180
+    var theta = lon1 - lon2
+    var radtheta = Math.PI * theta / 180
+    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    dist = Math.acos(dist)
+    dist = dist * 180 / Math.PI
+    dist = dist * 60 * 1.1515
+    if (unit == "K") { dist = dist * 1.609344 * 1000 }
+    if (unit == "M") { dist = dist * 0.8684 }
+    return Math.round(dist)
+  }
+  hasLocationPermission = async () => {
+    if (Platform.OS === 'ios' ||
+      (Platform.OS === 'android' && Platform.Version < 23)) {
+      return true;
+    }
+
+    const hasPermission = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+    );
+
+    if (hasPermission) return true;
+
+    const status = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+    );
+
+    if (status === PermissionsAndroid.RESULTS.GRANTED) return true;
+
+    if (status === PermissionsAndroid.RESULTS.DENIED) {
+      ToastAndroid.show('Location permission denied by user.', ToastAndroid.LONG);
+    } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+      ToastAndroid.show('Location permission revoked by user.', ToastAndroid.LONG);
+    }
+
+    return false;
+  }
+
+  getLocationUpdates = async () => {
+    const hasLocationPermission = await this.hasLocationPermission();
+
+    if (!hasLocationPermission) return;
+
+    this.setState({ updatesEnabled: true }, () => {
+      this.watchId = Geolocation.watchPosition(
+        (position) => {
+          this.setState({ location: position });
+          let dist =  this.distance(this.state.lat, this.state.long, position.coords.latitude, position.coords.longitude, "K");
+          // let dist = this.long;
+          this.setState({ dist })
+          console.log('position '+position);
+        },
+        (error) => {
+          this.setState({ location: error });
+          console.log(error);
+        },
+        { enableHighAccuracy: false, timeout: 5000, maximumAge: 10000 },
+      );
+    });
+  }
+  removeLocationUpdates = () => {
+    if (this.watchId !== null) {
+      Geolocation.clearWatch(this.watchId);
+      this.setState({ updatesEnabled: false })
+    }
   }
 
   keyExtractor = (item, index) => index.toString();
@@ -134,7 +207,7 @@ export default class Index extends Component {
         {(!this.state.open_camera) &&
           <ScrollView style={{ margin: 8 }}>
             <View>
-              <Text>Hai Sari, lokasi Anda berjarak 20 Meter, silakan cek in untuk mengikuti apel.</Text>
+            <Text>Hai Sari, lokasi Anda berjarak {this.state.dist} Meter, silakan cek in untuk mengikuti apel.</Text>
             </View>
             <View style={styles.mapContainer}>
               <MapView
