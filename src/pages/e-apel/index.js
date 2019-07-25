@@ -7,6 +7,9 @@ import Camera from '../../components/camera';
 import ListCekIn from './components/list-cekin';
 import MapView from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
+import APIApel from '../../services/apel'
+import { User } from '../../storage/async-storage'
+import { Toast } from 'native-base';
 
 const LATITUDE_DELTA = 0.01;
 const LONGITUDE_DELTA = 0.01;
@@ -41,11 +44,21 @@ export default class Index extends Component {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
+      user: {}
     }
+
   }
+
+  getUserLogin = async () => {
+    const user = await User.getUserLogin()
+    this.setState({
+      user: user
+    })
+ }
 
   componentDidMount() {
     this.getCurrentPosition();
+    this.getUserLogin()
   }
 
   setRegion = (region) => {
@@ -162,7 +175,7 @@ export default class Index extends Component {
                 disabled={(this.state.image_base64 == '') ? true : false}
                 buttonStyle={{ borderColor: '#696969' }}
                 titleStyle={{ color: '#696969' }}
-                onPress={this.pushCekIn}
+                onPress={() => this.checkin()}
                 icon={
                   <Icon
                     name="flag"
@@ -209,15 +222,31 @@ export default class Index extends Component {
     })
   }
 
-  pushCekIn = () => {
-    this.setState({
-      check_in: [...this.state.check_in, {
-        'status': 'Cek In',
-        'nama': 'Sari',
-        'waktu': '01-05-2019 08:20:21'
-      }],
-      image_base64: ''
-    })
+  checkin = () => {
+    const formData = {
+      apel_id: 1,
+      user_id: this.state.user.id,
+      latitude: this.state.region.latitude,
+      longitude: this.state.region.longitude,
+    }
+
+    APIApel.Checkin(formData)
+      .then(res => {
+        Toast.show({
+          text: 'Check in apel berhasil!',
+          buttonText: 'Okay',
+          type:'success'
+        })
+        this.props.navigation.navigate('ProfileIndex')
+      })
+      .catch(err => {
+        Toast.show({
+          text: err.message,
+          buttonText: 'Okay',
+          type:'danger'
+        })
+      })
+
   }
 }
 

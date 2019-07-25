@@ -1,13 +1,23 @@
-import React, {Component} from 'react';
-import {
-  Text, View, KeyboardAvoidingView, Image
-} from 'react-native';
-import { Container, Item, Input, Icon, Button, Card, CheckBox } from 'native-base';
+import React, {Component} from 'react'
+import APILogin from '../../services/login'
+import { User } from '../../storage/async-storage'
+import { Text, View, KeyboardAvoidingView, Image } from 'react-native'
+import { Container, Item, Input, Icon, Button, Card, CheckBox, Toast } from 'native-base'
 
 export default class Index extends Component {
 
-  state = {
-    remember_me: false
+  constructor(props) {
+    super(props)
+    this.state = {
+      remember_me: false,
+      username:'',
+      password:'',
+
+      validation: {
+        username:'',
+        password:'',
+      }
+    }
   }
 
   toggleRememberMe = () => {
@@ -17,6 +27,9 @@ export default class Index extends Component {
   }
 
   render() {
+    const hasErrorUsername = this.state.validation.username ? true : false;
+    const hasErrorPassword = this.state.validation.password ? true : false;
+
     return (
       <Container>
         <View style={{flex:1, paddingHorizontal:5, justifyContent:'center'}}>
@@ -40,14 +53,16 @@ export default class Index extends Component {
                   LOGIN
                 </Text>
               </View>
-              <Item>
+              <Item error={hasErrorUsername}>
                 <Icon active name='person' />
-                <Input placeholder='NIK Pegawai'/>
+                <Input placeholder='NIK Pegawai' onChangeText={(username) => this.setState({username})}/>
               </Item>
-              <Item>
+              <Text style={{color:'red'}}>{this.state.validation.username}</Text>
+              <Item error={hasErrorPassword}>
                 <Icon active name='lock' />
-                <Input placeholder='Password'/>
+                <Input secureTextEntry placeholder='Password' onChangeText={(password) => this.setState({password})}/>
               </Item>
+              <Text style={{color:'red'}}>{this.state.validation.password}</Text>
               <View style={{marginTop:10, flexDirection:'row', justifyContent:'space-between'}}>
                 <View style={{flexDirection:'row', alignItems:'center'}}>
                   <CheckBox checked={this.state.remember_me} onPress={this.toggleRememberMe} style={{marginRight:15}} />
@@ -55,7 +70,7 @@ export default class Index extends Component {
                 </View>
                 <View style={{flexDirection:'row'}}>
                   <Button block info style={{backgroundColor:"#2089dc", height:40, paddingHorizontal:20}}
-                  onPress={() => this.props.navigation.navigate('ProfileIndex')}
+                    onPress={() => this.login()}
                   >
                     <Text style={{color:'white', fontSize:16, fontWeight:'bold'}}> Masuk </Text>
                   </Button>
@@ -66,5 +81,51 @@ export default class Index extends Component {
         </View>
       </Container>
     );
+  }
+
+  login = async () => {
+    this.setState({
+      validation: {}
+    })
+    const formData = {
+      username: this.state.username,
+      password: this.state.password
+    }
+    
+    await APILogin.Attempt(formData)
+            .then(res => {
+              if(res.success) {
+                Toast.show({
+                  text: 'Login berhasil!',
+                  buttonText: 'Okay',
+                  type:'success'
+                })
+                User.setUserLogin(res.user)
+                this.props.navigation.navigate('ProfileIndex')
+              } else {
+                Toast.show({
+                  text: res.message,
+                  buttonText: 'Oops',
+                  type:'danger'
+                })
+              }
+            })
+            .catch(err => {
+              if(err.response.status == 422) {
+                const errorItem = err.response.data.errors;
+                this.setState({
+                  validation: {
+                    username: errorItem.username,
+                    password: errorItem.password,
+                  }
+                })
+              } else {
+                Toast.show({
+                  text: err.message,
+                  buttonText: 'Oops',
+                  type:'danger'
+                })
+              }
+            })
   }
 }

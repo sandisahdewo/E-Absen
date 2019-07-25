@@ -3,6 +3,7 @@ package com.absensi;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.showlocationservicesdialogbox.LocationServicesDialogBoxPackage;
 import com.reactnativecommunity.geolocation.GeolocationPackage;
 import org.reactnative.camera.RNCameraPackage;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new AsyncStoragePackage(),
             new LocationServicesDialogBoxPackage(),
             new GeolocationPackage(),
             new RNCameraPackage(),
