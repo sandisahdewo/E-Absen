@@ -21,6 +21,9 @@ const LoginStack = createStackNavigator({
 })
 
 const PageStack = createStackNavigator({
+  IzinIndex: {
+    screen: IzinIndex
+  },
   ProfileIndex: {
     screen: ProfileIndex
   },

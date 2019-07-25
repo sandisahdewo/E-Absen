@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, TouchableHighlight } from 'react-native'
-import { Thumbnail, Card } from 'native-base'
+import { Thumbnail, Card, Toast } from 'native-base'
 import { ListItem, Button, Icon } from 'react-native-elements'
 import IconFA5 from 'react-native-vector-icons/FontAwesome5'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -36,7 +36,8 @@ export default class Index extends Component {
       lastCheckIn: {
         date:'',
         time:''
-      }
+      },
+      apelToday: false
     }
 
     this.getUserLogin()
@@ -58,13 +59,27 @@ export default class Index extends Component {
                 lastCheckIn:{
                   date:res.data.tanggal_checkin,
                   time:res.data.waktu_checkin
-                }
+                },
+                apelToday: true
               })
+            })
+            .catch(err => {
+              if(err.response.status == '404') {
+                this.setState({
+                  apelToday: false
+                })
+              } else {
+                Toast.show({
+                  text:err.message,
+                  position:'bottom',
+                  type:'danger'
+                })
+              }
             })
   }
 
   render() {
-    const hasLastCheckin = this.state.lastCheckIn;
+    const apelToday = this.state.apelToday;
     return ( 
       <ScrollView style={{flex:1}}>
         <View style={{alignItems: 'center', backgroundColor:'#eeeeee', paddingBottom:20}}>
@@ -101,7 +116,7 @@ export default class Index extends Component {
 
         </View>
         <View style={{margin:8}}>
-          {hasLastCheckin &&
+          {apelToday &&
             <Card style={{padding:15}}>
               <View style={{flexDirection:'row'}}>
                 <View style={{flex:1}}>
@@ -120,7 +135,7 @@ export default class Index extends Component {
               </View>
             </Card>
           }
-          {!hasLastCheckin && 
+          {!apelToday && 
             <Card style={{padding:15}}>
               <View style={{flexDirection:'row'}}>
                 <View style={{flex:1}}>

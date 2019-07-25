@@ -9,6 +9,7 @@ import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from '@react-native-community/geolocation';
 import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
 import { Alert,Text, View, KeyboardAvoidingView, Image, ScrollView, StyleSheet, Platform, BackHandler, DeviceEventEmitter, DatePickerAndroid } from 'react-native';
+import APIIzin from '../../services/izin'
 
 const LATITUDE_DELTA = 0.01;
 const LONGITUDE_DELTA = 0.01;
@@ -36,7 +37,6 @@ export default class Index extends Component {
       console.log(status); //  status => {enabled: false, status: "disabled"} or {enabled: true, status: "enabled"}
     });
     this.state = {
-      status_izin: '',
       open_swafoto: false,
       open_lampiran: false,
       image_swafoto_base64: '',
@@ -48,9 +48,9 @@ export default class Index extends Component {
         longitudeDelta: 0.0421,
       },
       ready: true,
-      list_lama_izin : [
-        'sakit', 'dinas_luar', 'tugas_belajar', 'cuti'
-      ],
+      list_jenis_izin: [],
+      status_izin: '',
+      selected_status_izin: '',
       tanggal_awal_izin: '',
       tanggal_akhir_izin: ''
     }
@@ -74,6 +74,7 @@ export default class Index extends Component {
   componentDidMount() {
     // this.checkIsLocation();
     this.getCurrentPosition();
+    this.getJenisIzin();
   }
 
   setRegion=(region)=>{
@@ -126,6 +127,15 @@ export default class Index extends Component {
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
     LocationServicesDialogBox.stopListener();
+  }
+
+  getJenisIzin = () => {
+    APIIzin.getJenisIzin()
+      .then(res => {
+        this.setState({
+          list_jenis_izin: res.data
+        })
+      })
   }
 
   render() {
@@ -205,18 +215,23 @@ export default class Index extends Component {
                   <Picker
                     note
                     mode="dropdown"
-                    selectedValue={this.state.status_izin}
-                    onValueChange={(status_izin) => this.setState({status_izin}) }
+                    selectedValue={this.state.selected_status_izin}
+                    onValueChange={(key) => this.handleChangeStatusIzin(key) }
                   >
-                    <Picker.Item label="Dinas Luar" value="dinas_luar" />
+                  {this.state.list_jenis_izin.map((list, key) => {
+                    return (
+                      <Picker.Item key={key} label={list.jenis_izin} value={key} />
+                    )
+                  })}
+                    {/* <Picker.Item label="Dinas Luar" value="dinas_luar" />
                     <Picker.Item label="Diklat" value="diklat" />
                     <Picker.Item label="Lepas Piket" value="lepas_piket" />
                     <Picker.Item label="Tugas Belajar" value="tugas_belajar" />
                     <Picker.Item label="Sakit" value="sakit" />
-                    <Picker.Item label="Cuti" value="cuti" />
+                    <Picker.Item label="Cuti" value="cuti" /> */}
                   </Picker>
                 </View>
-                {this.state.list_lama_izin.includes(this.state.status_izin) &&
+                {this.state.status_izin.periode_hari &&
                   <View>
                     <Text style={{fontSize:14, fontWeight:'bold'}}>Terhitung Mulai Tanggal:</Text>
                     <View style={{flexDirection:'row'}}>
@@ -253,6 +268,16 @@ export default class Index extends Component {
         }
       </View>
     );
+  }
+
+  handleChangeStatusIzin = (data) => {
+    let selected = this.state.list_jenis_izin[data]
+    this.setState({
+      status_izin: selected,
+      selected_status_izin: data
+    }, () => {
+      console.log('selected', this.state.status_izin.periode_hari)
+    })
   }
 
   handlePickSwaFoto = (data) => {
