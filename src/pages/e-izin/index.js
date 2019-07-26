@@ -1,25 +1,14 @@
 import React, { Component } from 'react';
-import { Picker, Item, Label, Input } from 'native-base';
-import { format } from 'date-fns'
-import MapView from 'react-native-maps';
+import APIIzin from '../../services/izin'
 import Camera from '../../components/camera';
 import { Button } from 'react-native-elements';
+import Maps from '../../components/maps'
 import ActionButton from 'react-native-action-button';
+import { Picker, Item, Label, Input } from 'native-base';
 import IconFA5 from 'react-native-vector-icons/FontAwesome5';
-import Geolocation from '@react-native-community/geolocation';
-import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
-import { Alert,Text, View, KeyboardAvoidingView, Image, ScrollView, StyleSheet, Platform, BackHandler, DeviceEventEmitter, DatePickerAndroid } from 'react-native';
-import APIIzin from '../../services/izin'
+import Datepicker from '../../components/input/datepicker'
+import { Text, View, KeyboardAvoidingView, Image, ScrollView, StyleSheet } from 'react-native';
 
-const LATITUDE_DELTA = 0.01;
-const LONGITUDE_DELTA = 0.01;
-
-const initialRegion = {
-  latitude: -7.765437,
-  longitude: 113.243183,
-  latitudeDelta: 0.0922,
-  longitudeDelta: 0.0421,
-}
 export default class Index extends Component {
   static navigationOptions = {
     headerStyle: {
@@ -32,101 +21,36 @@ export default class Index extends Component {
 
   constructor(props) {
     super(props);
-    this.checkIsLocation().catch(error => error);
-    DeviceEventEmitter.addListener('locationProviderStatusChange', function (status) { // only trigger when "providerListener" is enabled
-      console.log(status); //  status => {enabled: false, status: "disabled"} or {enabled: true, status: "enabled"}
-    });
+    
     this.state = {
       open_swafoto: false,
       open_lampiran: false,
       image_swafoto_base64: '',
       image_lampiran_base64: '',
+      list_jenis_izin: [],
+      jenis_izin: '',
+      selected_jenis_izin: '',
+      tanggal_mulai_izin: '',
+      tanggal_selesai_izin: '',
+      user: {},
       region: {
         latitude: 0,
         longitude: 0,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
-      ready: true,
-      list_jenis_izin: [],
-      status_izin: '',
-      selected_status_izin: '',
-      tanggal_awal_izin: '',
-      tanggal_akhir_izin: ''
     }
-  }
-  async checkIsLocation(): Promise {
-    let check = await LocationServicesDialogBox.checkLocationServicesIsEnabled({
-      message: "Use Location ?",
-      ok: "YES",
-      cancel: "NO",
-      enableHighAccuracy: true, // true => GPS AND NETWORK PROVIDER, false => GPS OR NETWORK PROVIDER
-      showDialog: true, // false => Opens the Location access page directly
-      openLocationServices: true, // false => Directly catch method is called if location services are turned off
-      preventOutSideTouch: false, //true => To prevent the location services window from closing when it is clicked outside
-      preventBackClick: false, //true => To prevent the location services popup from closing when it is clicked back button
-      providerListener: true // true ==> Trigger "locationProviderStatusChange" listener when the location state changes
-    }).catch(error => error);
-
-    return Object.is(check.status, "enabled");
   }
 
   componentDidMount() {
-    // this.checkIsLocation();
-    this.getCurrentPosition();
     this.getJenisIzin();
   }
 
-  setRegion=(region)=>{
-    if (this.state.ready) {
-      setTimeout(() => this.map.animateToRegion(region), 10);
-    }
-    this.setState({ region });
-  }
-
-  getCurrentPosition=()=> {
-    try {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const region = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA,
-          };
-          this.setRegion(region);
-        },
-        (error) => {
-          //TODO: better design
-          switch (error.code) {
-            case 1:
-              if (Platform.OS === "ios") {
-                Alert.alert("", "To locate your location enable permission for the application in Settings - Privacy - Location");
-              } else {
-                Alert.alert("", "To locate your location enable permission for the application in Settings - Apps - ExampleApp - Location");
-              }
-              break;
-            default:
-              Alert.alert("", "Error detecting your location" + error.message);
-              // console.log();
-          }
-        },
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-      );
-    } catch (e) {
-      alert(e.message || "");
-    }
-  };
-
-  onMapReady = (e) => {
-    if (!this.state.ready) {
-      this.setState({ ready: true });
-    }
-  };
-
-  componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchID);
-    LocationServicesDialogBox.stopListener();
+  getUserLogin = async () => {
+    const user = await User.getUserLogin()
+    this.setState({
+      user: user
+    })
   }
 
   getJenisIzin = () => {
@@ -134,6 +58,79 @@ export default class Index extends Component {
       .then(res => {
         this.setState({
           list_jenis_izin: res.data
+        })
+      })
+  }
+
+  handleChangeStatusIzin = (data) => {
+    let selected = this.state.list_jenis_izin[data]
+    this.setState({
+      jenis_izin: selected,
+      selected_jenis_izin: data
+    }, () => {
+      console.log('selected', this.state.jenis_izin.periode_hari)
+    })
+  }
+
+  handlePickSwaFoto = (data) => {
+    this.setState({
+      image_swafoto_base64: `data:image/jpeg;base64,${data.base64}`,
+      open_swafoto: false
+    })
+  }
+
+  handlePickLampiran = (data) => {
+    this.setState({
+      image_lampiran_base64: `data:image/jpeg;base64,${data.base64}`,
+      open_lampiran: false
+    })
+  }
+
+  handleMapsChangeLocation = (data) => {
+    this.setState({
+      region:data
+    }, () => {
+      console.log('region', this.state.region)
+    })
+  }
+
+  storeIzin = () => {
+    const formData = { 
+      jenis_izin_id: this.state.jenis_izin.id,
+      user_id: 1,
+      apel_id: 1,
+      foto_bukti: this.state.image_lampiran_base64,
+      dokumen_bukti: this.state.image_lampiran_base64,
+      latitude: this.state.region.latitude,
+      longitude: this.state.region.longitude,
+      tanggal_mulai_izin: this.state.tanggal_mulai_izin,
+      tanggal_selesai_izin: this.state.tanggal_selesai_izin
+    }
+
+    console.log('form', formData)
+
+    APIIzin.postIzin(formData)
+      .then(res => {
+        if(res.success) {
+          Toast.show({
+            text: 'Izin apel berhasil!',
+            buttonText: 'Okay',
+            type:'success'
+          })
+          this.props.navigation.navigate('ProfileIndex')
+        } else {
+          Toast.show({
+            text: 'Izin apel gagal disimpan!',
+            buttonText: 'Okay',
+            type:'danger'
+          })
+        }
+      })
+      .catch(err => {
+        Toast.show({
+          text: err.message,
+          buttonText: 'Okay',
+          type:'danger'
         })
       })
   }
@@ -157,27 +154,7 @@ export default class Index extends Component {
                 </View>
                 {/* Maps */}
                 <View style={styles.mapContainer}>
-                <MapView
-                  ref={map => { this.map = map }}
-                  style={styles.map}
-                  region={this.state.region}
-                  showsUserLocation={true}
-                  followUserLocation={true}
-                  onMapReady={this.onMapReady}
-                  >
-                  <MapView.Marker
-                    coordinate={{
-                      latitude: (this.state.region.latitude + 0.00050) || -36.82339,
-                      longitude: (this.state.region.longitude + 0.00050) || -73.03569,
-                    }}
-                    >
-                    <View>
-                      <Text style={{ color: '#000' }}>
-                        {this.state.region.latitude} / {this.state.region.longitude}
-                      </Text>
-                    </View>
-                  </MapView.Marker>
-                </MapView>
+                  <Maps onMapsChangeLocation={(data) => this.handleMapsChangeLocation(data) }/>
                 </View>
                 {/* Unggah Foto & Lampiran */}
                 <View style={{ height: 180, flexDirection: 'row' }}>
@@ -215,7 +192,7 @@ export default class Index extends Component {
                   <Picker
                     note
                     mode="dropdown"
-                    selectedValue={this.state.selected_status_izin}
+                    selectedValue={this.state.selected_jenis_izin}
                     onValueChange={(key) => this.handleChangeStatusIzin(key) }
                   >
                   {this.state.list_jenis_izin.map((list, key) => {
@@ -223,29 +200,17 @@ export default class Index extends Component {
                       <Picker.Item key={key} label={list.jenis_izin} value={key} />
                     )
                   })}
-                    {/* <Picker.Item label="Dinas Luar" value="dinas_luar" />
-                    <Picker.Item label="Diklat" value="diklat" />
-                    <Picker.Item label="Lepas Piket" value="lepas_piket" />
-                    <Picker.Item label="Tugas Belajar" value="tugas_belajar" />
-                    <Picker.Item label="Sakit" value="sakit" />
-                    <Picker.Item label="Cuti" value="cuti" /> */}
                   </Picker>
                 </View>
-                {this.state.status_izin.periode_hari &&
+                {this.state.jenis_izin.periode_hari &&
                   <View>
                     <Text style={{fontSize:14, fontWeight:'bold'}}>Terhitung Mulai Tanggal:</Text>
                     <View style={{flexDirection:'row'}}>
                       <View style={{flex:1, marginTop:10}}>
-                        <Item floatingLabel>
-                          <Label style={{fontSize:13}}>Tanggal Awal Izin:</Label>
-                          <Input value={this.state.tanggal_awal_izin} onTouchStart={() => this.openDate('tanggal_awal_izin')} />
-                        </Item>
+                        <Datepicker title="Tanggal Mulai Izin" value={this.state.tanggal_mulai_izin} onSelected={(tanggal_mulai_izin) => this.setState({tanggal_mulai_izin})} />
                       </View>
                       <View style={{flex:1, marginTop:10}}>
-                        <Item floatingLabel>
-                          <Label style={{fontSize:13}}>Tanggal Akhir Izin:</Label>
-                          <Input value={this.state.tanggal_akhir_izin} onTouchStart={() => this.openDate('tanggal_akhir_izin')} />
-                        </Item>
+                        <Datepicker title="Tanggal Selesai Izin" value={this.state.tanggal_selesai_izin} onSelected={(tanggal_selesai_izin) => this.setState({tanggal_selesai_izin})} />
                       </View>
                     </View>
                   </View>
@@ -260,6 +225,7 @@ export default class Index extends Component {
                     icon={
                       <IconFA5 name='telegram-plane' size={20} style={{ marginRight: 10 }} />
                     }
+                    onPress={() => this.storeIzin()}
                   />
                 </View>
               </View>
@@ -269,64 +235,10 @@ export default class Index extends Component {
       </View>
     );
   }
-
-  handleChangeStatusIzin = (data) => {
-    let selected = this.state.list_jenis_izin[data]
-    this.setState({
-      status_izin: selected,
-      selected_status_izin: data
-    }, () => {
-      console.log('selected', this.state.status_izin.periode_hari)
-    })
-  }
-
-  handlePickSwaFoto = (data) => {
-    this.setState({
-      image_swafoto_base64: `data:image/jpeg;base64,${data.base64}`,
-      open_swafoto: false
-    })
-  }
-
-  handlePickLampiran = (data) => {
-    this.setState({
-      image_lampiran_base64: `data:image/jpeg;base64,${data.base64}`,
-      open_lampiran: false
-    })
-  }
-
-  openDate = async (jenis) => {
-    try {
-      const {
-        action, year, month, day,
-      } = await DatePickerAndroid.open({
-      date: new Date(),
-      maxDate: new Date(),
-      });
-      if (action !== DatePickerAndroid.dismissedAction) {
-        let value = String(format(new Date(year, month, day), 'DD-MM-YYYY'))
-        if(jenis == 'tanggal_awal_izin') {
-          this.setState({tanggal_awal_izin: value})
-        } 
-        if(jenis == 'tanggal_akhir_izin') {
-          this.setState({tanggal_akhir_izin: value})
-        }
-      }
-    } catch ({ code, message }) {
-      console.warn('Cannot open date picker', message);
-    }
-  };
-
 }
 
 const styles = StyleSheet.create({
   mapContainer: {
     height: 150,
-  },
-  map: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0
   }
 });
