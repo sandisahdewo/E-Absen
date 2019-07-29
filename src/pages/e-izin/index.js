@@ -34,8 +34,8 @@ export default class Index extends Component {
       tanggal_selesai_izin: '',
       user: {},
       region: {
-        latitude: 0,
-        longitude: 0,
+        latitude: -7.765437,
+        longitude: 113.243183,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
@@ -59,6 +59,7 @@ export default class Index extends Component {
         this.setState({
           list_jenis_izin: res.data
         })
+        console.log(res.data);
       })
   }
 

@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import MapView from 'react-native-maps'
 import { View, Text, Alert, DeviceEventEmitter, Platform, StyleSheet } from 'react-native'
-import LocationServicesDialogBox from "react-native-android-location-services-dialog-box"
-
+import Geolocation from '@react-native-community/geolocation';
 const LATITUDE_DELTA = 0.01
 const LONGITUDE_DELTA = 0.01
 
@@ -27,10 +26,6 @@ export default class Maps extends Component {
       ready: true,
     }
 
-    this.checkIsLocation().catch(error => error);
-    DeviceEventEmitter.addListener('locationProviderStatusChange', function (status) { // only trigger when "providerListener" is enabled
-      console.log(status); //  status => {enabled: false, status: "disabled"} or {enabled: true, status: "enabled"}
-    });
   }
 
   componentDidMount = () => {
@@ -39,26 +34,10 @@ export default class Maps extends Component {
   }
 
   componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchID);
-    LocationServicesDialogBox.stopListener();
+    Geolocation.clearWatch(this.watchID);
   }
 
-  // async checkIsLocation(): Promise {
-  async checkIsLocation() {
-    let check = await LocationServicesDialogBox.checkLocationServicesIsEnabled({
-      message: "Use Location ?",
-      ok: "YES",
-      cancel: "NO",
-      enableHighAccuracy: true, // true => GPS AND NETWORK PROVIDER, false => GPS OR NETWORK PROVIDER
-      showDialog: true, // false => Opens the Location access page directly
-      openLocationServices: true, // false => Directly catch method is called if location services are turned off
-      preventOutSideTouch: false, //true => To prevent the location services window from closing when it is clicked outside
-      preventBackClick: false, //true => To prevent the location services popup from closing when it is clicked back button
-      providerListener: true // true ==> Trigger "locationProviderStatusChange" listener when the location state changes
-    }).catch(error => error);
-
-    return Object.is(check.status, "enabled");
-  }
+  
 
   setRegion=(region)=>{
     if (this.state.ready) {
@@ -70,7 +49,7 @@ export default class Maps extends Component {
 
   getCurrentPosition=()=> {
     try {
-      navigator.geolocation.getCurrentPosition(
+      Geolocation.getCurrentPosition(
         (position) => {
           const region = {
             latitude: position.coords.latitude,
