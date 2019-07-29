@@ -18,7 +18,7 @@ export default class Index extends Component {
     headerTintColor: '#fff',
     headerLeft: (
       <View>
-        <TouchableHighlight>
+        <TouchableHighlight onPress={() => this.logout()}>
           <View style={{marginLeft: 15}}>
             <IconFA5 name="sign-out-alt" size={22} color="#808080"/>
           </View>
@@ -78,6 +78,11 @@ export default class Index extends Component {
                 type:'danger'
               })
             })
+  }
+
+  logout = async () => {
+    await User.removeUserLogin()
+    this.props.navigation.navigate('Auth')
   }
 
   render() {
