@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, FlatList, Image, ScrollView, Alert, Platform, PermissionsAndroid } from 'react-native';
+import {ActivityIndicator, Text, View, StyleSheet, FlatList, Image, ScrollView, Alert, Platform, PermissionsAndroid } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 import ActionButton from 'react-native-action-button';
@@ -45,7 +45,8 @@ export default class Index extends Component {
       dist: 0,
       updatesEnabled: false,
       lastPosition:'',
-      location:{}
+      location:{},
+      ready:false
     }
 
   }
@@ -179,6 +180,12 @@ export default class Index extends Component {
     }
   }
 
+  spinner=()=>{
+    if (this.state.ready==false) {
+      return <ActivityIndicator></ActivityIndicator>
+    }
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -199,6 +206,7 @@ export default class Index extends Component {
                 style={styles.map}
                 region={this.state.region}
                 showsUserLocation={true}
+              showsMyLocationButton={true}
                 followUserLocation={true}
                 onMapReady={this.onMapReady}
               >
@@ -227,7 +235,7 @@ export default class Index extends Component {
                 onPress={() => this.setState({ open_camera: true })}
                 buttonColor="#808080" />
                 {this.buttonCheckinOrIzin()}
-              
+                {this.spinner()}
             </View>
             <FlatList
               data={this.state.check_in}
