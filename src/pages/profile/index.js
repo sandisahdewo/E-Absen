@@ -8,6 +8,8 @@ import { User } from '../../storage/async-storage'
 import Spinner from 'react-native-loading-spinner-overlay'
 import APIApel from '../../services/apel'
 
+let _this;
+
 export default class Index extends Component {
 
   static navigationOptions = {
@@ -18,7 +20,7 @@ export default class Index extends Component {
     headerTintColor: '#fff',
     headerLeft: (
       <View>
-        <TouchableHighlight>
+        <TouchableHighlight onPress={() => _this.logout()}>
           <View style={{marginLeft: 15}}>
             <IconFA5 name="sign-out-alt" size={22} color="#808080"/>
           </View>
@@ -43,6 +45,10 @@ export default class Index extends Component {
     }
 
     this.getUserLogin()
+  }
+
+  componentDidMount = () => {
+    _this = this;
   }
 
   getUserLogin = async () => {
@@ -71,13 +77,19 @@ export default class Index extends Component {
                 this.setState({
                   apelToday: false
                 })
-              } 
-              Toast.show({
-                text:err.message,
-                position:'bottom',
-                type:'danger'
-              })
+              } else {
+                Toast.show({
+                  text:err.message,
+                  position:'bottom',
+                  type:'danger'
+                })
+              }
             })
+  }
+
+  logout = async () => {
+    await User.removeUserLogin()
+    this.props.navigation.navigate('Auth')
   }
 
   render() {
