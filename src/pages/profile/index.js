@@ -5,6 +5,7 @@ import { ListItem, Button, Icon } from 'react-native-elements'
 import IconFA5 from 'react-native-vector-icons/FontAwesome5'
 import { ScrollView } from 'react-native-gesture-handler'
 import { User } from '../../storage/async-storage'
+import Spinner from 'react-native-loading-spinner-overlay'
 import APIApel from '../../services/apel'
 
 export default class Index extends Component {
@@ -30,6 +31,7 @@ export default class Index extends Component {
     super(props)
 
     this.state = {
+      spinner: true,
       user: {
         pegawai: {}
       },
@@ -46,7 +48,8 @@ export default class Index extends Component {
   getUserLogin = async () => {
      const user = await User.getUserLogin()
      this.setState({
-       user: user
+       user: user,
+       spinner: false
      }, () => {
        this.getLastCheckInToday(this.state.user.id)
      })
@@ -68,13 +71,12 @@ export default class Index extends Component {
                 this.setState({
                   apelToday: false
                 })
-              } else {
-                Toast.show({
-                  text:err.message,
-                  position:'bottom',
-                  type:'danger'
-                })
-              }
+              } 
+              Toast.show({
+                text:err.message,
+                position:'bottom',
+                type:'danger'
+              })
             })
   }
 
@@ -82,6 +84,11 @@ export default class Index extends Component {
     const apelToday = this.state.apelToday;
     return ( 
       <ScrollView style={{flex:1}}>
+        <Spinner
+          visible={this.state.spinner}
+          textContent={'Loading...'}
+          textStyle={{color:'#FFF'}}
+        />
         <View style={{alignItems: 'center', backgroundColor:'#eeeeee', paddingBottom:20}}>
           <Thumbnail large source={require('../../assets/avatars/sari.jpg')}/> 
           <Text style={{fontSize: 20, fontWeight: 'bold'}}>{this.state.user.name}</Text>

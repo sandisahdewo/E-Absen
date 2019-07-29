@@ -10,9 +10,14 @@ const getUserLogin = async () => {
   return parseUser
 }
 
+const removeUserLogin = async () => {
+  await AsyncStorage.removeItem('user')
+}
+
 const StorageUser = {
   setUserLogin,
-  getUserLogin
+  getUserLogin,
+  removeUserLogin
 }
 
 export default StorageUser

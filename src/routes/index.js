@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Login from '../pages/login'
+import Splash from '../pages/splash'
 import ProfileIndex from '../pages/profile'
 import ApelIndex from '../pages/e-apel'
 import IzinIndex from '../pages/e-izin'
@@ -36,10 +37,11 @@ const PageStack = createStackNavigator({
 })
 
 const AppSwitch = createSwitchNavigator({
+  Splash: Splash,
   App: PageStack,
   Auth: LoginStack
 }, {
-  initialRouteName: 'Auth'
+  initialRouteName: 'Splash'
 })
 
 const Navigator = createAppContainer(AppSwitch)

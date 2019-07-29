@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import APILogin from '../../services/login'
 import { User } from '../../storage/async-storage'
+import Spinner from 'react-native-loading-spinner-overlay'
 import { Text, View, KeyboardAvoidingView, Image } from 'react-native'
 import { Container, Item, Input, Icon, Button, Card, CheckBox, Toast } from 'native-base'
 
@@ -9,6 +10,8 @@ export default class Index extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      spinner: false,
+
       remember_me: false,
       username:'',
       password:'',
@@ -32,6 +35,11 @@ export default class Index extends Component {
 
     return (
       <Container>
+        <Spinner
+          visible={this.state.spinner}
+          textContent={'Loading...'}
+          textStyle={{color:'#FFF'}}
+        />
         <View style={{flex:1, paddingHorizontal:5, justifyContent:'center'}}>
           <KeyboardAvoidingView behavior="padding">
             <View style={{justifyContent:'center', flexDirection:'row'}}>
@@ -85,7 +93,8 @@ export default class Index extends Component {
 
   login = async () => {
     this.setState({
-      validation: {}
+      validation: {},
+      spinner: true
     })
     const formData = {
       username: this.state.username,
@@ -100,6 +109,9 @@ export default class Index extends Component {
                   buttonText: 'Okay',
                   type:'success'
                 })
+                this.setState({
+                  spinner: false
+                })
                 User.setUserLogin(res.user)
                 this.props.navigation.navigate('ProfileIndex')
               } else {
@@ -111,14 +123,16 @@ export default class Index extends Component {
               }
             })
             .catch(err => {
-              if(err.response.status == 422) {
-                const errorItem = err.response.data.errors;
-                this.setState({
-                  validation: {
-                    username: errorItem.username,
-                    password: errorItem.password,
-                  }
-                })
+              if(err.hasOwnProperty('response')) {
+                if(err.response.status == 422) {
+                  const errorItem = err.response.data.errors;
+                  this.setState({
+                    validation: {
+                      username: errorItem.username,
+                      password: errorItem.password,
+                    }
+                  })
+                }
               } else {
                 Toast.show({
                   text: err.message,
@@ -126,6 +140,9 @@ export default class Index extends Component {
                   type:'danger'
                 })
               }
+              this.setState({
+                spinner: false
+              })
             })
   }
 }
