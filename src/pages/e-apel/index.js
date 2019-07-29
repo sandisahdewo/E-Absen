@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
-import {ActivityIndicator, Text, View, StyleSheet, FlatList, Image, ScrollView, Alert, Platform, PermissionsAndroid } from 'react-native';
+import {ActivityIndicator, Text, View, StyleSheet, FlatList, Image, ScrollView} from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 import ActionButton from 'react-native-action-button';
 import Camera from '../../components/camera';
 import ListCekIn from './components/list-cekin';
-import MapView from 'react-native-maps';
-import Geolocation from '@react-native-community/geolocation';
 import APIApel from '../../services/apel'
 import { User } from '../../storage/async-storage'
 import { Toast } from 'native-base';
-
-const LATITUDE_DELTA = 0.01;
-const LONGITUDE_DELTA = 0.01;
+import Maps from '../../components/maps'
 
 export default class Index extends Component {
   static navigationOptions = {
@@ -59,66 +55,15 @@ export default class Index extends Component {
   }
 
   componentDidMount() {
-    this.getCurrentPosition();
     this.getUserLogin()
   }
 
-  setRegion = (region) => {
-    if (this.state.ready) {
-      setTimeout(() => this.map.animateToRegion(region), 10);
-    }
-    this.setState({ region });
-  }
-
-  getCurrentPosition = () => {
-    try {
-      Geolocation.getCurrentPosition(
-        (position) => {
-          const region = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA,
-          };
-          this.setRegion(region);
-        },
-        (error) => {
-          //TODO: better design
-          switch (error.code) {
-            case 1:
-              if (Platform.OS === "android") {
-                Alert.alert("", "To locate your location enable permission for the application in Settings - Privacy - Location");
-              } else {
-                Alert.alert("", "To locate your location enable permission for the application in Settings - Apps - ExampleApp - Location");
-              }
-              break;
-            default:
-              Alert.alert("", "Error detecting your location " + error.message);
-          }
-        },
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-      );
-      this.watchID = Geolocation.watchPosition(position => {
-        const lastPosition = JSON.stringify(position);
-        this.setState({ lastPosition });
-        let dist = this.distance(this.state.lat, this.state.long, position.coords.latitude, position.coords.longitude, "K");
-        this.setState({ dist })
-        console.log('position ' + position);
-      });
-
-    } catch (e) {
-      alert(e.message || "");
-    }
-  };
-
-  onMapReady = (e) => {
-    if (!this.state.ready) {
-      this.setState({ ready: true });
-    }
-  };
-
-  componentWillUnmount() {
-    Geolocation.clearWatch(this.watchID);
+  handleMapsChangeLocation = (data) => {
+    this.setState({
+      region:data
+    }, () => {
+      console.log('region', this.state.region)
+    })
   }
 
   distance = (lat1, lon1, lat2, lon2, unit) => {
@@ -201,28 +146,7 @@ export default class Index extends Component {
             {this.textDistance()}
             </View>
             <View style={styles.mapContainer}>
-              <MapView
-                ref={map => { this.map = map }}
-                style={styles.map}
-                region={this.state.region}
-                showsUserLocation={true}
-              showsMyLocationButton={true}
-                followUserLocation={true}
-                onMapReady={this.onMapReady}
-              >
-                <MapView.Marker
-                  coordinate={{
-                    latitude: (this.state.region.latitude + 0.00050) || -36.82339,
-                    longitude: (this.state.region.longitude + 0.00050) || -73.03569,
-                  }}
-                >
-                  <View>
-                    <Text style={{ color: '#000' }}>
-                      {this.state.region.latitude} / {this.state.region.longitude}
-                    </Text>
-                  </View>
-                </MapView.Marker>
-              </MapView>
+              <Maps onMapsChangeLocation={(data) => this.handleMapsChangeLocation(data) }/>
             </View>
             <View>
               <View style={{ height: 300, borderColor: '#808080', borderWidth: 1, backgroundColor: 'white', marginVertical: 10 }}>
