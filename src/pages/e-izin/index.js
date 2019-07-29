@@ -7,19 +7,12 @@ import { Button } from 'react-native-elements';
 import ActionButton from 'react-native-action-button';
 import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from '@react-native-community/geolocation';
-import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
-import { Alert,Text, View, KeyboardAvoidingView, Image, ScrollView, StyleSheet, Platform, BackHandler, DeviceEventEmitter, DatePickerAndroid } from 'react-native';
+import { Alert,Text, View, KeyboardAvoidingView, Image, ScrollView, StyleSheet, Platform, DatePickerAndroid } from 'react-native';
 import APIIzin from '../../services/izin'
 
 const LATITUDE_DELTA = 0.01;
 const LONGITUDE_DELTA = 0.01;
 
-const initialRegion = {
-  latitude: -7.765437,
-  longitude: 113.243183,
-  latitudeDelta: 0.0922,
-  longitudeDelta: 0.0421,
-}
 export default class Index extends Component {
   static navigationOptions = {
     headerStyle: {
@@ -32,18 +25,14 @@ export default class Index extends Component {
 
   constructor(props) {
     super(props);
-    this.checkIsLocation().catch(error => error);
-    DeviceEventEmitter.addListener('locationProviderStatusChange', function (status) { // only trigger when "providerListener" is enabled
-      console.log(status); //  status => {enabled: false, status: "disabled"} or {enabled: true, status: "enabled"}
-    });
     this.state = {
       open_swafoto: false,
       open_lampiran: false,
       image_swafoto_base64: '',
       image_lampiran_base64: '',
       region: {
-        latitude: 0,
-        longitude: 0,
+        latitude: -7.765437,
+        longitude: 113.243183,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
@@ -55,24 +44,8 @@ export default class Index extends Component {
       tanggal_akhir_izin: ''
     }
   }
-  async checkIsLocation(): Promise {
-    let check = await LocationServicesDialogBox.checkLocationServicesIsEnabled({
-      message: "Use Location ?",
-      ok: "YES",
-      cancel: "NO",
-      enableHighAccuracy: true, // true => GPS AND NETWORK PROVIDER, false => GPS OR NETWORK PROVIDER
-      showDialog: true, // false => Opens the Location access page directly
-      openLocationServices: true, // false => Directly catch method is called if location services are turned off
-      preventOutSideTouch: false, //true => To prevent the location services window from closing when it is clicked outside
-      preventBackClick: false, //true => To prevent the location services popup from closing when it is clicked back button
-      providerListener: true // true ==> Trigger "locationProviderStatusChange" listener when the location state changes
-    }).catch(error => error);
-
-    return Object.is(check.status, "enabled");
-  }
-
+  
   componentDidMount() {
-    // this.checkIsLocation();
     this.getCurrentPosition();
     this.getJenisIzin();
   }
@@ -86,7 +59,7 @@ export default class Index extends Component {
 
   getCurrentPosition=()=> {
     try {
-      navigator.geolocation.getCurrentPosition(
+      Geolocation.getCurrentPosition(
         (position) => {
           const region = {
             latitude: position.coords.latitude,
@@ -111,7 +84,8 @@ export default class Index extends Component {
               // console.log();
           }
         },
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+        { enableHighAccuracy: false, timeout: 5000, maximumAge: 10000 },
+        // { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
       );
     } catch (e) {
       alert(e.message || "");
@@ -125,8 +99,7 @@ export default class Index extends Component {
   };
 
   componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchID);
-    LocationServicesDialogBox.stopListener();
+    Geolocation.clearWatch(this.watchID);
   }
 
   getJenisIzin = () => {
@@ -135,6 +108,7 @@ export default class Index extends Component {
         this.setState({
           list_jenis_izin: res.data
         })
+        console.log(res.data);
       })
   }
 
@@ -215,6 +189,7 @@ export default class Index extends Component {
                   <Picker
                     note
                     mode="dropdown"
+                    placeholder="Start Year" 
                     selectedValue={this.state.selected_status_izin}
                     onValueChange={(key) => this.handleChangeStatusIzin(key) }
                   >
