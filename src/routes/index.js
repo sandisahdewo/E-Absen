@@ -21,9 +21,6 @@ const LoginStack = createStackNavigator({
 })
 
 const PageStack = createStackNavigator({
-  IzinIndex: {
-    screen: IzinIndex
-  },
   ProfileIndex: {
     screen: ProfileIndex
   },
@@ -42,7 +39,7 @@ const AppSwitch = createSwitchNavigator({
   App: PageStack,
   Auth: LoginStack
 }, {
-  initialRouteName: 'App'
+    initialRouteName: 'App'
 })
 
 const Navigator = createAppContainer(AppSwitch)

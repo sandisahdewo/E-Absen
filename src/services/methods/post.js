@@ -7,9 +7,9 @@ const config = {
   }
 }
 
-const Post = (path, data) => {
+const Post = (path, data, customHeader = {}) => {
   const promise = new Promise((resolve, reject) => {
-    axios.post(`${RootPath}/${path}`, data, config)
+    axios.post(`${RootPath}/${path}`, data, {...config, ...customHeader})
          .then(res => {
             resolve(res.data)
          })
