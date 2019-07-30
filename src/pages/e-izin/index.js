@@ -8,6 +8,7 @@ import ActionButton from 'react-native-action-button';
 import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 import Datepicker from '../../components/input/datepicker'
 import { Text, View, KeyboardAvoidingView, Image, ScrollView, StyleSheet, Picker } from 'react-native';
+import NetInfo from '../../components/netinfo'
 
 export default class Index extends Component {
   static navigationOptions = {
@@ -139,6 +140,7 @@ export default class Index extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
+        <NetInfo>
         {(this.state.open_swafoto) &&
           <Camera type='front' onPickFoto={(data) => { this.handlePickSwaFoto(data) }} />
         }
@@ -233,6 +235,7 @@ export default class Index extends Component {
             </KeyboardAvoidingView>
           </ScrollView>
         }
+        </NetInfo>
       </View>
     );
   }

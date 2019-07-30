@@ -9,6 +9,7 @@ import APIApel from '../../services/apel'
 import { User } from '../../storage/async-storage'
 import { Toast } from 'native-base';
 import Maps from '../../components/maps'
+import NetInfo from '../../components/netinfo'
 
 export default class Index extends Component {
   static navigationOptions = {
@@ -134,6 +135,7 @@ export default class Index extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
+        <NetInfo>
         {(this.state.open_camera) &&
           <View style={{ flex: 1 }}>
             <Camera type='front' onPickFoto={(data) => { this.handlePickFoto(data) }} />
@@ -168,6 +170,7 @@ export default class Index extends Component {
             />
           </ScrollView>
         }
+        </NetInfo>
       </View>
     );
   }

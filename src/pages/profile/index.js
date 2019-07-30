@@ -7,6 +7,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { User } from '../../storage/async-storage'
 import Spinner from 'react-native-loading-spinner-overlay'
 import APIApel from '../../services/apel'
+import NetInfo from '../../components/netinfo'
 
 let _this;
 
@@ -95,6 +96,7 @@ export default class Index extends Component {
   render() {
     const apelToday = this.state.apelToday;
     return ( 
+      <NetInfo>
       <ScrollView style={{flex:1}}>
         <Spinner
           visible={this.state.spinner}
@@ -195,6 +197,7 @@ export default class Index extends Component {
           </View>
         </View>
       </ScrollView>
+      </NetInfo>
     )
   }
 }

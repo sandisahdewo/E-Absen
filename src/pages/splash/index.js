@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import { View, Text, ActivityIndicator } from 'react-native'
 import {User} from '../../storage/async-storage/index'
+import NetInfo from '../../components/netinfo'
 
 export default class Index extends Component {
 
@@ -20,9 +21,11 @@ export default class Index extends Component {
 
   render() {
     return (
-      <View style={{flex:1, justifyContent:'center'}}>
-        <ActivityIndicator/>
-      </View>
+      <NetInfo>
+        <View style={{flex:1, justifyContent:'center'}}>
+          <ActivityIndicator/>
+        </View>
+      </NetInfo>
     )
   }
 }
