@@ -24,6 +24,7 @@ class Camera extends Component {
           style={styles.preview}
           type={cameraType}
           flashMode={RNCamera.Constants.FlashMode.off}
+          orientation="potrait"
           androidCameraPermissionOptions={{
             title: 'Permission to use camera',
             message: 'We need your permission to use your camera',
@@ -50,7 +51,7 @@ class Camera extends Component {
 
   takePicture = async() => {
     if (this.camera) {
-      const options = { quality: 0.5, base64: true };
+      const options = { quality: 0.5, base64: true, fixOrientation: true, orientation: 'portrait', forceUpOrientation: true };
       const data = await this.camera.takePictureAsync(options);
       this.setState({
         image_uri: data.uri, 

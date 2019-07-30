@@ -35,8 +35,8 @@ export default class Index extends Component {
         longitudeDelta: 0.0421,
       },
       user: {},
-      // lat: '-8.034031', //koordinat pemkab
-      // long: '112.648491', //koordinat pemkab
+      // lat: -8.034031, //koordinat pemkab
+      // long: 112.648491, //koordinat pemkab
       lat: -7.761548, //koordinat pemkab
       long: 113.416132, //koordinat pemkab
       dist: 0,
@@ -53,6 +53,7 @@ export default class Index extends Component {
     this.setState({
       user: user
     })
+    console.log(this.state.user)
   }
 
   componentDidMount() {
@@ -79,9 +80,9 @@ export default class Index extends Component {
     dist = Math.acos(dist)
     dist = dist * 180 / Math.PI
     dist = dist * 60 * 1.1515
-    if (unit == "K") { dist = dist * 1.609344 * 1000 }
+    if (unit == "K") { dist = dist * 1.609344  }
     if (unit == "M") { dist = dist * 0.8684 }
-    return Math.round(dist)
+    return dist.toFixed(3);
   }
 
 
@@ -125,11 +126,11 @@ export default class Index extends Component {
     if (this.state.ready == false) {
       return <ActivityIndicator></ActivityIndicator>
     }
-    
+
     if (this.state.dist >= 20) {
-      return <Text>Hai Sari, lokasi Anda berjarak {this.state.dist} Meter, Anda tidak boleh checkin</Text>
+      return <Text>Hai {this.state.user.pegawai.nama}, lokasi Anda berjarak {this.state.dist} Kilometer, Anda tidak boleh checkin</Text>
     } else {
-      return <Text>Hai Sari, lokasi Anda berjarak {this.state.dist} Meter, silakan cek in untuk mengikuti apel.</Text>
+      return <Text>Hai {this.state.user.pegawai.nama}, lokasi Anda berjarak {this.state.dist} Kilometer, silakan cek in untuk mengikuti apel.</Text>
     }
   }
 
