@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, DatePickerAndroid } from 'react-native'
-import { Item, Label, Input } from 'native-base'
+import { View, Text, StyleSheet, DatePickerAndroid, TextInput } from 'react-native'
+// import { Item, Label, Input } from 'native-base'
 import { format, addDays } from 'date-fns'
 
 class Datepicker extends Component {
@@ -16,13 +16,10 @@ class Datepicker extends Component {
     const hasError = React.Children.count(this.props.error) > 0 && this.props.error ? true : false;
     
     return(
-      <View style={{marginBottom:7}}>
-        <Item floatingLabel error={hasError}>
-          <Label 
-            style={[hasError ? styles.labelError : styles.label]}
-          >{this.props.title}</Label>
-          <Input value={this.props.value} onTouchStart={() => this.setDateAndroid()} />
-        </Item>
+      <View>
+          <Text style={{fontSize:10}}>{this.props.title}</Text>
+          <TextInput style={{ height:40, padding:0, margin:0, borderBottomColor:'grey', borderBottomWidth:0.5}} value={this.props.value} onTouchStart={() => this.setDateAndroid()}  />
+          {/* <Input value={this.props.value} onTouchStart={() => this.setDateAndroid()} /> */}
         <Text style={{color:'red', fontSize:10, paddingLeft:3}}>{this.props.error}</Text>
       </View>
     )

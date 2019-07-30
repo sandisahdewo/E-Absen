@@ -4,7 +4,6 @@ import Camera from '../../components/camera';
 import { Button } from 'react-native-elements';
 import Maps from '../../components/maps'
 import ActionButton from 'react-native-action-button';
-// import { Picker, Item, Label, Input } from 'native-base';
 import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 import Datepicker from '../../components/input/datepicker'
 import { Text, View, KeyboardAvoidingView, Image, ScrollView, StyleSheet, Picker } from 'react-native';
