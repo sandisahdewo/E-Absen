@@ -180,12 +180,6 @@ export default class Index extends Component {
     }
   }
 
-  spinner=()=>{
-    if (this.state.ready==false) {
-      return <ActivityIndicator></ActivityIndicator>
-    }
-  }
-
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -235,7 +229,6 @@ export default class Index extends Component {
                 onPress={() => this.setState({ open_camera: true })}
                 buttonColor="#808080" />
                 {this.buttonCheckinOrIzin()}
-                {this.spinner()}
             </View>
             <FlatList
               data={this.state.check_in}

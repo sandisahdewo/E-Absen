@@ -74,7 +74,7 @@ export default class Maps extends Component {
               // console.log();
           }
         },
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+        { enableHighAccuracy: false, timeout: 10000, maximumAge: 1000 }
       );
     } catch (e) {
       alert(e.message || "");

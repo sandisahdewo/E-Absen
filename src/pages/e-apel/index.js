@@ -64,6 +64,9 @@ export default class Index extends Component {
       region:data
     }, () => {
       console.log('region', this.state.region)
+        let dist = this.distance(this.state.lat, this.state.long, this.state.region.latitude, this.state.region.longitude, "K");
+        this.setState({ dist })
+        this.setState({ ready:true })
     })
   }
 
@@ -119,6 +122,10 @@ export default class Index extends Component {
   }
 
   textDistance=()=>{
+    if (this.state.ready == false) {
+      return <ActivityIndicator></ActivityIndicator>
+    }
+    
     if (this.state.dist >= 20) {
       return <Text>Hai Sari, lokasi Anda berjarak {this.state.dist} Meter, Anda tidak boleh checkin</Text>
     } else {
