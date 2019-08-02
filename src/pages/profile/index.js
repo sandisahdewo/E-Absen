@@ -34,57 +34,89 @@ export default class Index extends Component {
     super(props)
 
     this.state = {
+      apelTodayExists: false,
+      apelTodayData: {},
       spinner: true,
       user: {
         pegawai: {}
       },
-      lastCheckIn: {
+      checkinTodayExists: false,
+      checkinTodayData: {
         date:'',
         time:''
       },
-      apelToday: false
     }
 
-    this.getUserLogin()
   }
 
   componentDidMount = () => {
-    _this = this;
+    this.props.navigation.addListener('willFocus', 
+      () => {
+        _this = this;
+        this.getUserLogin()
+        this.findApelToday()
+      }
+    )
   }
 
   getUserLogin = async () => {
-     const user = await User.getUserLogin()
-     this.setState({
-       user: user,
-       spinner: false
-     }, () => {
-       this.getLastCheckInToday(this.state.user.id)
-     })
+      const user = await User.getUserLogin()
+      this.setState({
+        user: user,
+      })
+
+      await this.getLastCheckInToday(user.id)
+  }
+
+  findApelToday = async () => {
+    await APIApel.FindApelToday()
+      .then(res => {
+        if(res) {
+          this.setState({
+            apelTodayExists: true,
+            apelTodayData: res
+          })
+        } else {
+          this.setState({
+            apelTodayExists: false,
+          })
+        }
+      })
+      .catch(err => {
+        console.log('err', err)
+      })
   }
 
   getLastCheckInToday = async (userId) => {
     await APIApel.FindLastCheckinToday(userId)
             .then(res => {
-              this.setState({
-                lastCheckIn:{
-                  date:res.data.tanggal_checkin,
-                  time:res.data.waktu_checkin
-                },
-                apelToday: true
-              })
-            })
-            .catch(err => {
-              if(err.response.status == '404') {
+              if(res.success) {
                 this.setState({
-                  apelToday: false
+                  checkinTodayData:{
+                    date:res.data.tanggal_checkin,
+                    time:res.data.waktu_checkin
+                  },
+                  checkinTodayExists: true,
+                  spinner: false
                 })
               } else {
-                Toast.show({
-                  text:err.message,
-                  position:'bottom',
-                  type:'danger'
+                this.setState({
+                  checkinTodayExists: false,
+                  spinner: false
                 })
               }
+            })
+            .catch(err => {
+              Toast.show({
+                text:err.message,
+                position:'bottom',
+                type:'danger'
+              })
+              this.setState({
+                checkinTodayExists: false,
+                spinner: false
+              })
+              console.log('err', err)
             })
   }
 
@@ -94,7 +126,12 @@ export default class Index extends Component {
   }
 
   render() {
-    const apelToday = this.state.apelToday;
+    const showLastCheckin = this.state.checkinTodayExists
+    const showApelTodayExists = (this.state.apelTodayExists && !this.state.checkinTodayExists)
+    const showApelTodayNotExists = !this.state.apelTodayExists
+    const showButtonApel = showApelTodayExists && this.state.apelTodayData.status == 'buka'
+    const showButtonApelAndIzin = showApelTodayExists
+
     return ( 
       <NetInfo>
       <ScrollView style={{flex:1}}>
@@ -137,11 +174,11 @@ export default class Index extends Component {
 
         </View>
         <View style={{margin:8}}>
-          {apelToday &&
+          {showLastCheckin &&
             <Card style={{padding:15}}>
               <View style={{flexDirection:'row'}}>
                 <View style={{flex:1}}>
-                  <Text style={{fontSize:14}}>Mengikuti Apel Pada: {this.state.lastCheckIn.time}</Text>
+                  <Text style={{fontSize:14}}>Mengikuti Apel Pada: {this.state.checkinTodayData.time}</Text>
                   <Text style={{fontWeight:'bold', fontSize:17}}>Terimakasih telah hadir</Text>
                 </View>
                 <View style={{justifyContent:'center', flex:0.4}}>
@@ -156,11 +193,11 @@ export default class Index extends Component {
               </View>
             </Card>
           }
-          {!apelToday && 
+          { showApelTodayExists && 
             <Card style={{padding:15}}>
               <View style={{flexDirection:'row'}}>
                 <View style={{flex:1}}>
-                  <Text style={{fontSize:14}}>Apel dilaksanakan pada: 15:02</Text>
+                  <Text style={{fontSize:14}}>Apel dilaksanakan pada: {this.state.apelTodayData.jam_apel}</Text>
                   <Text style={{fontWeight:'bold', fontSize:17}}>Tidak berada dilokasi Apel</Text>
                 </View>
                 <View style={{justifyContent:'center', flex:0.4}}>
@@ -175,27 +212,40 @@ export default class Index extends Component {
               </View>
             </Card>
           }
+          { showApelTodayNotExists &&
+            <Card style={{padding:15}}>
+              <View style={{flexDirection:'row'}}>
+                <View style={{flex:1}}>
+                  <Text style={{fontWeight:'bold', fontSize:17}}>Tidak ada Apel</Text>
+                </View>
+              </View>
+            </Card>
+          }
         </View>
-        <View style={{flex:1, flexDirection:'row'}}>
-          <View style={{flex:1, margin:5}}>
-            <Button
-              onPress={() => this.props.navigation.navigate('ApelIndex')}
-              title="Hadir Apel"
-              type="outline"
-              buttonStyle={{borderColor:'#696969'}}
-              titleStyle={{color:'#696969'}}
-            />
+        { showButtonApelAndIzin &&
+          <View style={{flex:1, flexDirection:'row'}}>
+            {showButtonApel &&
+              <View style={{flex:1, margin:5}}>
+                <Button
+                  onPress={() => this.props.navigation.navigate('ApelIndex', {apelId: this.state.apelTodayData.id})}
+                  title="Hadir Apel"
+                  type="outline"
+                  buttonStyle={{borderColor:'#696969'}}
+                  titleStyle={{color:'#696969'}}
+                />
+              </View>
+            }
+            <View style={{flex:1, margin:5}}>
+              <Button
+                onPress={() => this.props.navigation.navigate('IzinIndex', {apelId: this.state.apelTodayData.id})}
+                title="Izin Apel"
+                type="outline"
+                buttonStyle={{borderColor:'#696969'}}
+                titleStyle={{color:'#696969'}}
+              />
+            </View>
           </View>
-          <View style={{flex:1, margin:5}}>
-            <Button
-              onPress={() => this.props.navigation.navigate('IzinIndex')}
-              title="Izin Apel"
-              type="outline"
-              buttonStyle={{borderColor:'#696969'}}
-              titleStyle={{color:'#696969'}}
-            />
-          </View>
-        </View>
+        }
       </ScrollView>
       </NetInfo>
     )

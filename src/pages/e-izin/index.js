@@ -6,6 +6,7 @@ import Maps from '../../components/maps'
 import ActionButton from 'react-native-action-button';
 import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 import Datepicker from '../../components/input/datepicker'
+import {Toast} from 'native-base'
 import { Text, View, KeyboardAvoidingView, Image, ScrollView, StyleSheet, Picker } from 'react-native';
 import NetInfo from '../../components/netinfo'
 
@@ -23,6 +24,7 @@ export default class Index extends Component {
     super(props);
     
     this.state = {
+      apelId: this.props.navigation.state.params.apelId,
       open_swafoto: false,
       open_lampiran: false,
       image_swafoto_base64: '',
@@ -98,8 +100,8 @@ export default class Index extends Component {
   storeIzin = () => {
     const formData = { 
       jenis_izin_id: this.state.jenis_izin.id,
-      user_id: 1,
-      apel_id: 1,
+      user_id: this.state.user.id,
+      apel_id: this.state.apelId,
       foto_bukti: this.state.image_lampiran_base64,
       dokumen_bukti: this.state.image_lampiran_base64,
       latitude: this.state.region.latitude,

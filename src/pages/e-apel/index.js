@@ -24,21 +24,26 @@ export default class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      apelId: this.props.navigation.state.params.apelId,
       open_camera: false,
       image_base64: '',
       image_uri: '',
       check_in: [],
       region: {
-        latitude: -7.761548, //koordinat pemkab
-        longitude: 113.416132, //koordinat pemkab
+        latitude: -8.177213,
+        longitude: 111.775341,
+        // latitude: -7.761548, //koordinat pemkab
+        // longitude: 113.416132, //koordinat pemkab
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
-      user: {},
-      // lat: -8.034031, //koordinat pemkab
-      // long: 112.648491, //koordinat pemkab
-      lat: -7.761548, //koordinat pemkab
-      long: 113.416132, //koordinat pemkab
+      user: {
+        pegawai: {}
+      },
+      lat: -8.177213,
+      long: 111.775341,
+      // lat: -7.761548, //koordinat pemkab
+      // long: 113.416132, //koordinat pemkab
       dist: 0,
       updatesEnabled: false,
       lastPosition:'',
@@ -93,7 +98,7 @@ export default class Index extends Component {
   );
   
   buttonCheckinOrIzin=()=>{
-    if (this.state.dist >= 20) {
+    if (this.state.dist >= 3) {
       return <Button
           onPress={() => this.props.navigation.navigate('IzinIndex')}
           title="Izin Apel"
@@ -193,7 +198,7 @@ export default class Index extends Component {
 
   checkin = () => {
     const formData = {
-      apel_id: 1,
+      apel_id: this.state.apelId,
       user_id: this.state.user.id,
       latitude: this.state.region.latitude,
       longitude: this.state.region.longitude,
@@ -214,6 +219,7 @@ export default class Index extends Component {
           buttonText: 'Okay',
           type:'danger'
         })
+        console.log('err', err)
       })
 
   }
