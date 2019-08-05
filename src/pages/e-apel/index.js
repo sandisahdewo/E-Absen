@@ -30,8 +30,8 @@ export default class Index extends Component {
       image_uri: '',
       check_in: [],
       region: {
-        latitude: -8.177213,
-        longitude: 111.775341,
+        latitude: -8.033798,
+        longitude: 112.648927,
         // latitude: -7.761548, //koordinat pemkab
         // longitude: 113.416132, //koordinat pemkab
         latitudeDelta: 0.0922,
@@ -40,8 +40,8 @@ export default class Index extends Component {
       user: {
         pegawai: {}
       },
-      lat: -8.177213,
-      long: 111.775341,
+      lat: -8.033798,
+      long: 112.648927,
       // lat: -7.761548, //koordinat pemkab
       // long: 113.416132, //koordinat pemkab
       dist: 0,
@@ -98,7 +98,7 @@ export default class Index extends Component {
   );
   
   buttonCheckinOrIzin=()=>{
-    if (this.state.dist >= 3) {
+    if (this.state.dist >= 5) {
       return <Button
           onPress={() => this.props.navigation.navigate('IzinIndex')}
           title="Izin Apel"
