@@ -64,7 +64,7 @@ export default class Index extends Component {
       this.setState({
         user: user,
       })
-
+      // console.table(user)
       await this.getLastCheckInToday(user.id)
   }
 
@@ -74,17 +74,22 @@ export default class Index extends Component {
         if(res.success) {
           this.setState({
             apelTodayExists: true,
-            apelTodayData: res.data
+            apelTodayData: res.data,
+            spinner: false
           })
         } else {
           this.setState({
             apelTodayExists: false,
+            spinner:false
           })
         }
+        console.table(res)
+
       })
       .catch(err => {
         console.log('err', err)
       })
+
   }
 
   getLastCheckInToday = async (userId) => {
