@@ -97,8 +97,20 @@ export default class Index extends Component {
          let dist = this.distance(this.state.lat, this.state.long, this.state.location.latitude, this.state.location.longitude, "K");
          this.setState({ dist })
         // console.log(location);
-
-      })
+      });
+      this.watchID = Geolocation.watchPosition(
+        (lastPosition) => {
+          const location = {
+            latitude: lastPosition.coords.latitude,
+            longitude: lastPosition.coords.longitude,
+          };
+        this.setState({ location:location });
+        let dist = this.distance(this.state.lat, this.state.long, this.state.location.latitude, this.state.location.longitude, "K");
+        this.setState({ dist })
+        // console.log(lastPosition);
+      },
+      (error) => alert(JSON.stringify(error)),
+      { enableHighAccuracy: false, timeout: 20000, maximumAge: 0,distanceFilter:0.1 });
   }
 
   getUserLogin = async () => {
@@ -183,7 +195,7 @@ export default class Index extends Component {
 
   textDistance = () => {
     // return <Text>{this.state.dist}</Text>
-    if (this.state.dist >= 0.1) {
+    if (this.state.dist >= 0.1) { //jika jarak 0.1km atau 100m
       return <Text style={{ fontWeight: 'bold', fontSize: 17 }}>Anda tidak berada pada lokasi Apel, lokasi Anda berjarak {this.distToMeter()} {this.meterOrKilo()}</Text>
     } else {
       return <Text style={{ fontWeight: 'bold', fontSize: 17 }}>lokasi Anda berjarak {this.distToMeter()} {this.meterOrKilo()}</Text>
@@ -195,6 +207,9 @@ export default class Index extends Component {
     this.props.navigation.navigate('Auth')
   }
 
+  componentWillUnmount = () => {
+    Geolocation.clearWatch(this.watchID);
+  }
   render() {
     const showLastCheckin = this.state.checkinTodayExists
     const showApelTodayExists = (this.state.apelTodayExists && !this.state.checkinTodayExists)
