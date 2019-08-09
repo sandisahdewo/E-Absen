@@ -6,6 +6,7 @@ import Maps from '../../components/maps'
 import ActionButton from 'react-native-action-button';
 import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 import Datepicker from '../../components/input/datepicker'
+import { User } from '../../storage/async-storage'
 import {Toast} from 'native-base'
 import { Text, View, KeyboardAvoidingView, Image, ScrollView, StyleSheet, Picker } from 'react-native';
 import NetInfo from '../../components/netinfo'
@@ -34,7 +35,9 @@ export default class Index extends Component {
       selected_jenis_izin: '',
       tanggal_mulai_izin: '',
       tanggal_selesai_izin: '',
-      user: {},
+      user: {
+        pegawai: {}
+      },
       region: {
         latitude: -7.765437,
         longitude: 113.243183,
@@ -47,7 +50,7 @@ export default class Index extends Component {
 
   componentDidMount() {
     this.getJenisIzin();
-    console.log('mounting')
+    this.getUserLogin();
   }
 
   getUserLogin = async () => {
@@ -55,6 +58,7 @@ export default class Index extends Component {
     this.setState({
       user: user
     })
+    console.table(this.state.user)
   }
 
   getJenisIzin = () => {
@@ -63,7 +67,7 @@ export default class Index extends Component {
         this.setState({
           list_jenis_izin: res.data
         })
-        console.log(res.data);
+        // console.log(res.data);
       })
   }
 

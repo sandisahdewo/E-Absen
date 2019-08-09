@@ -120,6 +120,9 @@ export default class Index extends Component {
                   buttonText: 'Oops',
                   type:'danger'
                 })
+                this.setState({
+                  spinner: false
+                })
               }
             })
             .catch(err => {

@@ -98,7 +98,9 @@ export default class Index extends Component {
          let dist = this.distance(this.state.lat, this.state.long, this.state.location.latitude, this.state.location.longitude, "K");
          this.setState({ dist })
         console.log(location);
-      });
+      },
+      (error) => alert(JSON.stringify(error)),
+      { enableHighAccuracy: false, timeout: 20000, maximumAge: 0, distanceFilter: 0.1 });
       this.watchID = Geolocation.watchPosition(
         (lastPosition) => {
           const location = {
@@ -111,7 +113,7 @@ export default class Index extends Component {
         console.log(lastPosition);
       },
       (error) => alert(JSON.stringify(error)),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 0,distanceFilter:0.1 });
+      { enableHighAccuracy: false, timeout: 20000, maximumAge: 0,distanceFilter:0.1 });
   }
 
   getUserLogin = async () => {
