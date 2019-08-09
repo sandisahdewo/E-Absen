@@ -8,6 +8,7 @@ import { User } from '../../storage/async-storage'
 import Spinner from 'react-native-loading-spinner-overlay'
 import APIApel from '../../services/apel'
 import NetInfo from '../../components/netinfo'
+import Geolocation from '@react-native-community/geolocation';
 
 let _this;
 
@@ -45,6 +46,15 @@ export default class Index extends Component {
         date:'',
         time:''
       },
+      location:{
+        latitude: 0,
+        longitude: 0,
+      },
+      lat: -8.033798,
+      long: 112.648927,
+      // lat: -7.761548, //koordinat pemkab
+      // long: 113.416132, //koordinat pemkab
+      dist:0
     }
 
   }
@@ -55,8 +65,40 @@ export default class Index extends Component {
         _this = this;
         this.getUserLogin()
         this.findApelToday()
+        this.getLocation()
+        // Geolocation.getCurrentPosition(info => console.table(info));
+        // // console.table(this.state.location);
       }
     )
+  }
+
+  distance = (lat1, lon1, lat2, lon2, unit) => {
+    var radlat1 = Math.PI * lat1 / 180
+    var radlat2 = Math.PI * lat2 / 180
+    var theta = lon1 - lon2
+    var radtheta = Math.PI * theta / 180
+    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    dist = Math.acos(dist)
+    dist = dist * 180 / Math.PI
+    dist = dist * 60 * 1.1515
+    if (unit == "K") { dist = dist * 1.609344 }
+    if (unit == "M") { dist = dist * 0.8684 }
+    return dist.toFixed(3);
+  }
+
+  getLocation =  ()=>{
+     Geolocation.getCurrentPosition(
+      (position) => {
+        const location = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        };
+        this.setState({location:location});
+         let dist = this.distance(this.state.lat, this.state.long, this.state.location.latitude, this.state.location.longitude, "K");
+         this.setState({ dist })
+        // console.log(location);
+
+      })
   }
 
   getUserLogin = async () => {
@@ -64,7 +106,7 @@ export default class Index extends Component {
       this.setState({
         user: user,
       })
-      // console.table(user)
+      // console.table(this.state.location)
       await this.getLastCheckInToday(user.id)
   }
 
@@ -83,8 +125,6 @@ export default class Index extends Component {
             spinner:false
           })
         }
-        console.table(res)
-
       })
       .catch(err => {
         console.log('err', err)
@@ -123,6 +163,31 @@ export default class Index extends Component {
               })
               console.log('err', err)
             })
+  }
+
+  distToMeter=()=>{
+    if (this.state.dist <= 1) {
+      return this.state.dist*100;
+    }else{
+      return this.state.dist
+    }
+  }
+
+  meterOrKilo=()=>{
+    if (this.state.dist <= 1) {
+      return <Text>Meter</Text>;
+    } else {
+      return <Text>Kilo meter</Text>;
+    }
+  }
+
+  textDistance = () => {
+    // return <Text>{this.state.dist}</Text>
+    if (this.state.dist >= 0.1) {
+      return <Text style={{ fontWeight: 'bold', fontSize: 17 }}>Anda tidak berada pada lokasi Apel, lokasi Anda berjarak {this.distToMeter()} {this.meterOrKilo()}</Text>
+    } else {
+      return <Text style={{ fontWeight: 'bold', fontSize: 17 }}>lokasi Anda berjarak {this.distToMeter()} {this.meterOrKilo()}</Text>
+    }
   }
 
   logout = async () => {
@@ -203,7 +268,7 @@ export default class Index extends Component {
               <View style={{flexDirection:'row'}}>
                 <View style={{flex:1}}>
                   <Text style={{fontSize:14}}>Apel dilaksanakan pada: {this.state.apelTodayData.jam_apel}</Text>
-                  <Text style={{fontWeight:'bold', fontSize:17}}>Tidak berada dilokasi Apel</Text>
+                  {this.textDistance()}
                 </View>
                 <View style={{justifyContent:'center', flex:0.4}}>
                   <Icon

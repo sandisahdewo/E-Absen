@@ -69,7 +69,7 @@ export default class Index extends Component {
     this.setState({
       region:data
     }, () => {
-      console.log('region', this.state.region)
+      // console.log('region', this.state.region)
         let dist = this.distance(this.state.lat, this.state.long, this.state.region.latitude, this.state.region.longitude, "K");
         this.setState({ dist })
         this.setState({ ready:true })
