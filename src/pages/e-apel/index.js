@@ -132,7 +132,7 @@ export default class Index extends Component {
       return <ActivityIndicator></ActivityIndicator>
     }
 
-    if (this.state.dist >= 20) {
+    if (this.state.dist >= 0.05) {
       return <Text>Hai {this.state.user.pegawai.nama}, lokasi Anda berjarak {this.state.dist} Kilometer, Anda tidak boleh checkin</Text>
     } else {
       return <Text>Hai {this.state.user.pegawai.nama}, lokasi Anda berjarak {this.state.dist} Kilometer, silakan cek in untuk mengikuti apel.</Text>
