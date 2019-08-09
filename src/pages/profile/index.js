@@ -50,8 +50,9 @@ export default class Index extends Component {
         latitude: 0,
         longitude: 0,
       },
-      lat: -8.033798,
-      long: 112.648927,
+
+      lat: -8.033809,
+      long: 112.649397,
       // lat: -7.761548, //koordinat pemkab
       // long: 113.416132, //koordinat pemkab
       dist:0
@@ -96,7 +97,7 @@ export default class Index extends Component {
         this.setState({location:location});
          let dist = this.distance(this.state.lat, this.state.long, this.state.location.latitude, this.state.location.longitude, "K");
          this.setState({ dist })
-        // console.log(location);
+        console.log(location);
       });
       this.watchID = Geolocation.watchPosition(
         (lastPosition) => {
@@ -107,10 +108,10 @@ export default class Index extends Component {
         this.setState({ location:location });
         let dist = this.distance(this.state.lat, this.state.long, this.state.location.latitude, this.state.location.longitude, "K");
         this.setState({ dist })
-        // console.log(lastPosition);
+        console.log(lastPosition);
       },
       (error) => alert(JSON.stringify(error)),
-      { enableHighAccuracy: false, timeout: 20000, maximumAge: 0,distanceFilter:0.1 });
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 0,distanceFilter:0.1 });
   }
 
   getUserLogin = async () => {
@@ -179,7 +180,7 @@ export default class Index extends Component {
 
   distToMeter=()=>{
     if (this.state.dist <= 1) {
-      return this.state.dist*100;
+      return this.state.dist*1000;
     }else{
       return this.state.dist
     }
