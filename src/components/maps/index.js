@@ -36,9 +36,7 @@ export default class Maps extends Component {
   componentWillUnmount() {
     Geolocation.clearWatch(this.watchID);
   }
-
   
-
   setRegion=(region)=>{
     if (this.state.ready) {
       setTimeout(() => this.map.animateToRegion(region), 10);

@@ -41,11 +41,13 @@ export default class Index extends Component {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
+      openCamera: false
     }
   }
 
   componentDidMount() {
     this.getJenisIzin();
+    console.log('mounting')
   }
 
   getUserLogin = async () => {
@@ -70,30 +72,28 @@ export default class Index extends Component {
     this.setState({
       jenis_izin: selected,
       selected_jenis_izin: data
-    }, () => {
-      console.log('selected', this.state.jenis_izin.periode_hari)
     })
   }
 
   handlePickSwaFoto = (data) => {
     this.setState({
       image_swafoto_base64: `data:image/jpeg;base64,${data.base64}`,
-      open_swafoto: false
+      open_swafoto: false,
+      openCamera: false
     })
   }
 
   handlePickLampiran = (data) => {
     this.setState({
       image_lampiran_base64: `data:image/jpeg;base64,${data.base64}`,
-      open_lampiran: false
+      open_lampiran: false,
+      openCamera: false
     })
   }
 
   handleMapsChangeLocation = (data) => {
     this.setState({
       region:data
-    }, () => {
-      console.log('region', this.state.region)
     })
   }
 
@@ -139,6 +139,8 @@ export default class Index extends Component {
   }
 
   render() {
+    const showView = !this.state.openCamera
+
     return (
       <View style={{ flex: 1 }}>
         <NetInfo>
@@ -148,7 +150,7 @@ export default class Index extends Component {
         {(this.state.open_lampiran) &&
           <Camera onPickFoto={(data) => { this.handlePickLampiran(data) }} />
         }
-        {(!this.state.open_swafoto && !this.state.open_lampiran) &&
+        {showView &&
           <ScrollView>
             <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding' enabled>
               <View style={{ flex: 1, padding: 8 }}>
@@ -172,7 +174,7 @@ export default class Index extends Component {
                         return <IconFA5 name="camera" size={22} color='white' />;
                       }}
                       buttonColor="#808080"
-                      onPress={() => this.setState({ open_swafoto: true })}
+                      onPress={() => this.setState({ open_swafoto: true, openCamera: true })}
                     />
                   </View>
                   <View style={{ flex: 1, marginVertical: 5, marginLeft: 5 }}>
@@ -185,7 +187,7 @@ export default class Index extends Component {
                         return <IconFA5 name="file" size={22} color='white' />;
                       }}
                       buttonColor="#808080"
-                      onPress={() => this.setState({ open_lampiran: true })}
+                      onPress={() => this.setState({ open_lampiran: true, openCamera: true })}
                     />
                   </View>
                 </View>
