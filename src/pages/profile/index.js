@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, TouchableHighlight } from 'react-native'
-import { Thumbnail, Card, Toast } from 'native-base'
+import { Thumbnail, Card, Toast, Container, Content } from 'native-base'
 import { ListItem, Button, Icon } from 'react-native-elements'
 import IconFA5 from 'react-native-vector-icons/FontAwesome5'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -36,15 +36,15 @@ export default class Index extends Component {
 
     this.state = {
       apelTodayExists: false,
-      apelTodayData: {},
       spinner: true,
       user: {
         pegawai: {}
       },
-      checkinTodayExists: false,
-      checkinTodayData: {
-        date:'',
-        time:''
+      apelData: [],
+      lastApelData: {
+        id: '',
+        action_status: '',
+        apel_status: ''
       },
       location:{
         latitude: 0,
@@ -65,7 +65,6 @@ export default class Index extends Component {
       () => {
         _this = this;
         this.getUserLogin()
-        this.findApelToday()
         this.getLocation()
         // Geolocation.getCurrentPosition(info => console.table(info));
         // // console.table(this.state.location);
@@ -122,46 +121,24 @@ export default class Index extends Component {
         user: user,
       })
       // console.table(this.state.location)
-      await this.getLastCheckInToday(user.id)
+      await this.findApelOrIzinTodayByUserId(user.id)
   }
 
-  findApelToday = async () => {
-    await APIApel.FindApelToday()
-      .then(res => {
-        if(res.success) {
-          this.setState({
-            apelTodayExists: true,
-            apelTodayData: res.data,
-            spinner: false
-          })
-        } else {
-          this.setState({
-            apelTodayExists: false,
-            spinner:false
-          })
-        }
-      })
-      .catch(err => {
-        console.log('err', err)
-      })
-
-  }
-
-  getLastCheckInToday = async (userId) => {
-    await APIApel.FindLastCheckinToday(userId)
+  findApelOrIzinTodayByUserId = async (userId) => {
+    await APIApel.FindApelOrIzinTodayByUserId(userId)
             .then(res => {
               if(res.success) {
                 this.setState({
-                  checkinTodayData:{
-                    date:res.data.tanggal_checkin,
-                    time:res.data.waktu_checkin
-                  },
-                  checkinTodayExists: true,
+                  apelData: res.data,
+                  lastApelData: res.last_apel_data,
+                  apelTodayExists: true,
                   spinner: false
                 })
               } else {
                 this.setState({
-                  checkinTodayExists: false,
+                  apelData: [],
+                  lastApelData: res.last_apel_data,
+                  apelTodayExists: false,
                   spinner: false
                 })
               }
@@ -176,9 +153,8 @@ export default class Index extends Component {
                 checkinTodayExists: false,
                 spinner: false
               })
-              console.log('err', err)
             })
-  }
+  } 
 
   distToMeter=()=>{
     if (this.state.dist <= 1) {
@@ -214,148 +190,184 @@ export default class Index extends Component {
     Geolocation.clearWatch(this.watchID);
   }
   render() {
-    const showLastCheckin = this.state.checkinTodayExists
-    const showApelTodayExists = (this.state.apelTodayExists && !this.state.checkinTodayExists)
-    const showApelTodayNotExists = !this.state.apelTodayExists
-    const showButtonApel = showApelTodayExists && this.state.apelTodayData.status == 'buka'
-    const showButtonApelAndIzin = showApelTodayExists
+    const showButtonApelAndIzin = this.state.apelTodayExists
+    const showButtonApel = this.state.apelTodayExists && this.state.lastApelData.action_status == 'no-action' && this.state.lastApelData.apel_status == 'buka'
+    const showButtonIzin = this.state.apelTodayExists && this.state.lastApelData.action_status != 'checkin'
 
     return ( 
-      <NetInfo>
-      <ScrollView style={{flex:1}}>
-        <Spinner
-          visible={this.state.spinner}
-          textContent={'Loading...'}
-          textStyle={{color:'#FFF'}}
-        />
-        <View style={{alignItems: 'center', backgroundColor:'#eeeeee', paddingBottom:20}}>
-          <Thumbnail large source={require('../../assets/avatars/sari.jpg')}/> 
-          <Text style={{fontSize: 20, fontWeight: 'bold'}}>{this.state.user.name}</Text>
-        </View>
-        <View style={{marginTop:10, borderBottomColor:'#dcdcdc', borderBottomWidth:1}}>
-          <ListItem
-            containerStyle={{padding:10}}
-            title={this.state.user.username}
-            titleStyle={{color:'black'}}
-            subtitle='Nomor Induk Pegawai'
-            leftIcon={{name:'key', type:'font-awesome'}}
-            topDivider={true}
+      <Container>
+        <Content>
+        <NetInfo>
+          <Spinner
+            visible={this.state.spinner}
+            textContent={'Loading...'}
+            textStyle={{color:'#FFF'}}
           />
+          <View style={{alignItems: 'center', backgroundColor:'#eeeeee', paddingBottom:20}}>
+            <Thumbnail large source={require('../../assets/avatars/sari.jpg')}/> 
+            <Text style={{fontSize: 20, fontWeight: 'bold'}}>{this.state.user.name}</Text>
+          </View>
+          <View style={{marginTop:10, borderBottomColor:'#dcdcdc', borderBottomWidth:1}}>
+            <ListItem
+              containerStyle={{padding:10}}
+              title={this.state.user.username}
+              titleStyle={{color:'black'}}
+              subtitle='Nomor Induk Pegawai'
+              leftIcon={{name:'key', type:'font-awesome'}}
+              topDivider={true}
+            />
 
-          <ListItem
-            containerStyle={{padding:10}}
-            title={this.state.user.pegawai.satker}
-            titleStyle={{color:'black'}}
-            subtitle='Satuan Kerja'
-            leftIcon={{name:'university', type:'font-awesome'}}
-            topDivider={true}
-          />
+            <ListItem
+              containerStyle={{padding:10}}
+              title={this.state.user.pegawai.satker}
+              titleStyle={{color:'black'}}
+              subtitle='Satuan Kerja'
+              leftIcon={{name:'university', type:'font-awesome'}}
+              topDivider={true}
+            />
 
-          <ListItem
-            containerStyle={{padding:10}}
-            title='Kepala Sub Bidang'
-            titleStyle={{color:'black'}}
-            subtitle='Jabatan'
-            leftIcon={{name:'heart', type:'font-awesome'}}
-            topDivider={true}
-          />
+            <ListItem
+              containerStyle={{padding:10}}
+              title='Kepala Sub Bidang'
+              titleStyle={{color:'black'}}
+              subtitle='Jabatan'
+              leftIcon={{name:'heart', type:'font-awesome'}}
+              topDivider={true}
+            />
 
-        </View>
-        <View style={{margin:8}}>
-          {showLastCheckin &&
-            <Card style={{padding:15}}>
-              <View style={{flexDirection:'row'}}>
-                <View style={{flex:1}}>
-                  <Text style={{fontSize:14}}>Mengikuti Apel Pada: {this.state.checkinTodayData.time}</Text>
-                  <Text style={{fontWeight:'bold', fontSize:17}}>Terimakasih telah hadir</Text>
+          </View>
+          <View style={{margin:8}}>
+            {this.state.apelData.map((val, key) => {
+              // Ada apel dan ada action izin atau checkin
+              if(val.action != undefined) {
+                const textStatus = val.action_status == 'izin' ? 'Mengisi Izin' : 'Mengikuti Apel'
+                const textMessage = val.action_status == 'izin' ? 'Terimakasih telah mengisi izin' : 'Terimakasih telah mengikuti apel'
+              
+                return (
+                  <Card key={key} style={{padding:15}}>
+                    <View style={{flexDirection:'row'}}>
+                      <View style={{flex:1}}>
+                        <Text style={{fontSize:14}}>{textStatus} Pada: {val.action.time_action}</Text>
+                        <Text style={{fontWeight:'bold', fontSize:17}}>{textMessage}</Text>
+                      </View>
+                      <View style={{justifyContent:'center', flex:0.4}}>
+                        <Icon
+                          name="street-view"
+                          size={35}
+                          type='font-awesome'
+                          iconStyle={{marginRight:5}}
+                          color='#696969'
+                          />
+                      </View>
+                    </View>
+                  </Card>
+                )
+              } else {
+                  // Ada apel dan status buka
+                if(this.state.lastApelData.apel_status == 'buka') {
+                  return (
+                    <Card key={key} style={{padding:15}}>
+                      <View style={{flexDirection:'row'}}>
+                        <View style={{flex:1}}>
+                          <Text style={{fontSize:14}}>Apel dilaksanakan pada: {val.jam_apel}</Text>
+                          {this.textDistance()}
+                        </View>
+                        <View style={{justifyContent:'center', flex:0.4}}>
+                          <Icon
+                            name="user-times"
+                            size={29}
+                            type='font-awesome'
+                            iconStyle={{marginRight:5}}
+                            color='#696969'
+                          />
+                        </View>
+                      </View>
+                    </Card>
+                  )
+                  // Ada apel tetapi status tutup
+                } else if(this.state.lastApelData.apel_status == 'tutup') {
+                  return (
+                    <Card key={key} style={{padding:15}}>
+                      <View style={{flexDirection:'row'}}>
+                        <View style={{flex:1}}>
+                          <Text style={{fontSize:14}}>Apel dilaksanakan pada: {val.jam_apel}</Text>
+                          <Text style={{fontWeight:'bold', fontSize:17}}>Telah melewati waktu checkin apel</Text>
+                        </View>
+                        <View style={{justifyContent:'center', flex:0.4}}>
+                          <Icon
+                            name="user-times"
+                            size={29}
+                            type='font-awesome'
+                            iconStyle={{marginRight:5}}
+                            color='#696969'
+                          />
+                        </View>
+                      </View>
+                    </Card>
+                  )
+                }
+              }
+            })}
+            {/* Hari ini tidak ada apel */}
+            { ! this.state.apelTodayExists &&
+              <Card style={{padding:15}}>
+                <View style={{flexDirection:'row'}}>
+                  <View style={{flex:1}}>
+                    <Text style={{fontWeight:'bold', fontSize:17}}>Tidak ada Apel</Text>
+                  </View>
                 </View>
-                <View style={{justifyContent:'center', flex:0.4}}>
-                  <Icon
-                    name="street-view"
-                    size={35}
-                    type='font-awesome'
-                    iconStyle={{marginRight:5}}
-                    color='#696969'
-                    />
-                </View>
-              </View>
-            </Card>
-          }
-          { showApelTodayExists && 
-            <Card style={{padding:15}}>
-              <View style={{flexDirection:'row'}}>
-                <View style={{flex:1}}>
-                  <Text style={{fontSize:14}}>Apel dilaksanakan pada: {this.state.apelTodayData.jam_apel}</Text>
-                  {this.textDistance()}
-                </View>
-                <View style={{justifyContent:'center', flex:0.4}}>
-                  <Icon
-                    name="user-times"
-                    size={29}
-                    type='font-awesome'
-                    iconStyle={{marginRight:5}}
-                    color='#696969'
+              </Card>
+            }
+          </View>
+          { showButtonApelAndIzin &&
+            <View style={{flex:1, flexDirection:'row'}}>
+              {showButtonApel &&
+                <View style={{flex:1, margin:5}}>
+                  <Button
+                    onPress={() => this.props.navigation.navigate('ApelIndex', {apelId: this.state.lastApelData.id})}
+                    title="Hadir Apel"
+                    type="outline"
+                    buttonStyle={{borderColor:'#696969'}}
+                    titleStyle={{color:'#696969'}}
                   />
                 </View>
-              </View>
-            </Card>
-          }
-          { showApelTodayNotExists &&
-            <Card style={{padding:15}}>
-              <View style={{flexDirection:'row'}}>
-                <View style={{flex:1}}>
-                  <Text style={{fontWeight:'bold', fontSize:17}}>Tidak ada Apel</Text>
+              }
+              { showButtonIzin &&
+                <View style={{flex:1, margin:5}}>
+                  <Button
+                    onPress={() => this.props.navigation.navigate('IzinIndex', {apelId: this.state.lastApelData.id})}
+                    title="Izin Apel"
+                    type="outline"
+                    buttonStyle={{borderColor:'#696969'}}
+                    titleStyle={{color:'#696969'}}
+                  />
                 </View>
-              </View>
-            </Card>
+              }
+            </View>
           }
-        </View>
-        { showButtonApelAndIzin &&
-          <View style={{flex:1, flexDirection:'row'}}>
-            {showButtonApel &&
-              <View style={{flex:1, margin:5}}>
-                <Button
-                  onPress={() => this.props.navigation.navigate('ApelIndex', {apelId: this.state.apelTodayData.id})}
-                  title="Hadir Apel"
-                  type="outline"
-                  buttonStyle={{borderColor:'#696969'}}
-                  titleStyle={{color:'#696969'}}
-                />
-              </View>
-            }
-            <View style={{flex:1, margin:5}}>
+          <View style={{marginTop:10, alignItems:'center'}}>
+            <View>
               <Button
-                onPress={() => this.props.navigation.navigate('IzinIndex', {apelId: this.state.apelTodayData.id})}
-                title="Izin Apel"
+                onPress={() => this.props.navigation.navigate('EselonIndex')}
+                title="Statistik Peserta Apel"
                 type="outline"
                 buttonStyle={{borderColor:'#696969'}}
-                titleStyle={{color:'#696969'}}
+                titleStyle={{color:'red'}}
+                icon={
+                  <Icon
+                    name="bar-chart"
+                    size={19}
+                    type='font-awesome'
+                    iconStyle={{marginRight:5}}
+                    color='red'
+                  />
+                }
               />
             </View>
           </View>
-        }
-        <View style={{flex:1, marginTop:10, alignItems:'center'}}>
-          <View>
-            <Button
-              onPress={() => this.props.navigation.navigate('EselonIndex')}
-              title="Statistik Peserta Apel"
-              type="outline"
-              buttonStyle={{borderColor:'#696969'}}
-              titleStyle={{color:'red'}}
-              icon={
-                <Icon
-                  name="bar-chart"
-                  size={19}
-                  type='font-awesome'
-                  iconStyle={{marginRight:5}}
-                  color='red'
-                />
-              }
-            />
-          </View>
-        </View>
-      </ScrollView>
-      </NetInfo>
+        </NetInfo>
+        </Content>
+      </Container>
     )
   }
 }
