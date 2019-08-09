@@ -247,7 +247,7 @@ export default class Index extends Component {
                   <Card key={key} style={{padding:15}}>
                     <View style={{flexDirection:'row'}}>
                       <View style={{flex:1}}>
-                        <Text style={{fontSize:14}}>{textStatus} Pada: {val.action.time_action}</Text>
+                        <Text style={{fontSize:14}}>{textStatus} {val.periode} Pada: {val.action.time_action}</Text>
                         <Text style={{fontWeight:'bold', fontSize:17}}>{textMessage}</Text>
                       </View>
                       <View style={{justifyContent:'center', flex:0.4}}>
@@ -269,7 +269,7 @@ export default class Index extends Component {
                     <Card key={key} style={{padding:15}}>
                       <View style={{flexDirection:'row'}}>
                         <View style={{flex:1}}>
-                          <Text style={{fontSize:14}}>Apel dilaksanakan pada: {val.jam_apel}</Text>
+                          <Text style={{fontSize:14}}>Apel {val.periode} dilaksanakan pada: {val.jam_apel}</Text>
                           {this.textDistance()}
                         </View>
                         <View style={{justifyContent:'center', flex:0.4}}>
@@ -290,7 +290,7 @@ export default class Index extends Component {
                     <Card key={key} style={{padding:15}}>
                       <View style={{flexDirection:'row'}}>
                         <View style={{flex:1}}>
-                          <Text style={{fontSize:14}}>Apel dilaksanakan pada: {val.jam_apel}</Text>
+                          <Text style={{fontSize:14}}>Apel {val.periode} dilaksanakan pada: {val.jam_apel}</Text>
                           <Text style={{fontWeight:'bold', fontSize:17}}>Telah melewati waktu checkin apel</Text>
                         </View>
                         <View style={{justifyContent:'center', flex:0.4}}>
