@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableHighlight } from 'react-native'
+import { Text, View, TouchableHighlight, Alert } from 'react-native'
 import { Thumbnail, Card, Toast, Container, Content } from 'native-base'
 import { ListItem, Button, Icon } from 'react-native-elements'
 import IconFA5 from 'react-native-vector-icons/FontAwesome5'
@@ -98,8 +98,9 @@ export default class Index extends Component {
          this.setState({ dist })
         console.log(location);
       },
-      (error) => alert(JSON.stringify(error)),
-      { enableHighAccuracy: false, timeout: 20000, maximumAge: 0, distanceFilter: 0.1 });
+      // (error) => alert(JSON.stringify(error)),
+      (error) => Alert.alert('Peringatan!', 'Kesalahan mengambil lokasi, periksa GPS Anda'),
+      { enableHighAccuracy: false, timeout: 10000, maximumAge: 0, distanceFilter: 0.1 });
       this.watchID = Geolocation.watchPosition(
         (lastPosition) => {
           const location = {

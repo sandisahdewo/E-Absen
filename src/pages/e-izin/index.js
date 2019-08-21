@@ -39,8 +39,8 @@ export default class Index extends Component {
         pegawai: {}
       },
       region: {
-        latitude: -7.761548,
-        longitude: 113.416132,
+        latitude: 0,
+        longitude: 0,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
@@ -102,10 +102,13 @@ export default class Index extends Component {
   }
 
   storeIzin = () => {
+    console.log(this.state.region.latitude)
     const {image_lampiran_base64, image_swafoto_base64} = this.state;
     if(image_lampiran_base64 == '' || image_swafoto_base64 == '') {
       Alert.alert('Peringatan!', 'Lengkapi swafoto dan bukti izin.')
-    } else {
+    } else if(this.state.region.latitude == 0 || this.state.region.longitude == 0) {
+      Alert.alert('Peringatan!', 'Lokasi belum ditemukan.')
+    }else {
       const formData = { 
         jenis_izin_id: this.state.jenis_izin.id,
         user_id: this.state.user.id,

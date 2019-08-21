@@ -68,7 +68,8 @@ export default class Maps extends Component {
               }
               break;
             default:
-              Alert.alert("", "Error detecting your location" + error.message);
+              // Alert.alert("", "Error detecting your location" + error.message);
+              Alert.alert('Peringatan!', 'Kesalahan mengambil lokasi, periksa GPS Anda')
               // console.log();
           }
         },
