@@ -8,7 +8,7 @@ import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 import Datepicker from '../../components/input/datepicker'
 import { User } from '../../storage/async-storage'
 import {Toast} from 'native-base'
-import { Text, View, KeyboardAvoidingView, Image, ScrollView, StyleSheet, Picker } from 'react-native';
+import { Text, View, KeyboardAvoidingView, Image, ScrollView, StyleSheet, Picker, Alert } from 'react-native';
 import NetInfo from '../../components/netinfo'
 
 export default class Index extends Component {
@@ -39,8 +39,8 @@ export default class Index extends Component {
         pegawai: {}
       },
       region: {
-        latitude: -7.765437,
-        longitude: 113.243183,
+        latitude: -7.761548,
+        longitude: 113.416132,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
@@ -58,7 +58,7 @@ export default class Index extends Component {
     this.setState({
       user: user
     })
-    console.table(this.state.user)
+    // console.log(this.state.user)
   }
 
   getJenisIzin = () => {
@@ -102,44 +102,47 @@ export default class Index extends Component {
   }
 
   storeIzin = () => {
-    const formData = { 
-      jenis_izin_id: this.state.jenis_izin.id,
-      user_id: this.state.user.id,
-      apel_id: this.state.apelId,
-      foto_bukti: this.state.image_lampiran_base64,
-      dokumen_bukti: this.state.image_lampiran_base64,
-      latitude: this.state.region.latitude,
-      longitude: this.state.region.longitude,
-      tanggal_mulai_izin: this.state.tanggal_mulai_izin,
-      tanggal_selesai_izin: this.state.tanggal_selesai_izin
-    }
+    const {image_lampiran_base64, image_swafoto_base64} = this.state;
+    if(image_lampiran_base64 == '' || image_swafoto_base64 == '') {
+      Alert.alert('Peringatan!', 'Lengkapi swafoto dan bukti izin.')
+    } else {
+      const formData = { 
+        jenis_izin_id: this.state.jenis_izin.id,
+        user_id: this.state.user.id,
+        apel_id: this.state.apelId,
+        foto_bukti: this.state.image_swafoto_base64,
+        dokumen_bukti: this.state.image_lampiran_base64,
+        latitude: this.state.region.latitude,
+        longitude: this.state.region.longitude,
+        tanggal_mulai_izin: this.state.tanggal_mulai_izin,
+        tanggal_selesai_izin: this.state.tanggal_selesai_izin
+      }
 
-    console.log('form', formData)
-
-    APIIzin.postIzin(formData)
-      .then(res => {
-        if(res.success) {
+      APIIzin.postIzin(formData)
+        .then(res => {
+          if(res.success) {
+            Toast.show({
+              text: 'Izin apel berhasil!',
+              buttonText: 'Okay',
+              type:'success'
+            })
+            this.props.navigation.navigate('ProfileIndex')
+          } else {
+            Toast.show({
+              text: 'Izin apel gagal disimpan!',
+              buttonText: 'Okay',
+              type:'danger'
+            })
+          }
+        })
+        .catch(err => {
           Toast.show({
-            text: 'Izin apel berhasil!',
-            buttonText: 'Okay',
-            type:'success'
-          })
-          this.props.navigation.navigate('ProfileIndex')
-        } else {
-          Toast.show({
-            text: 'Izin apel gagal disimpan!',
+            text: err.message,
             buttonText: 'Okay',
             type:'danger'
           })
-        }
-      })
-      .catch(err => {
-        Toast.show({
-          text: err.message,
-          buttonText: 'Okay',
-          type:'danger'
         })
-      })
+    }
   }
 
   render() {

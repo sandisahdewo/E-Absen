@@ -51,10 +51,10 @@ export default class Index extends Component {
         longitude: 0,
       },
 
-      lat: -8.033809,
-      long: 112.649397,
-      // lat: -7.761548, //koordinat pemkab
-      // long: 113.416132, //koordinat pemkab
+      // lat: -8.033809,
+      // long: 112.649397,
+      lat: -7.761548, //koordinat pemkab
+      long: 113.416132, //koordinat pemkab
       dist:0
     }
 
@@ -127,6 +127,7 @@ export default class Index extends Component {
   findApelOrIzinTodayByUserId = async (userId) => {
     await APIApel.FindApelOrIzinTodayByUserId(userId)
             .then(res => {
+              console.log('serv', res)
               if(res.success) {
                 this.setState({
                   apelData: res.data,
@@ -192,7 +193,7 @@ export default class Index extends Component {
   render() {
     const showButtonApelAndIzin = this.state.apelTodayExists
     const showButtonApel = this.state.apelTodayExists && this.state.lastApelData.action_status == 'no-action' && this.state.lastApelData.apel_status == 'buka'
-    const showButtonIzin = this.state.apelTodayExists && this.state.lastApelData.action_status != 'checkin'
+    const showButtonIzin = this.state.apelTodayExists && this.state.lastApelData.izin_apel_status != 'tutup'
 
     return ( 
       <Container>
@@ -219,19 +220,10 @@ export default class Index extends Component {
 
             <ListItem
               containerStyle={{padding:10}}
-              title={this.state.user.pegawai.satker}
+              title={this.state.user.pegawai.satuan_kerja}
               titleStyle={{color:'black'}}
               subtitle='Satuan Kerja'
               leftIcon={{name:'university', type:'font-awesome'}}
-              topDivider={true}
-            />
-
-            <ListItem
-              containerStyle={{padding:10}}
-              title='Kepala Sub Bidang'
-              titleStyle={{color:'black'}}
-              subtitle='Jabatan'
-              leftIcon={{name:'heart', type:'font-awesome'}}
               topDivider={true}
             />
 
@@ -264,7 +256,7 @@ export default class Index extends Component {
                 )
               } else {
                   // Ada apel dan status buka
-                if(this.state.lastApelData.apel_status == 'buka') {
+                if(val.status == 'buka') {
                   return (
                     <Card key={key} style={{padding:15}}>
                       <View style={{flexDirection:'row'}}>
@@ -285,13 +277,33 @@ export default class Index extends Component {
                     </Card>
                   )
                   // Ada apel tetapi status tutup
-                } else if(this.state.lastApelData.apel_status == 'tutup') {
+                } else if(val.status == 'tutup') {
                   return (
                     <Card key={key} style={{padding:15}}>
                       <View style={{flexDirection:'row'}}>
                         <View style={{flex:1}}>
                           <Text style={{fontSize:14}}>Apel {val.periode} dilaksanakan pada: {val.jam_apel}</Text>
                           <Text style={{fontWeight:'bold', fontSize:17}}>Telah melewati waktu checkin apel</Text>
+                        </View>
+                        <View style={{justifyContent:'center', flex:0.4}}>
+                          <Icon
+                            name="user-times"
+                            size={29}
+                            type='font-awesome'
+                            iconStyle={{marginRight:5}}
+                            color='#696969'
+                          />
+                        </View>
+                      </View>
+                    </Card>
+                  )
+                } else if(val.status == 'belum-mulai') {
+                  return (
+                    <Card key={key} style={{padding:15}}>
+                      <View style={{flexDirection:'row'}}>
+                        <View style={{flex:1}}>
+                          <Text style={{fontSize:14}}>Apel {val.periode} dilaksanakan pada: {val.jam_apel}</Text>
+                          <Text style={{fontWeight:'bold', fontSize:17}}>Apel belum dimulai</Text>
                         </View>
                         <View style={{justifyContent:'center', flex:0.4}}>
                           <Icon

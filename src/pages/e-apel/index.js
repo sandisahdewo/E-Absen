@@ -30,20 +30,20 @@ export default class Index extends Component {
       image_uri: '',
       check_in: [],
       region: {
-        latitude: -8.033798,
-        longitude: 112.648927,
-        // latitude: -7.761548, //koordinat pemkab
-        // longitude: 113.416132, //koordinat pemkab
+        // latitude: -8.033798,
+        // longitude: 112.648927,
+        latitude: -7.761548, //koordinat pemkab
+        longitude: 113.416132, //koordinat pemkab
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
       user: {
         pegawai: {}
       },
-      lat: -8.033798,
-      long: 112.648927,
-      // lat: -7.761548, //koordinat pemkab
-      // long: 113.416132, //koordinat pemkab
+      // lat: -8.033798,
+      // long: 112.648927,
+      lat: -7.761548, //koordinat pemkab
+      long: 113.416132, //koordinat pemkab
       dist: 0,
       updatesEnabled: false,
       lastPosition:'',

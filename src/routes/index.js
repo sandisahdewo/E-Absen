@@ -6,6 +6,7 @@ import ProfileIndex from '../pages/profile'
 import ApelIndex from '../pages/e-apel'
 import IzinIndex from '../pages/e-izin'
 import EselonIndex from '../pages/e-eselon'
+import RekapAbsenIndex from '../pages/rekap-absen'
 
 import {
   createStackNavigator,
@@ -22,6 +23,9 @@ const LoginStack = createStackNavigator({
 })
 
 const PageStack = createStackNavigator({
+  // RekapAbsenIndex: {
+  //   screen: RekapAbsenIndex
+  // },
   ProfileIndex: {
     screen: ProfileIndex
   },
