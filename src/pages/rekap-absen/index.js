@@ -3,6 +3,7 @@ import {View, Text} from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { ListItem } from 'react-native-elements'
 import APIApel from '../../services/apel'
+import { User } from '../../storage/async-storage'
 
 export default class Index extends Component {
   
@@ -21,18 +22,26 @@ export default class Index extends Component {
     this.state = {
       listApel: {
         
+      },
+      user: {
+        pegawai: {}
       }
     }
   }
 
   componentDidMount() {
-    this.getReport();
+    this.getUserLogin();
   }
+
+  getUserLogin = async () => {
+    const user = await User.getUserLogin()
+    await this.getReport(user.id);
+}
 
   keyExtractor = (item, index) => index.toString()
 
   renderItem = ({item}) => {
-    const icon = item.keterangan.name == 'izin_apel' ? 'flight-takeoff' : item.keterangan.name == 'hadir_apel' ? 'check' : item.keterangan.name == 'tanpa_keterangan' ? 'close' : 'timer' 
+    const icon = item.keterangan.name == 'izin_apel' ? 'flight-takeoff' : item.keterangan.name == 'hadir_apel' ? 'check' : item.keterangan.name == 'tanpa_keterangan' ? 'close' : item.keterangan.name == 'sedang_berlangsung' ? 'schedule' : 'timer' 
     const concateTanggalAndPeriode = `${item.apel.tanggal_view} - ${item.apel.periode}`
     return (
       <ListItem
@@ -45,8 +54,8 @@ export default class Index extends Component {
     )
   }
 
-  getReport = () => {
-    APIApel.GetReportPegawaiPerMonth(614)
+  getReport = (userid) => {
+    APIApel.GetReportPegawaiPerMonth(userid)
       .then(res => {
         this.setState({
           listApel: res,

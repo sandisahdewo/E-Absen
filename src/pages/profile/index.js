@@ -207,7 +207,7 @@ export default class Index extends Component {
   render() {
     const showButtonApelAndIzin = this.state.apelTodayExists
     const showButtonApel = this.state.apelTodayExists && this.state.lastApelData.action_status == 'no-action' && this.state.lastApelData.apel_status == 'buka'
-    const showButtonIzin = this.state.apelTodayExists && this.state.lastApelData.izin_apel_status != 'tutup'
+    const showButtonIzin = this.state.apelTodayExists && this.state.lastApelData.izin_apel_status != 'tutup' && this.state.lastApelData.action_status == 'no-action'
 
     return ( 
       <Container>
