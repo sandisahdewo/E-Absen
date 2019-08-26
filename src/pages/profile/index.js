@@ -8,7 +8,7 @@ import Spinner from 'react-native-loading-spinner-overlay'
 import APIApel from '../../services/apel'
 import NetInfo from '../../components/netinfo'
 import Geolocation from '@react-native-community/geolocation';
-import {RootPath} from '../../services/config/path'
+import {WebPath} from '../../services/config/path'
 
 let _this;
 
@@ -56,7 +56,7 @@ export default class Index extends Component {
       lat: -7.761548, //koordinat pemkab
       long: 113.416132, //koordinat pemkab
       dist:0,
-      profile_image: `${RootPath}/foto_profil/default.png`
+      profile_image: `${WebPath}/foto_profil/default.png`
     }
 
   }
@@ -135,7 +135,7 @@ export default class Index extends Component {
 
   handleFotoNotFound = () => {
     this.setState({
-      profile_image: `${RootPath}/foto_profil/default.png`
+      profile_image: `${WebPath}/foto_profil/default.png`
     })
   }
 
@@ -232,7 +232,7 @@ export default class Index extends Component {
           <View style={{marginTop:10, borderBottomColor:'#dcdcdc', borderBottomWidth:1}}>
             <ListItem
               containerStyle={{padding:10}}
-              title={this.state.user.username}
+              title={this.state.user.pegawai.nip_baru}
               titleStyle={{color:'black'}}
               subtitle='Nomor Induk Pegawai'
               leftIcon={{name:'key', type:'font-awesome'}}

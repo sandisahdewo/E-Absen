@@ -20,6 +20,10 @@ export default class Index extends Component {
     super(props)
     this.state = {
       spinner: true,
+      responseStatus: {
+        success: true,
+        type:'apel_not_exist'
+      },
       statistik: {
         apel: {},
         hadir: 0,
@@ -40,22 +44,20 @@ export default class Index extends Component {
       .then(res => {
         if(res.success) {
           this.setState({
+            responseStatus: {
+              success: res.success,
+              type: res.type
+            },
             statistik: res.data,
             spinner: false
           })
         } else {
-          Toast.show({
-            text: res.message,
-            buttonText: 'Okay',
-            type:'danger'
-          })
           this.setState({
             spinner: false
           })
         }
       })
       .catch(err => {
-        console.log('err', err)
         this.setState({
           spinner: false
         })
@@ -80,13 +82,19 @@ export default class Index extends Component {
   }
 
   render() {
+    const responseSuccess = this.state.responseStatus.success == true
+    const apelNotExist = responseSuccess && this.state.responseStatus.type == 'apel_not_exist'
+    const apelCloseExist = responseSuccess && this.state.responseStatus.type == 'apel_close_exist'
+    const apelCloseNotExist = responseSuccess && this.state.responseStatus.type == 'apel_close_not_exist'
+    
     return (
-      <ScrollView>
+      <View style={{flex:1}}>
         <Spinner
           visible={this.state.spinner}
           textContent={'Loading...'}
           textStyle={{color:'#FFF'}}
         />
+        {apelCloseExist && 
         <View style={{flex:1, marginHorizontal:10}}>
           <View style={{marginBottom:10, flexDirection:'row'}}>
             <Text>Laporan E-Apel, Tanggal </Text>
@@ -171,11 +179,23 @@ export default class Index extends Component {
                     color='#696969'
                   />
                 }
+                onPress={() => this.props.navigation.navigate('ProfileIndex')}
               />
             </View>
           </View>
         </View>
-      </ScrollView>
+        }
+        {apelNotExist && 
+          <View style={{justifyContent:'center', alignItems:'center', flex:1}}>
+            <Text style={{fontSize:18}}>Tidak ada apel hari ini</Text>
+          </View>
+        }
+        {apelCloseNotExist && 
+          <View style={{justifyContent:'center', alignItems:'center', flex:1}}>
+            <Text style={{fontSize:18}}>Apel periode sekarang belum tutup</Text>
+          </View>
+        }
+      </View>
     )
   }
 
