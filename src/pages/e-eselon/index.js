@@ -158,22 +158,6 @@ export default class Index extends Component {
           <View style={{flex:1, marginTop:20}}>
             <View style={{alignSelf:'stretch'}}>
               <Button
-                title="SPEECH"
-                type="outline"
-                buttonStyle={{borderColor:'#696969'}}
-                titleStyle={{color:'#696969'}}
-                icon={
-                  <Icon
-                    name="bullhorn"
-                    size={19}
-                    type='font-awesome'
-                    iconStyle={{marginRight:5}}
-                    color='#696969'
-                  />
-                }
-              />
-          
-              <Button
                 title="OK"
                 type="outline"
                 buttonStyle={{borderColor:'#696969', marginTop:15, marginBottom:5}}

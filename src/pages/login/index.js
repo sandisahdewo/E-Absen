@@ -3,7 +3,7 @@ import APILogin from '../../services/login'
 import { User } from '../../storage/async-storage'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { Text, View, KeyboardAvoidingView, Image } from 'react-native'
-import { Container, Item, Input, Icon, Button, Card, CheckBox, Toast } from 'native-base'
+import { Container, Item, Input, Icon, Button, Card, Toast } from 'native-base'
 
 export default class Index extends Component {
 
@@ -19,8 +19,19 @@ export default class Index extends Component {
       validation: {
         username:'',
         password:'',
-      }
+      },
+
+      imei: ''
     }
+  }
+
+  componentDidMount = () => {
+    const IMEI = require('react-native-imei');
+    IMEI.getImei().then(imeiList => {
+      this.setState({
+        imei: imeiList[0]
+      })
+    });
   }
 
   toggleRememberMe = () => {
@@ -44,15 +55,14 @@ export default class Index extends Component {
           <KeyboardAvoidingView behavior="padding">
             <View style={{justifyContent:'center', flexDirection:'row'}}>
               <Image
-                style={{width:80, height:80}}
-                source={require('../../assets/icons/fingerprint.jpg')}
+                style={{width:110, height:143}}
+                source={require('../../assets/icons/logo_kab_probolinggo.png')}
                 />
             </View>
             <Card style={{paddingHorizontal:10, paddingVertical:10, marginTop:10}}>
               <View style={{justifyContent: 'center', marginBottom:20, flexDirection:'row'}}>
                 <Text style={{fontSize:16, textAlign:'center'}}>
-                  Aplikasi {"\n"}
-                  E-Izin & E-Apel {"\n"}
+                  Aplikasi E-Apel {"\n"}
                   Pemerintah Kabupaten Probolinggo
                 </Text>
               </View>
@@ -63,7 +73,7 @@ export default class Index extends Component {
               </View>
               <Item error={hasErrorUsername}>
                 <Icon active name='person' />
-                <Input placeholder='NIK Pegawai' onChangeText={(username) => this.setState({username})}/>
+                <Input placeholder='ID Mesin' onChangeText={(username) => this.setState({username})}/>
               </Item>
               <Text style={{color:'red'}}>{this.state.validation.username}</Text>
               <Item error={hasErrorPassword}>
@@ -71,10 +81,14 @@ export default class Index extends Component {
                 <Input secureTextEntry placeholder='Password' onChangeText={(password) => this.setState({password})}/>
               </Item>
               <Text style={{color:'red'}}>{this.state.validation.password}</Text>
+              <Item>
+                <Icon active name='barcode' />
+                <Input value={this.state.imei} disabled/>
+              </Item>
               <View style={{marginTop:10, flexDirection:'row', justifyContent:'space-between'}}>
                 <View style={{flexDirection:'row', alignItems:'center'}}>
-                  <CheckBox checked={this.state.remember_me} onPress={this.toggleRememberMe} style={{marginRight:15}} />
-                  <Text>Remember Me</Text>
+                  {/* <CheckBox checked={this.state.remember_me} onPress={this.toggleRememberMe} style={{marginRight:15}} />
+                  <Text>Remember Me</Text> */}
                 </View>
                 <View style={{flexDirection:'row'}}>
                   <Button block info style={{backgroundColor:"#2089dc", height:40, paddingHorizontal:20}}
@@ -98,7 +112,8 @@ export default class Index extends Component {
     })
     const formData = {
       username: this.state.username,
-      password: this.state.password
+      password: this.state.password,
+      imei: this.state.imei
     }
     
     await APILogin.Attempt(formData)

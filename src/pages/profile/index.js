@@ -3,12 +3,12 @@ import { Text, View, TouchableHighlight, Alert } from 'react-native'
 import { Thumbnail, Card, Toast, Container, Content } from 'native-base'
 import { ListItem, Button, Icon } from 'react-native-elements'
 import IconFA5 from 'react-native-vector-icons/FontAwesome5'
-import { ScrollView } from 'react-native-gesture-handler'
 import { User } from '../../storage/async-storage'
 import Spinner from 'react-native-loading-spinner-overlay'
 import APIApel from '../../services/apel'
 import NetInfo from '../../components/netinfo'
 import Geolocation from '@react-native-community/geolocation';
+import {RootPath} from '../../services/config/path'
 
 let _this;
 
@@ -55,7 +55,8 @@ export default class Index extends Component {
       // long: 112.649397,
       lat: -7.761548, //koordinat pemkab
       long: 113.416132, //koordinat pemkab
-      dist:0
+      dist:0,
+      profile_image: `${RootPath}/foto_profil/default.png`
     }
 
   }
@@ -123,12 +124,24 @@ export default class Index extends Component {
       })
       // console.table(this.state.location)
       await this.findApelOrIzinTodayByUserId(user.id)
+      await this.getProfileImage()
+  }
+
+  getProfileImage = () => {
+    this.setState({
+      profile_image: `http://ia.simmon.web.id/foto/foto_blob_other/${this.state.user.pegawai.nip_baru}.jpeg`
+    })
+  }
+
+  handleFotoNotFound = () => {
+    this.setState({
+      profile_image: `${RootPath}/foto_profil/default.png`
+    })
   }
 
   findApelOrIzinTodayByUserId = async (userId) => {
     await APIApel.FindApelOrIzinTodayByUserId(userId)
             .then(res => {
-              console.log('serv', res)
               if(res.success) {
                 this.setState({
                   apelData: res.data,
@@ -206,7 +219,8 @@ export default class Index extends Component {
             textStyle={{color:'#FFF'}}
           />
           <View style={{alignItems: 'center', backgroundColor:'#eeeeee', paddingBottom:20}}>
-            <Thumbnail large source={require('../../assets/avatars/sari.jpg')}/> 
+            {/* <Thumbnail large source={{uri: `http://ia.simmon.web.id/foto/foto_blob_other/${this.state.user.pegawai.nip_baru}.jpeg`}} onError={() => this.handleFotoNotFound()}/>  */}
+            <Thumbnail large source={{uri: this.state.profile_image }} onError={() => this.handleFotoNotFound()}/> 
             <Text style={{fontSize: 20, fontWeight: 'bold'}}>{this.state.user.name}</Text>
           </View>
           <View style={{marginTop:10, borderBottomColor:'#dcdcdc', borderBottomWidth:1}}>

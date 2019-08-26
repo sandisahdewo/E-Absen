@@ -3,6 +3,7 @@ package com.absensi;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import codes.simen.IMEI.IMEI;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.showlocationservicesdialogbox.LocationServicesDialogBoxPackage;
@@ -30,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new IMEI(),
             new NetInfoPackage(),
             new AsyncStoragePackage(),
             new LocationServicesDialogBoxPackage(),
