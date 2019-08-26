@@ -6,6 +6,15 @@ import APIApel from '../../services/apel'
 
 export default class Index extends Component {
   
+  static navigationOptions = {
+    headerStyle: {
+      backgroundColor: '#eeeeee',
+      elevation: 0
+    },
+    headerTintColor: '#808080',
+    title: 'Rekap Apel',
+  };
+
   constructor(props) {
     super(props)
 
@@ -27,7 +36,7 @@ export default class Index extends Component {
     const concateTanggalAndPeriode = `${item.apel.tanggal_view} - ${item.apel.periode}`
     return (
       <ListItem
-        containerStyle={{height:50}}
+        containerStyle={{height:60}}
         title={concateTanggalAndPeriode}
         subtitle={item.keterangan.text}
         leftIcon={{name: icon}}
@@ -50,9 +59,7 @@ export default class Index extends Component {
   render() {
     return(
       <View>
-        <View style={{alignItems:'center'}}>
-        </View>
-        <View>
+        <View style={{paddingTop:5}}>
           <FlatList
             keyExtractor={this.keyExtractor}
             data={this.state.listApel}

@@ -222,6 +222,12 @@ export default class Index extends Component {
             {/* <Thumbnail large source={{uri: `http://ia.simmon.web.id/foto/foto_blob_other/${this.state.user.pegawai.nip_baru}.jpeg`}} onError={() => this.handleFotoNotFound()}/>  */}
             <Thumbnail large source={{uri: this.state.profile_image }} onError={() => this.handleFotoNotFound()}/> 
             <Text style={{fontSize: 20, fontWeight: 'bold'}}>{this.state.user.name}</Text>
+            <Button 
+             title="Rekap Apel"
+             type="outline"
+             buttonStyle={{padding:3, paddingTop:-2, marginTop:14}}
+             onPress={() => this.props.navigation.navigate('RekapAbsenIndex')}
+            />
           </View>
           <View style={{marginTop:10, borderBottomColor:'#dcdcdc', borderBottomWidth:1}}>
             <ListItem

@@ -23,11 +23,11 @@ const LoginStack = createStackNavigator({
 })
 
 const PageStack = createStackNavigator({
-  // RekapAbsenIndex: {
-  //   screen: RekapAbsenIndex
-  // },
   ProfileIndex: {
     screen: ProfileIndex
+  },
+  RekapAbsenIndex: {
+    screen: RekapAbsenIndex
   },
   IzinIndex: {
     screen: IzinIndex
