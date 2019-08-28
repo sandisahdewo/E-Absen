@@ -98,7 +98,7 @@ export default class Index extends Component {
   );
   
   buttonCheckinOrIzin=()=>{
-    if (this.state.dist >= 5) {
+    if (this.state.dist > 0.05) {
       return <Button
           onPress={() => this.props.navigation.navigate('IzinIndex')}
           title="Izin Apel"
@@ -132,7 +132,7 @@ export default class Index extends Component {
       return <ActivityIndicator></ActivityIndicator>
     }
 
-    if (this.state.dist >= 0.05) {
+    if (this.state.dist > 0.05) {
       return <Text>Hai {this.state.user.pegawai.nama}, lokasi Anda berjarak {this.state.dist} Kilometer, Anda tidak boleh checkin</Text>
     } else {
       return <Text>Hai {this.state.user.pegawai.nama}, lokasi Anda berjarak {this.state.dist} Kilometer, silakan cek in untuk mengikuti apel.</Text>

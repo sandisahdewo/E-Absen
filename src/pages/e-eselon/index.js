@@ -105,7 +105,7 @@ export default class Index extends Component {
           <View style={{backgroundColor: 'red', padding:15}}>
             <View style={{flexDirection:'row'}}>
               <Icon name="bar-chart" size={24} type='font-awesome' iconStyle={{marginRight:5}} color='white' />
-              <Text style={{color:'white', fontSize:18}}>Statistik Apel Dinas Penanaman Modal</Text>
+              <Text style={{color:'white', fontSize:18}}>Statistik Apel periode {this.state.statistik.apel.periode}</Text>
             </View>
           </View>
 
