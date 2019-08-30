@@ -91,7 +91,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -102,7 +102,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.absensi"
+        applicationId "com.eapelprolink"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -124,7 +124,7 @@ android {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
             universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+            include "armeabi-v7a", "arm64-v8a"
         }
     }
     buildTypes {
@@ -150,6 +150,7 @@ android {
 }
 
 dependencies {
+    // implementation project(':react-native-android-location-enabler')
     implementation project(':react-native-imei')
     implementation project(':@react-native-community_netinfo')
     implementation project(':@react-native-community_async-storage')

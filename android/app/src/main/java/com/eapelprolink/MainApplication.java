@@ -1,21 +1,22 @@
-package com.absensi;
+package com.eapelprolink;
 
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import codes.simen.IMEI.IMEI;
-import com.reactnativecommunity.netinfo.NetInfoPackage;
-import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
-import com.showlocationservicesdialogbox.LocationServicesDialogBoxPackage;
-import com.reactnativecommunity.geolocation.GeolocationPackage;
-import org.reactnative.camera.RNCameraPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
+import com.airbnb.android.react.maps.MapsPackage;
+import codes.simen.IMEI.IMEI;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import org.reactnative.camera.RNCameraPackage;
+import com.showlocationservicesdialogbox.LocationServicesDialogBoxPackage;
+import com.reactnativecommunity.netinfo.NetInfoPackage;
+import com.reactnativecommunity.geolocation.GeolocationPackage;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.airbnb.android.react.maps.MapsPackage;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,15 +32,15 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new IMEI(),
-            new NetInfoPackage(),
-            new AsyncStoragePackage(),
-            new LocationServicesDialogBoxPackage(),
-            new GeolocationPackage(),
-            new RNCameraPackage(),
             new VectorIconsPackage(),
+            new MapsPackage(),
+            new IMEI(),
             new RNGestureHandlerPackage(),
-            new MapsPackage()
+            new RNCameraPackage(),
+            new LocationServicesDialogBoxPackage(),
+            new NetInfoPackage(),
+            new GeolocationPackage(),
+            new AsyncStoragePackage()
       );
     }
 

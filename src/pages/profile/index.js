@@ -53,8 +53,8 @@ export default class Index extends Component {
 
       // lat: -8.033809,
       // long: 112.649397,
-      lat: -7.761548, //koordinat pemkab
-      long: 113.416132, //koordinat pemkab
+      lat: -7.761506, //koordinat pemkab
+      long: 113.4156582, //koordinat pemkab
       dist:0,
       profile_image: `${WebPath}/foto_profil/default.png`
     }
@@ -66,7 +66,6 @@ export default class Index extends Component {
       () => {
         _this = this;
         this.getUserLogin()
-        this.getLocation()
         // Geolocation.getCurrentPosition(info => console.table(info));
         // // console.table(this.state.location);
       }
@@ -207,7 +206,7 @@ export default class Index extends Component {
   render() {
     const showButtonApelAndIzin = this.state.apelTodayExists
     const showButtonApel = this.state.apelTodayExists && this.state.lastApelData.action_status == 'no-action' && this.state.lastApelData.apel_status == 'buka' && this.state.dist <= 0.05
-    const showButtonIzin = this.state.apelTodayExists && this.state.lastApelData.izin_apel_status != 'tutup' && this.state.lastApelData.action_status == 'no-action'
+    const showButtonIzin = this.state.apelTodayExists && this.state.lastApelData.izin_apel_status != 'tutup' && this.state.lastApelData.action_status == 'no-action' && this.state.dist > 0.05
 
     return ( 
       <Container>

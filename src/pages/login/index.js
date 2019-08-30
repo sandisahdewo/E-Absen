@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import APILogin from '../../services/login'
 import { User } from '../../storage/async-storage'
 import Spinner from 'react-native-loading-spinner-overlay'
-import { Text, View, KeyboardAvoidingView, Image } from 'react-native'
+import { Text, View, KeyboardAvoidingView, Image, PermissionsAndroid } from 'react-native'
 import { Container, Item, Input, Icon, Button, Card, Toast } from 'native-base'
 
 export default class Index extends Component {
@@ -25,7 +25,31 @@ export default class Index extends Component {
     }
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
+    await this.requestPhonePermission()
+  }
+
+  requestPhonePermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE, {
+          'title': 'Aplikasi memerlukan akses ke telepon.',
+          'message': 'Izinkan untuk dapat menggunakan aplikasi.',
+          'buttonPositive': 'OK'
+        }
+      )
+      if(granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('permission granted')
+        this.getImei()
+      } else {
+        console.log('permission not granted')
+      }
+    } catch (error) {
+      console.warn(error)
+    }
+  }
+
+  getImei = () => {
     const IMEI = require('react-native-imei');
     IMEI.getImei().then(imeiList => {
       this.setState({
