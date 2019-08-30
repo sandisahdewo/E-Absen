@@ -96,14 +96,33 @@ export default class Index extends Component {
   );
   
   buttonCheckinOrIzin=()=>{
-    if (this.state.dist > 0.05) {
+    if (this.state.dist > 0.1) {
+      // return <Button
+      //     onPress={() => this.props.navigation.navigate('IzinIndex')}
+      //     title="Izin Apel"
+      //     type="outline"
+      //     buttonStyle={{ borderColor: '#696969' }}
+      //     titleStyle={{ color: '#696969' }}
+      //   />
+
       return <Button
-          onPress={() => this.props.navigation.navigate('IzinIndex')}
-          title="Izin Apel"
-          type="outline"
-          buttonStyle={{ borderColor: '#696969' }}
-          titleStyle={{ color: '#696969' }}
-        />
+        title="Cek In"
+        type="outline"
+        disabled={(this.state.image_base64 == '') ? true : false}
+        buttonStyle={{ borderColor: '#696969' }}
+        titleStyle={{ color: '#696969' }}
+        onPress={() => this.checkin()}
+        disabled
+        icon={
+          <Icon
+            name="flag"
+            size={19}
+            type='font-awesome'
+            iconStyle={{ marginRight: 5 }}
+            color='#696969'
+          />
+        }
+      />
     } else {
       return <Button
         title="Cek In"
@@ -130,7 +149,7 @@ export default class Index extends Component {
       return <ActivityIndicator></ActivityIndicator>
     }
 
-    if (this.state.dist > 0.05) {
+    if (this.state.dist > 0.1) {
       return <Text>Hai {this.state.user.pegawai.nama}, lokasi Anda berjarak {this.state.dist} Kilometer, Anda tidak boleh checkin</Text>
     } else {
       return <Text>Hai {this.state.user.pegawai.nama}, lokasi Anda berjarak {this.state.dist} Kilometer, silakan cek in untuk mengikuti apel.</Text>

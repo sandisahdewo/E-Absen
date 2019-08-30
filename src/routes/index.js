@@ -7,6 +7,7 @@ import ApelIndex from '../pages/e-apel'
 import IzinIndex from '../pages/e-izin'
 import EselonIndex from '../pages/e-eselon'
 import RekapAbsenIndex from '../pages/rekap-absen'
+import ChangePasswordIndex from '../pages/change-password'
 
 import {
   createStackNavigator,
@@ -28,6 +29,9 @@ const PageStack = createStackNavigator({
   },
   RekapAbsenIndex: {
     screen: RekapAbsenIndex
+  },
+  ChangePasswordIndex: {
+    screen: ChangePasswordIndex
   },
   IzinIndex: {
     screen: IzinIndex

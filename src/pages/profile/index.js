@@ -29,6 +29,15 @@ export default class Index extends Component {
         </TouchableHighlight>
       </View>
     ),
+    headerRight: (
+      <View>
+        <TouchableHighlight onPress={() => _this.changePassword()}>
+          <View style={{marginRight: 15}}>
+            <Icon name="lock" size={22} color="#808080"/>
+          </View>
+        </TouchableHighlight>
+      </View>
+    )
   }
 
   constructor(props) {
@@ -188,7 +197,7 @@ export default class Index extends Component {
 
   textDistance = () => {
     // return <Text>{this.state.dist}</Text>
-    if (this.state.dist > 0.05) { //jika jarak 0.1km atau 100m
+    if (this.state.dist > 0.1) { //jika jarak 0.1km atau 100m
       return <Text style={{ fontWeight: 'bold', fontSize: 17 }}>Anda tidak berada pada lokasi Apel, lokasi Anda berjarak {this.distToMeter()} {this.meterOrKilo()}</Text>
     } else {
       return <Text style={{ fontWeight: 'bold', fontSize: 17 }}>lokasi Anda berjarak {this.distToMeter()} {this.meterOrKilo()}</Text>
@@ -200,13 +209,17 @@ export default class Index extends Component {
     this.props.navigation.navigate('Auth')
   }
 
+  changePassword = () => {
+    this.props.navigation.navigate('ChangePasswordIndex')
+  }
+
   componentWillUnmount = () => {
     Geolocation.clearWatch(this.watchID);
   }
   render() {
     const showButtonApelAndIzin = this.state.apelTodayExists
-    const showButtonApel = this.state.apelTodayExists && this.state.lastApelData.action_status == 'no-action' && this.state.lastApelData.apel_status == 'buka' && this.state.dist <= 0.05
-    const showButtonIzin = this.state.apelTodayExists && this.state.lastApelData.izin_apel_status != 'tutup' && this.state.lastApelData.action_status == 'no-action' && this.state.dist > 0.05
+    const showButtonApel = this.state.apelTodayExists && this.state.lastApelData.action_status == 'no-action' && this.state.lastApelData.apel_status == 'buka' && this.state.dist <= 0.1
+    const showButtonIzin = this.state.apelTodayExists && this.state.lastApelData.izin_apel_status != 'tutup' && this.state.lastApelData.action_status == 'no-action' && this.state.dist > 0.1
 
     return ( 
       <Container>
