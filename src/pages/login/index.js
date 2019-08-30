@@ -15,6 +15,7 @@ export default class Index extends Component {
       remember_me: false,
       username:'',
       password:'',
+      showPassword: false,
 
       validation: {
         username:'',
@@ -64,6 +65,12 @@ export default class Index extends Component {
     })
   }
 
+  toggleHideShowPassword = () => {
+    this.setState({
+      showPassword: !this.state.showPassword
+    })
+  }
+
   render() {
     const hasErrorUsername = this.state.validation.username ? true : false;
     const hasErrorPassword = this.state.validation.password ? true : false;
@@ -102,7 +109,10 @@ export default class Index extends Component {
               <Text style={{color:'red'}}>{this.state.validation.username}</Text>
               <Item error={hasErrorPassword}>
                 <Icon active name='lock' />
-                <Input secureTextEntry placeholder='Password' onChangeText={(password) => this.setState({password})}/>
+                <Input secureTextEntry={!this.state.showPassword} placeholder='Password' onChangeText={(password) => this.setState({password})}/>
+                <Button iconLeft dark transparent onPress={() => this.toggleHideShowPassword()}>
+                  <Icon name={this.state.showPassword ? 'eye' : 'eye-off'}/>
+                </Button>
               </Item>
               <Text style={{color:'red'}}>{this.state.validation.password}</Text>
               <Item>
