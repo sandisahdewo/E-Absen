@@ -167,7 +167,8 @@ export default class Index extends Component {
                 Toast.show({
                   text: res.message,
                   buttonText: 'Oops',
-                  type:'danger'
+                  type:'danger',
+                  duration: 5000
                 })
                 this.setState({
                   spinner: false
@@ -189,7 +190,8 @@ export default class Index extends Component {
                 Toast.show({
                   text: err.message,
                   buttonText: 'Oops',
-                  type:'danger'
+                  type:'danger',
+                  duration: 5000
                 })
               }
               this.setState({

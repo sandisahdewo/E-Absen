@@ -110,10 +110,8 @@ export default class Index extends Component {
         />
         {apelCloseExist && 
         <View style={{flex:1, marginHorizontal:10}}>
-          <View style={{marginBottom:10, flexDirection:'row'}}>
-            <Text>Laporan E-Apel, Tanggal </Text>
-            <Text style={{fontWeight:'bold'}}>{this.state.statistik.apel.tanggal_view}</Text>
-            <Text> sebagai berikut:</Text>
+          <View style={{marginBottom:10}}>
+            <Text>Laporan e-Apel, Tanggal {this.state.statistik.apel.tanggal_view} periode {this.state.statistik.apel.periode} sebagai berikut:</Text>
           </View>
 
           <View style={{backgroundColor: 'red', padding:15}}>

@@ -226,7 +226,8 @@ export default class Index extends Component {
         Toast.show({
           text: 'Check in apel berhasil!',
           buttonText: 'Okay',
-          type:'success'
+          type:'success',
+          duration: 5000
         })
         this.props.navigation.navigate('ProfileIndex')
       })
@@ -234,7 +235,8 @@ export default class Index extends Component {
         Toast.show({
           text: err.message,
           buttonText: 'Okay',
-          type:'danger'
+          type:'danger',
+          duration: 5000
         })
         console.log('err', err)
       })

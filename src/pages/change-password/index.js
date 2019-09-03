@@ -1,7 +1,9 @@
 import React,{Component} from 'react'
 import {View, Text, KeyboardAvoidingView} from 'react-native'
-import {Container, Content, Item, Input, Button, Icon} from 'native-base'
+import {Container, Content, Item, Input, Button, Icon, Toast} from 'native-base'
 import { User } from '../../storage/async-storage'
+import APIUser from '../../services/user'
+import Spinner from 'react-native-loading-spinner-overlay'
 
 export default class Index extends Component {
 
@@ -18,6 +20,7 @@ export default class Index extends Component {
     super(props)
 
     this.state = {
+      spinner: false,
       user: {
         pegawai: {}
       },
@@ -42,7 +45,8 @@ export default class Index extends Component {
   getUserLogin = async () => {
     const user = await User.getUserLogin()
     this.setState({
-      user: user
+      user: user,
+      spinner: false
     })
   }
 
@@ -58,12 +62,69 @@ export default class Index extends Component {
     }
   }
 
+  changePassword = async () => {
+    this.setState({spinner: true})
+    const formData = {
+      password: this.state.password,
+      password_confirmation: this.state.password_confirmation,
+    }
+
+    await APIUser.changePassword(formData, this.state.user.id)
+      .then(res => {
+        if(res.success) {
+          Toast.show({
+            text: 'Berhasil mengganti password.',
+            buttonText: 'Okay',
+            type:'success',
+            duration: 5000
+          })
+          this.setState({spinner: false})
+        } else {
+          Toast.show({
+            text: 'Gagal mengganti password. Pegawai tidak ditemukan.',
+            buttonText: 'Oops',
+            type:'danger',
+            duration: 5000
+          })
+          this.setState({spinner: false})
+        }
+      })
+      .catch(err => {
+        if(err.hasOwnProperty('response')) {
+          if(err.response.status == 422) {
+            const errorItem = err.response.data.errors;
+            this.setState({
+                validation: {
+                password: errorItem.password,
+                password_confirmation: errorItem.password_confirmation,
+                }
+            })
+          }
+        } else {
+            Toast.show({
+            text: err.message,
+            buttonText: 'Oops',
+            type:'danger',
+            duration: 5000
+            })
+        }
+        this.setState({
+            spinner: false
+        })
+      })
+  }
+
   render() {
     const hasErrorPassword = this.state.validation.password ? true : false;
     const hasErrorPasswordConfirmation = this.state.validation.password_confirmation ? true : false;
 
     return(
       <Container>
+        <Spinner
+          visible={this.state.spinner}
+          textContent={'Loading...'}
+          textStyle={{color:'#FFF'}}
+        />
         <Content style={{padding:15}}>
           <KeyboardAvoidingView behavior="padding">
             <Item>
@@ -95,7 +156,7 @@ export default class Index extends Component {
             }
             
             <View style={{paddingTop:10}}>
-              <Button success block>
+              <Button success block onPress={() => this.changePassword()} >
                 <Text style={{color:'white'}}>Perbarui</Text>
               </Button>
             </View>

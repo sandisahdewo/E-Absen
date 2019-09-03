@@ -127,14 +127,16 @@ export default class Index extends Component {
             Toast.show({
               text: 'Izin apel berhasil!',
               buttonText: 'Okay',
-              type:'success'
+              type:'success',
+              duration: 5000
             })
             this.props.navigation.navigate('ProfileIndex')
           } else {
             Toast.show({
               text: 'Izin apel gagal disimpan!',
               buttonText: 'Okay',
-              type:'danger'
+              type:'danger',
+              duration: 5000
             })
           }
         })
@@ -142,7 +144,8 @@ export default class Index extends Component {
           Toast.show({
             text: err.message,
             buttonText: 'Okay',
-            type:'danger'
+            type:'danger',
+            duration: 5000
           })
         })
     }
