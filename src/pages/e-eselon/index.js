@@ -4,6 +4,7 @@ import { Toast } from 'native-base'
 import { Icon, ListItem, Button } from 'react-native-elements'
 import APIStatistik from '../../services/statistik-apel'
 import Spinner from 'react-native-loading-spinner-overlay'
+import { User } from '../../storage/async-storage'
 
 export default class Index extends Component {
 
@@ -28,19 +29,32 @@ export default class Index extends Component {
         apel: {},
         hadir: 0,
         izin: []
+      },
+      user: {
+        pegawai: {}
       }
     }
   }
 
   componentDidMount = () => {
-    this.getStatistik()
+    this.getUserLogin()
     this.setState({
       spinner: true
     })
   }
 
-  getStatistik = () => {
-    APIStatistik.GetStatistik()
+  getUserLogin = async () => {
+    const user = await User.getUserLogin()
+    this.setState({
+      user: user
+    }, () => {
+      this.getStatistik(this.state.user.admin_satker)
+    })
+
+  }
+
+  getStatistik = (satkerId) => {
+    APIStatistik.GetStatistik(satkerId)
       .then(res => {
         if(res.success) {
           this.setState({
@@ -105,14 +119,23 @@ export default class Index extends Component {
           <View style={{backgroundColor: 'red', padding:15}}>
             <View style={{flexDirection:'row'}}>
               <Icon name="bar-chart" size={24} type='font-awesome' iconStyle={{marginRight:5}} color='white' />
-              <Text style={{color:'white', fontSize:18}}>Statistik Apel periode {this.state.statistik.apel.periode}</Text>
+              <Text style={{color:'white', fontSize:18}}>Statistik Apel Satuan Kerja {this.state.statistik.satker.satuan_kerja}</Text>
             </View>
           </View>
 
           <View style={{marginTop:10}}>
             <ListItem
               leftIcon={
-                <Icon name="users" size={24} type='font-awesome' iconStyle={{marginRight:5}} color='green' />
+                <Icon name="users" size={24} type='font-awesome' iconStyle={{marginRight:5}} color='grey' />
+              }
+              title='Total Pegawai'
+              rightTitle={`${this.state.statistik.total} Orang`}
+              rightTitleStyle={{color:'white', backgroundColor:'grey', borderRadius:13, paddingHorizontal:10}}
+              bottomDivider={true}
+            />
+            <ListItem
+              leftIcon={
+                <Icon name="check" size={24} type='font-awesome' iconStyle={{marginRight:5}} color='green' />
               }
               title='Hadir Apel'
               rightTitle={`${this.state.statistik.hadir} Orang`}
@@ -125,15 +148,24 @@ export default class Index extends Component {
                 <ListItem
                   key={key}
                   leftIcon={
-                    <Icon name="info" size={24} type='font-awesome' iconStyle={{marginRight:5}} color='red' />
+                    <Icon name="info" size={24} type='font-awesome' iconStyle={{marginRight:5}} color='orange' />
                   }
                   title={value.title}
                   rightTitle={`${value.total} Orang`}
-                  rightTitleStyle={{color:'white', backgroundColor:'red', borderRadius:13, paddingHorizontal:10}}
+                  rightTitleStyle={{color:'white', backgroundColor:'orange', borderRadius:13, paddingHorizontal:10}}
                   bottomDivider={true}
                 />
               )
             )}
+            <ListItem
+              leftIcon={
+                <Icon name="close" size={24} type='font-awesome' iconStyle={{marginRight:5}} color='red' />
+              }
+              title='Tanpa Keterangan'
+              rightTitle={`${this.state.statistik.tanpa_keterangan} Orang`}
+              rightTitleStyle={{color:'white', backgroundColor:'red', borderRadius:13, paddingHorizontal:10}}
+              bottomDivider={true}
+            />
             {/* <ListItem
               leftIcon={
                 <Icon name="car" size={24} type='font-awesome' iconStyle={{marginRight:5}} color='green' />

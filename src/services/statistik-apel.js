@@ -1,6 +1,6 @@
 import {Get} from './methods'
 
-const GetStatistik = () => Get('statistik-apel')
+const GetStatistik = (satkerId) => Get(`statistik-apel/v3/${satkerId}`)
 
 const StatistikApel = {
   GetStatistik
