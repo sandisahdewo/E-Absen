@@ -2,8 +2,9 @@ import React, {Component} from 'react'
 import APILogin from '../../services/login'
 import { User } from '../../storage/async-storage'
 import Spinner from 'react-native-loading-spinner-overlay'
-import { Text, View, KeyboardAvoidingView, Image, PermissionsAndroid } from 'react-native'
+import { Text, View, KeyboardAvoidingView, Image, PermissionsAndroid, BackHandler, DeviceEventEmitter } from 'react-native'
 import { Container, Item, Input, Icon, Button, Card, Toast } from 'native-base'
+// import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 
 export default class Index extends Component {
 
@@ -26,8 +27,27 @@ export default class Index extends Component {
     }
   }
 
-  componentDidMount = async () => {
-    await this.requestPhonePermission()
+  componentDidMount = () => {
+     this.requestPhonePermission()
+     this.requestEnableLocation()
+  }
+
+
+  requestEnableLocation =  () => {
+    //  RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({interval: 10000, fastInterval: 5000})
+    // .then(data => {
+    //   // The user has accepted to enable the location services
+    //   // data can be :
+    //   //  - "already-enabled" if the location services has been already enabled
+    //   //  - "enabled" if user has clicked on OK button in the popup
+    // }).catch(err => {
+    //   // The user has not accepted to enable the location services or something went wrong during the process
+    //   // "err" : { "code" : "ERR00|ERR01|ERR02", "message" : "message"}
+    //   // codes : 
+    //   //  - ERR00 : The user has clicked on Cancel button in the popup
+    //   //  - ERR01 : If the Settings change are unavailable
+    //   //  - ERR02 : If the popup has failed to open
+    // });
   }
 
   requestPhonePermission = async () => {
@@ -93,7 +113,7 @@ export default class Index extends Component {
             <Card style={{paddingHorizontal:10, paddingVertical:10, marginTop:10}}>
               <View style={{justifyContent: 'center', marginBottom:20, flexDirection:'row'}}>
                 <Text style={{fontSize:16, textAlign:'center'}}>
-                  Aplikasi E-Apel {"\n"}
+                  Aplikasi e-Apel {"\n"}
                   Pemerintah Kabupaten Probolinggo
                 </Text>
               </View>

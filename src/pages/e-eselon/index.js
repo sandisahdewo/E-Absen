@@ -102,6 +102,7 @@ export default class Index extends Component {
     const apelCloseNotExist = responseSuccess && this.state.responseStatus.type == 'apel_close_not_exist'
     
     return (
+      <ScrollView>
       <View style={{flex:1}}>
         <Spinner
           visible={this.state.spinner}
@@ -226,6 +227,7 @@ export default class Index extends Component {
           </View>
         }
       </View>
+      </ScrollView>
     )
   }
 

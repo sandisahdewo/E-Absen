@@ -4,6 +4,7 @@ import { FlatList } from 'react-native-gesture-handler'
 import { ListItem } from 'react-native-elements'
 import APIApel from '../../services/apel'
 import { User } from '../../storage/async-storage'
+import Spinner from 'react-native-loading-spinner-overlay'
 
 export default class Index extends Component {
   
@@ -20,6 +21,7 @@ export default class Index extends Component {
     super(props)
 
     this.state = {
+      spinner: true,
       listApel: {
         
       },
@@ -34,8 +36,8 @@ export default class Index extends Component {
   }
 
   getUserLogin = async () => {
-    const user = await User.getUserLogin()
-    await this.getReport(user.id);
+    const user = await User.getUserLogin();
+    this.getReport(user.id);
 }
 
   keyExtractor = (item, index) => index.toString()
@@ -59,8 +61,12 @@ export default class Index extends Component {
       .then(res => {
         this.setState({
           listApel: res,
-        }, () => {
-          console.log('list apel', this.state.listApel)
+          spinner: false
+        })
+      })
+      .catch(err => {
+        this.setState({
+          spinner: false
         })
       })
   }
@@ -68,6 +74,11 @@ export default class Index extends Component {
   render() {
     return(
       <View>
+        <Spinner
+          visible={this.state.spinner}
+          textContent={'Loading...'}
+          textStyle={{color:'#FFF'}}
+        />
         <View style={{paddingTop:5}}>
           <FlatList
             keyExtractor={this.keyExtractor}

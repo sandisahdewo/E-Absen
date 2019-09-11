@@ -10,6 +10,7 @@ import { User } from '../../storage/async-storage'
 import { Toast } from 'native-base';
 import Maps from '../../components/maps'
 import NetInfo from '../../components/netinfo'
+import {LATITUDE, LONGITUDE} from '../../services/config/location'
 
 export default class Index extends Component {
   static navigationOptions = {
@@ -30,18 +31,16 @@ export default class Index extends Component {
       image_uri: '',
       check_in: [],
       region: {
-        latitude: -7.761506, 
-        longitude: 113.4156582,
+        latitude: LATITUDE, 
+        longitude: LONGITUDE,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
       user: {
         pegawai: {}
       },
-      // lat: -7.761548, //koordinat pemkab
-      // long: 113.416132, //koordinat pemkab
-      lat: -7.761506,
-      long: 113.4156582,
+      lat: LATITUDE,
+      long: LONGITUDE,
       dist: 0,
       updatesEnabled: false,
       lastPosition:'',

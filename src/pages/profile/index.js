@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableHighlight, Alert } from 'react-native'
+import { Text, View, TouchableHighlight, Alert, ImageBackground } from 'react-native'
 import { Thumbnail, Card, Toast, Container, Content } from 'native-base'
 import { ListItem, Button, Icon } from 'react-native-elements'
 import IconFA5 from 'react-native-vector-icons/FontAwesome5'
@@ -9,6 +9,7 @@ import APIApel from '../../services/apel'
 import NetInfo from '../../components/netinfo'
 import Geolocation from '@react-native-community/geolocation';
 import {WebPath} from '../../services/config/path'
+import {LATITUDE, LONGITUDE} from '../../services/config/location'
 
 let _this;
 
@@ -62,8 +63,8 @@ export default class Index extends Component {
 
       // lat: -8.033809,
       // long: 112.649397,
-      lat: -7.761506, //koordinat pemkab
-      long: 113.4156582, //koordinat pemkab
+      lat: LATITUDE, //koordinat pemkab
+      long: LONGITUDE, //koordinat pemkab
       dist:0,
       profile_image: `${WebPath}/foto_profil/default.png`
     }
@@ -230,17 +231,28 @@ export default class Index extends Component {
             textContent={'Loading...'}
             textStyle={{color:'#FFF'}}
           />
-          <View style={{alignItems: 'center', backgroundColor:'#eeeeee', paddingBottom:20}}>
+            <ImageBackground source={require('../../assets/profile_background.jpg')} style={{ alignItems:'center', width: '100%', paddingBottom:20, paddingTop:20}}>
             {/* <Thumbnail large source={{uri: `http://ia.simmon.web.id/foto/foto_blob_other/${this.state.user.pegawai.nip_baru}.jpeg`}} onError={() => this.handleFotoNotFound()}/>  */}
             <Thumbnail large source={{uri: this.state.profile_image }} onError={() => this.handleFotoNotFound()}/> 
-            <Text style={{fontSize: 20, fontWeight: 'bold'}}>{this.state.user.name}</Text>
-            <Button 
-             title="Rekap Apel"
-             type="outline"
-             buttonStyle={{padding:3, paddingTop:-2, marginTop:14}}
-             onPress={() => this.props.navigation.navigate('RekapAbsenIndex')}
-            />
-          </View>
+            <Text style={{fontSize: 20, fontWeight: 'bold', color:'black'}}>{this.state.user.name}</Text>
+            <View style={{flexDirection:'row'}}>
+              <Button 
+                title="Rekap Apel"
+                type="outline"
+                buttonStyle={{padding:3, paddingTop:-2, marginTop:14, backgroundColor:'rgba(255, 255, 255, 0.8)'}}
+                onPress={() => this.props.navigation.navigate('RekapAbsenIndex')}
+              />
+              { this.state.user.admin_satker && 
+                <Button 
+                  title="Statistik Peserta Apel"
+                  type="outline"
+                  buttonStyle={{padding:3, paddingTop:-2, marginTop:14, borderColor:'red', marginLeft:10, backgroundColor:'rgba(255, 255, 255, 0.8)'}}
+                  titleStyle={{color:'red'}}
+                  onPress={() => this.props.navigation.navigate('EselonIndex')}
+                />
+              }
+            </View>
+            </ImageBackground>
           <View style={{marginTop:10, borderBottomColor:'#dcdcdc', borderBottomWidth:1}}>
             <ListItem
               containerStyle={{padding:10}}
@@ -388,28 +400,6 @@ export default class Index extends Component {
                   />
                 </View>
               }
-            </View>
-          }
-          { this.state.user.admin_satker && 
-            <View style={{marginTop:10, alignItems:'center'}}>
-              <View>
-                <Button
-                  onPress={() => this.props.navigation.navigate('EselonIndex')}
-                  title="Statistik Peserta Apel"
-                  type="outline"
-                  buttonStyle={{borderColor:'#696969'}}
-                  titleStyle={{color:'red'}}
-                  icon={
-                    <Icon
-                      name="bar-chart"
-                      size={19}
-                      type='font-awesome'
-                      iconStyle={{marginRight:5}}
-                      color='red'
-                    />
-                  }
-                />
-              </View>
             </View>
           }
         </NetInfo>

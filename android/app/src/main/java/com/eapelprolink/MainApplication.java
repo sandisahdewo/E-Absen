@@ -8,7 +8,6 @@ import com.airbnb.android.react.maps.MapsPackage;
 import codes.simen.IMEI.IMEI;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import org.reactnative.camera.RNCameraPackage;
-import com.showlocationservicesdialogbox.LocationServicesDialogBoxPackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.reactnativecommunity.geolocation.GeolocationPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
@@ -37,7 +36,6 @@ public class MainApplication extends Application implements ReactApplication {
             new IMEI(),
             new RNGestureHandlerPackage(),
             new RNCameraPackage(),
-            new LocationServicesDialogBoxPackage(),
             new NetInfoPackage(),
             new GeolocationPackage(),
             new AsyncStoragePackage()
