@@ -78,6 +78,7 @@ export default class Index extends Component {
         this.getUserLogin()
         // Geolocation.getCurrentPosition(info => console.table(info));
         // // console.table(this.state.location);
+        this.getLocation();
       }
     )
   }
@@ -122,7 +123,8 @@ export default class Index extends Component {
         this.setState({ dist })
         console.log(lastPosition);
       },
-      (error) => alert(JSON.stringify(error)),
+      // (error) => alert(JSON.stringify(error)),
+        (error) => Alert.alert('Peringatan!', 'Kesalahan mengambil lokasi, periksa GPS Anda'),
       { enableHighAccuracy: false, timeout: 20000, maximumAge: 0,distanceFilter:0.1 });
   }
 
