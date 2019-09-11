@@ -66,7 +66,7 @@ export default class Index extends Component {
       // long: 112.649397,
       lat: LATITUDE, //koordinat pemkab
       long: LONGITUDE, //koordinat pemkab
-      dist:0,
+      dist:'~',
       profile_image: `${WebPath}/foto_profil/default.png`
     }
 
@@ -133,6 +133,7 @@ export default class Index extends Component {
           };
         this.setState({ location:location });
         let dist = this.distance(this.state.lat, this.state.long, this.state.location.latitude, this.state.location.longitude, "K");
+        
         this.setState({ dist })
         console.log(lastPosition);
       },
