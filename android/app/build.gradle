@@ -150,6 +150,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-exit-app')
+    implementation project(':react-native-android-location-enabler')
     implementation project(':react-native-imei')
     implementation project(':@react-native-community_netinfo')
     implementation project(':@react-native-community_async-storage')
