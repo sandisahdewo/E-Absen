@@ -11,6 +11,7 @@ import { Toast } from 'native-base';
 import Maps from '../../components/maps'
 import NetInfo from '../../components/netinfo'
 import {LATITUDE, LONGITUDE} from '../../services/config/location'
+import Spinner from 'react-native-loading-spinner-overlay'
 
 export default class Index extends Component {
   static navigationOptions = {
@@ -45,7 +46,8 @@ export default class Index extends Component {
       updatesEnabled: false,
       lastPosition:'',
       location:{},
-      ready:false
+      ready:false,
+      spinner: true
     }
 
   }
@@ -53,7 +55,8 @@ export default class Index extends Component {
   getUserLogin = async () => {
     const user = await User.getUserLogin()
     this.setState({
-      user: user
+      user: user,
+      spinner: false
     })
     console.log(this.state.user)
   }
@@ -96,14 +99,6 @@ export default class Index extends Component {
   
   buttonCheckinOrIzin=()=>{
     if (this.state.dist > 0.1) {
-      // return <Button
-      //     onPress={() => this.props.navigation.navigate('IzinIndex')}
-      //     title="Izin Apel"
-      //     type="outline"
-      //     buttonStyle={{ borderColor: '#696969' }}
-      //     titleStyle={{ color: '#696969' }}
-      //   />
-
       return <Button
         title="Cek In"
         type="outline"
@@ -165,6 +160,11 @@ export default class Index extends Component {
     return (
       <View style={{ flex: 1 }}>
         <NetInfo>
+        <Spinner
+          visible={this.state.spinner}
+          textContent={'Loading...'}
+          textStyle={{color:'#FFF'}}
+        />
         {(this.state.open_camera) &&
           <View style={{ flex: 1 }}>
             <Camera type='front' onPickFoto={(data) => { this.handlePickFoto(data) }} />
@@ -213,6 +213,8 @@ export default class Index extends Component {
   }
 
   checkin = () => {
+    this.setState({spinner: true})
+
     const formData = {
       apel_id: this.state.apelId,
       user_id: this.state.user.id,
@@ -228,16 +230,17 @@ export default class Index extends Component {
           type:'success',
           duration: 5000
         })
+        this.setState({spinner: false})
         this.props.navigation.navigate('ProfileIndex')
       })
       .catch(err => {
+        this.setState({spinner: false})
         Toast.show({
           text: err.message,
           buttonText: 'Okay',
           type:'danger',
           duration: 5000
         })
-        console.log('err', err)
       })
 
   }
