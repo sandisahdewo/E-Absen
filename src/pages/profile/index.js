@@ -10,7 +10,8 @@ import NetInfo from '../../components/netinfo'
 import Geolocation from '@react-native-community/geolocation';
 import {WebPath} from '../../services/config/path'
 import {LATITUDE, LONGITUDE} from '../../services/config/location'
-
+import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
+import RNExitApp from 'react-native-exit-app';
 let _this;
 
 export default class Index extends Component {
@@ -71,14 +72,26 @@ export default class Index extends Component {
 
   }
 
+  
+  componentWillMount() {
+    
+  }
+  
+
   componentDidMount = () => {
     this.props.navigation.addListener('willFocus', 
       () => {
         _this = this;
         this.getUserLogin()
+        RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({ interval: 10000, fastInterval: 5000 })
+          .then(data => {
+            this.getLocation();
+          }).catch(err => {
+            alert("Error " + err.message + ", Code : " + err.code);
+            RNExitApp.exitApp();
+          });    
         // Geolocation.getCurrentPosition(info => console.table(info));
         // // console.table(this.state.location);
-        this.getLocation();
       }
     )
   }
