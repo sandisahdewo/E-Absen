@@ -10,6 +10,7 @@ import { User } from '../../storage/async-storage'
 import {Toast} from 'native-base'
 import { Text, View, KeyboardAvoidingView, Image, ScrollView, StyleSheet, Picker, Alert } from 'react-native';
 import NetInfo from '../../components/netinfo'
+import Spinner from 'react-native-loading-spinner-overlay'
 
 export default class Index extends Component {
   static navigationOptions = {
@@ -44,7 +45,8 @@ export default class Index extends Component {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
-      openCamera: false
+      openCamera: false,
+      spinner: true
     }
   }
 
@@ -65,9 +67,9 @@ export default class Index extends Component {
     APIIzin.getJenisIzin()
       .then(res => {
         this.setState({
-          list_jenis_izin: res.data
+          list_jenis_izin: res.data,
+          spinner: false
         })
-        // console.log(res.data);
       })
   }
 
@@ -102,7 +104,6 @@ export default class Index extends Component {
   }
 
   storeIzin = () => {
-    console.log(this.state.region.latitude)
     const {image_lampiran_base64, image_swafoto_base64} = this.state;
     if(image_lampiran_base64 == '' || image_swafoto_base64 == '') {
       Alert.alert('Peringatan!', 'Lengkapi swafoto dan bukti izin.')
@@ -120,7 +121,8 @@ export default class Index extends Component {
         tanggal_mulai_izin: this.state.tanggal_mulai_izin,
         tanggal_selesai_izin: this.state.tanggal_selesai_izin
       }
-
+      
+      this.setState({spinner: true})
       APIIzin.postIzin(formData)
         .then(res => {
           if(res.success) {
@@ -130,8 +132,10 @@ export default class Index extends Component {
               type:'success',
               duration: 5000
             })
+            this.setState({spinner: false})
             this.props.navigation.navigate('ProfileIndex')
           } else {
+            this.setState({spinner: false})
             Toast.show({
               text: 'Izin apel gagal disimpan!',
               buttonText: 'Okay',
@@ -141,6 +145,7 @@ export default class Index extends Component {
           }
         })
         .catch(err => {
+          this.setState({spinner: false})
           Toast.show({
             text: err.message,
             buttonText: 'Okay',
@@ -157,6 +162,11 @@ export default class Index extends Component {
     return (
       <View style={{ flex: 1 }}>
         <NetInfo>
+        <Spinner
+          visible={this.state.spinner}
+          textContent={'Loading...'}
+          textStyle={{color:'#FFF'}}
+        />
         {(this.state.open_swafoto) &&
           <Camera type='front' onPickFoto={(data) => { this.handlePickSwaFoto(data) }} />
         }
