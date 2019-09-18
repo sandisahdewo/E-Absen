@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableHighlight, Alert, ImageBackground } from 'react-native'
+import { Text, View, TouchableHighlight, Alert, ImageBackground, PermissionsAndroid } from 'react-native'
 import { Thumbnail, Card, Toast, Container, Content } from 'native-base'
 import { ListItem, Button, Icon } from 'react-native-elements'
 import IconFA5 from 'react-native-vector-icons/FontAwesome5'
@@ -74,9 +74,29 @@ export default class Index extends Component {
 
   
   componentWillMount() {
-    
   }
   
+  enableAccessPermission = () => {
+    console.log('enable accss')
+    try {
+      const granted = PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          'title': 'Izin Lokasi',
+          'message': 'Aplikasi membutuhkan akses lokasi',
+          'buttonPositive': 'Ok'
+        }
+      )
+        // console.log('granted', granted)
+      if(granted == PermissionsAndroid.RESULTS.GRANTED) {
+        this.getLocation()
+      } else {
+
+      }
+    } catch(err) {
+      return false
+    }
+  }
 
   componentDidMount = () => {
     this.props.navigation.addListener('willFocus', 
@@ -85,15 +105,26 @@ export default class Index extends Component {
         this.getUserLogin()
         RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({ interval: 10000, fastInterval: 5000 })
           .then(data => {
-            this.getLocation();
+            this.checkStatusLocation()
           }).catch(err => {
             alert("Error " + err.message + ", Code : " + err.code);
             RNExitApp.exitApp();
-          });    
+          }); 
         // Geolocation.getCurrentPosition(info => console.table(info));
         // // console.table(this.state.location);
       }
     )
+  }
+
+  checkStatusLocation = () => {
+    PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION).then(response => {
+      if(response) {
+        this.getLocation()
+      } else {
+        this.enableAccessPermission()
+      }
+    })
+
   }
 
   distance = (lat1, lon1, lat2, lon2, unit) => {
@@ -110,8 +141,9 @@ export default class Index extends Component {
     return dist.toFixed(3);
   }
 
-  getLocation =  ()=>{
-     Geolocation.getCurrentPosition(
+  getLocation = () => {
+    console.log('get location')
+    Geolocation.getCurrentPosition(
       (position) => {
         const location = {
           latitude: position.coords.latitude,
