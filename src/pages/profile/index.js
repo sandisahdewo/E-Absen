@@ -76,22 +76,26 @@ export default class Index extends Component {
   componentWillMount() {
   }
   
-  enableAccessPermission = () => {
-    console.log('enable accss')
+  enableAccessPermission = async () => {
     try {
-      const granted = PermissionsAndroid.request(
+      const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
           'title': 'Izin Lokasi',
           'message': 'Aplikasi membutuhkan akses lokasi',
           'buttonPositive': 'Ok'
         }
-      )
-        // console.log('granted', granted)
-      if(granted == PermissionsAndroid.RESULTS.GRANTED) {
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         this.getLocation()
       } else {
-
+        Toast.show({
+          text:'Aplikasi membutuhkan akses lokasi.',
+          position:'bottom',
+          type:'danger',
+          duration:5000
+        })
+        this.checkStatusLocation()
       }
     } catch(err) {
       return false
@@ -142,7 +146,6 @@ export default class Index extends Component {
   }
 
   getLocation = () => {
-    console.log('get location')
     Geolocation.getCurrentPosition(
       (position) => {
         const location = {
@@ -179,7 +182,6 @@ export default class Index extends Component {
       this.setState({
         user: user,
       })
-      // console.table(this.state.location)
       await this.findApelOrIzinTodayByUserId(user.id)
       await this.getProfileImage()
   }

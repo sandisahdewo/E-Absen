@@ -1,0 +1,421 @@
+[33mcommit cb085ec2a004a87c601db5f1526042563283c483[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Thu Sep 12 22:27:45 2019 +0700
+
+    hilangkan alert gps
+
+[33mcommit f2174495147a45ffb69059cc77fb5626af6ab882[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Wed Sep 11 20:30:49 2019 +0700
+
+    fix version 1.1.0
+
+[33mcommit 0cc6295ceff11444614812ce25f2f6affd9beb82[m
+Merge: 9a29b48 752b338
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Wed Sep 11 19:19:15 2019 +0700
+
+    Merge branch 'master' of https://github.com/sandiwo/E-Absen
+
+[33mcommit 9a29b4808934c210223598f3aa3ee6293bccbe02[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Wed Sep 11 19:18:58 2019 +0700
+
+    remove enable location package
+
+[33mcommit 752b3388643f1e8d726522f511791b6374cfc7d0[m
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Wed Sep 11 19:18:24 2019 +0700
+
+    ganti default dist menjadi ~
+
+[33mcommit 52bd824d54cdffa6e45816de4ba847c852f87bbf[m
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Wed Sep 11 19:10:56 2019 +0700
+
+    gps handler
+
+[33mcommit 413a6471bb76a3de2da1003e08fe1d6a98340f1c[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Wed Sep 11 15:54:38 2019 +0700
+
+    tambah spinner apel & izin
+
+[33mcommit b36cdee9e51cda52a06c694547bc24c4fb9a9ff4[m
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Wed Sep 11 14:50:59 2019 +0700
+
+    check location on profile page
+
+[33mcommit 402db0cd202f883d247b99c95448ad591618fc38[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Wed Sep 11 14:07:32 2019 +0700
+
+    ganti nama aplikasi
+
+[33mcommit d33d2cd2d9983734aff04a1a1cebd4ad3f04b49b[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Wed Sep 11 11:23:43 2019 +0700
+
+    fix bug sebelum implementasi tahap 2
+
+[33mcommit 29d9f8a72555c367aca641ba635429eb02c74a03[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Tue Sep 3 13:01:02 2019 +0700
+
+    ganti password, fix statistik apel, perpanjang durasi toast ke 5000
+
+[33mcommit e0e6de6eef59875be3064a974ed408a37b5796cd[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Tue Sep 3 11:49:20 2019 +0700
+
+    statistik apel berdasarkan satuan kerja
+
+[33mcommit d252d328cdf19175f79912aee275661a23a8ac82[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Fri Aug 30 23:49:51 2019 +0700
+
+    tampilan ganti password, ganti jarak ke 100 m, disable tombol cek in bila jarak melebihi 100 m
+
+[33mcommit dbe0b558c6c7b3a3b1fb29af92c44e4252d0e1d3[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Fri Aug 30 22:59:49 2019 +0700
+
+    show/hide password di login
+
+[33mcommit f2a563ef97b5acf63fc253fc7729e35ec5363417[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Fri Aug 30 22:25:57 2019 +0700
+
+    ganti package name, ganti nama apk, tambah permission phone
+
+[33mcommit 3b103d87eb1b3e2bb39d21a3cba600666aaf246b[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Wed Aug 28 16:32:19 2019 +0700
+
+    setting jarak untuk cek in, hide/show tombol statistik
+
+[33mcommit 8788739f4189726969cdb8b7236d25b358ce9ecd[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Mon Aug 26 23:32:58 2019 +0700
+
+    icon apel sedang berlangsung, rekap absen berdasarkan user login, kondisi tombol izin
+
+[33mcommit 772d8aca8127c7711a44f9702e3fd513a0665248[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Mon Aug 26 21:52:05 2019 +0700
+
+    path foto profil dan statistik e apel
+
+[33mcommit 2ff35623204662c357a0ec856d4d98f416d695c1[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Mon Aug 26 18:43:36 2019 +0700
+
+    style rekap apel dan tombol untuk akses rekap apel
+
+[33mcommit ee910df92a94816b6982d067f6cf0caa4039eb1b[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Mon Aug 26 18:10:14 2019 +0700
+
+    foto profil, imei untuk login
+
+[33mcommit ad2107fb00e177a75813cf4c0558bd642951e91d[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Wed Aug 21 15:47:25 2019 +0700
+
+    validasi lokasi
+
+[33mcommit 2bea90242e4071b286b532ec46ab709ed6d6ddf5[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Wed Aug 21 15:26:14 2019 +0700
+
+    validasi foto izin
+
+[33mcommit 5302a93332546a0cc355f6064bbb6e622e1eff1e[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Fri Aug 9 19:43:42 2019 +0700
+
+    tambah keterangan periode absen pada histori absen
+
+[33mcommit 60428258330d6804ab48d7f35e8ccf660d0842fb[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Fri Aug 9 19:38:55 2019 +0700
+
+    ganti root path api ke lima kode
+
+[33mcommit a012979d34f9dc912b74ecbf0b1da067f9189021[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Fri Aug 9 19:36:12 2019 +0700
+
+    histori absen apel di profile
+
+[33mcommit db46fb31808064bb0117b3ff314419efada1bcc6[m
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Fri Aug 9 14:18:46 2019 +0700
+
+    add user di izin
+
+[33mcommit ca5715b67af9eda9ec95399b9aa9e44659edf60d[m
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Fri Aug 9 12:48:11 2019 +0700
+
+    change icon launcher
+
+[33mcommit 5a8e3907aa39b44f29167bf2f3e31d7fa562e3a1[m
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Fri Aug 9 10:38:31 2019 +0700
+
+    ganti posisi map ke kantor admisi, dan dikalikan 1000
+
+[33mcommit 1850dab080e7f55d6901b15e98032ec004c22d79[m
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Fri Aug 9 10:04:21 2019 +0700
+
+    hitung otomatis jarak pada profile
+
+[33mcommit 001d5de7ff6f6b2d803438804f21f8672a204c3a[m
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Fri Aug 9 09:30:59 2019 +0700
+
+    cek lokasi pada halaman profile
+
+[33mcommit 23e34ad36390672c9aaf42e3156c61d679113bef[m
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Fri Aug 9 08:30:09 2019 +0700
+
+    set spiner off di fungsi findApelTodal
+
+[33mcommit d66ea8133be769bc98b6c81d71ad6d3d7c00258c[m
+Merge: e451809 5e7dbe9
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Fri Aug 9 08:04:30 2019 +0700
+
+    Merge branch 'master' of github.com:sandiwo/E-Absen
+
+[33mcommit e45180982ea89227a101f2c5246f3b564112b5ea[m
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Fri Aug 9 08:04:22 2019 +0700
+
+    jarak
+
+[33mcommit 5e7dbe9a5724027584295703bf431bd1f7f1c52c[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Thu Aug 8 14:57:54 2019 +0700
+
+    e eselon, statistik apel
+
+[33mcommit 53a339d792636c5841f5a5140f168ca786fe09f2[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Mon Aug 5 14:36:07 2019 +0700
+
+    ganti lat long ke poltekom
+
+[33mcommit faa9acc4e530bc5b77b8a26dcf9ba502ace5f61b[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Fri Aug 2 21:55:48 2019 +0700
+
+    check in apel dan izin sinkron dengan master apel
+
+[33mcommit 2e1a87f43fe9d6320c235b051a40c67fe43d3cbb[m
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Tue Jul 30 16:06:41 2019 +0700
+
+    ganti ke KM, ubah orientasi kamera, set orientasi aplikasi
+
+[33mcommit 0198fe810aa6c1dc9fcac4c73553b5d1892b8e1f[m
+Merge: dc085d3 e73f525
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Tue Jul 30 15:18:19 2019 +0700
+
+    Merge branch 'master' of github.com:sandiwo/E-Absen
+
+[33mcommit dc085d31aa7a2c8c33528ffdb2dfda338c7123b8[m
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Tue Jul 30 15:17:55 2019 +0700
+
+    hitung jarak dengan maps
+
+[33mcommit e73f5252845272e17ca3992efa6af29c8f9d5530[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Tue Jul 30 15:17:06 2019 +0700
+
+    ganti input datepicker
+
+[33mcommit 575ca4ffd743796c0c3b986795d5c4eaad212e6d[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Tue Jul 30 11:26:20 2019 +0700
+
+    cek dan notifikasi koneksi internet
+
+[33mcommit dc93c6771836548e5119ec5fedc32726e665af1c[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Mon Jul 29 21:36:46 2019 +0700
+
+    ganti maps e apel menjadi maps komponen
+
+[33mcommit 76328345c5f64ae9a23e601d77b3afac593ee154[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Mon Jul 29 21:23:45 2019 +0700
+
+    ganti picker dari native base ke bawaan react
+
+[33mcommit 1eedecfb56131c184bcb7627e7dedabd52a4e46a[m
+Merge: 0e9899e a477ea5
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Mon Jul 29 12:38:00 2019 +0700
+
+    Merge branch 'master' of github.com:sandiwo/E-Absen
+
+[33mcommit 0e9899ec47101c357b8f5b61c9ee068f7a0d7d9a[m
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Mon Jul 29 12:37:51 2019 +0700
+
+    izin apel
+
+[33mcommit a477ea5fa0f18a8f0d910dc3423dc595c0d21ca7[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Mon Jul 29 12:05:43 2019 +0700
+
+    pembenahan logout
+
+[33mcommit 6434644650afc5852918fc7fda9169a4d661ef55[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Mon Jul 29 10:02:42 2019 +0700
+
+    logout
+
+[33mcommit 2b5e0ccfcbe47cb57d2f22e07b71a8ca2459cd46[m
+Merge: 72f450b ebe51a3
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Mon Jul 29 09:42:26 2019 +0700
+
+    merge conflict initial route
+
+[33mcommit 72f450b115d063b16bc6df89f5f6942597c6ffcd[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Mon Jul 29 09:40:23 2019 +0700
+
+    splash screen dan spinner loading
+
+[33mcommit ebe51a3c7e727da95cecf0bd4db109c4a2b1e396[m
+Merge: d09967d 9b0cbba
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Mon Jul 29 09:38:49 2019 +0700
+
+    eapeljarak
+
+[33mcommit d09967d990da6d1847b116b087cf9da3fc6ef7d9[m
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Mon Jul 29 08:18:21 2019 +0700
+
+    test
+
+[33mcommit 9b0cbbabe4eb0b0f0256117e65d0889504747e74[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Sat Jul 27 18:55:24 2019 +0700
+
+    default route to login
+
+[33mcommit 51bcc55d4dd8e631aa8a11247c2507aca3ba27f3[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Fri Jul 26 23:26:04 2019 +0700
+
+    izin apel dan ganti maps ke komponen
+
+[33mcommit 63b8df8f84f2a1c808975719812bc5d2fb61faa1[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Thu Jul 25 21:06:50 2019 +0700
+
+    option jenis izin dari db
+
+[33mcommit 682420356adeb53f6579b97906017d6cd203c5e3[m
+Merge: c01cb3b 608a357
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Thu Jul 25 12:26:04 2019 +0700
+
+    merge conflict e-apel/index
+
+[33mcommit c01cb3b83d33377d57780f91cae0f1fb6a12e161[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Thu Jul 25 12:24:23 2019 +0700
+
+    api login, profile, checkin absen
+
+[33mcommit 608a357d55e382bf538e826d52438be4d5fc4d28[m
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Fri Jul 19 22:33:26 2019 +0700
+
+    jarak
+
+[33mcommit 84b22395eb93abc271e7e8ea5c70d528cb3bc2fe[m
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Fri Jul 19 22:00:43 2019 +0700
+
+    location fixing
+
+[33mcommit 867a8c867860f402c43bb4afed785d3070bfc9a7[m
+Merge: f2a9889 5160a63
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Fri Jul 19 21:57:51 2019 +0700
+
+    Merge branch 'master' of github.com:sandiwo/E-Absen
+
+[33mcommit f2a98892ddf8127c58c538bbd7332a4c460ea240[m
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Fri Jul 19 21:56:57 2019 +0700
+
+    location
+
+[33mcommit 5160a63ff90421d36056ccc4c250df914d43457d[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Fri Jul 19 21:52:36 2019 +0700
+
+    penambahan scrollview & conditional lama izin
+
+[33mcommit ac1943ab3bbf43c12800ff2069e32aec9c5c3543[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Fri Jul 19 21:32:37 2019 +0700
+
+    revisi view
+
+[33mcommit 98573665d3efc5f6c202a2cca8fd7b1abbf98806[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Thu Jul 18 21:48:18 2019 +0700
+
+    revisi e-izin
+
+[33mcommit c379dcb93e3d0a935b46a04708eaf0dce665f470[m
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Wed Jul 10 15:38:34 2019 +0700
+
+    maps
+
+[33mcommit af1420122b8b1b23359aba4df6ab4900412d4711[m
+Author: dwi wijonarko <d.wijonarko@gmail.com>
+Date:   Wed Jul 10 09:48:56 2019 +0700
+
+    permission
+
+[33mcommit aa08588e6c7dd5fdcda4eb712c2ea47f59a94764[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Wed Jul 10 07:57:39 2019 +0700
+
+    ganti type kamera dan judul foto
+
+[33mcommit d1eae720e20c1e995359d5652217caf25575a3da[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Mon Jul 8 14:26:49 2019 +0700
+
+    setting gradle memperkecil file apk
+
+[33mcommit fa8bea124ebd59648da46572e1053592fe8fd985[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Mon Jul 8 14:17:18 2019 +0700
+
+    statistik e apel
+
+[33mcommit bd487fe1f88303ca5153b0431f781ba39d76d5d4[m
+Author: Sandi Sahdewo <sandi.sahdewo@gmail.com>
+Date:   Mon Jul 8 12:18:30 2019 +0700
+
+    first commit
