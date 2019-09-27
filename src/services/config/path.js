@@ -2,5 +2,5 @@
 // export const RootPath = 'https://apel.limakode.com/api'
 // export const WebPath = 'https://apel.limakode.com/'
 
-export const RootPath = 'http://103.124.88.180/api'
-export const WebPath = 'http://103.124.88.180/'
+export const RootPath = 'https://eapel.probolinggokab.go.id/api'
+export const WebPath = 'https://eapel.probolinggokab.go.id/'

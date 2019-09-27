@@ -157,8 +157,8 @@ export default class Index extends Component {
          this.setState({ dist })
         console.log(location);
       },
-      // (error) => alert(JSON.stringify(error)),
-      (error) => Alert.alert('Peringatan!', 'Kesalahan mengambil lokasi, periksa GPS Anda'),
+      (error) => console.log(error.message),
+      // (error) => Alert.alert('Peringatan!', 'Kesalahan mengambil lokasi, periksa GPS Anda'),
       { enableHighAccuracy: false, timeout: 10000, maximumAge: 0, distanceFilter: 0.1 });
       this.watchID = Geolocation.watchPosition(
         (lastPosition) => {
@@ -173,7 +173,7 @@ export default class Index extends Component {
         console.log(lastPosition);
       },
       // (error) => alert(JSON.stringify(error)),
-        (error) => Alert.alert('Peringatan!', 'Kesalahan mengambil lokasi, periksa GPS Anda'),
+      (error) => console.log(error.message),
       { enableHighAccuracy: false, timeout: 20000, maximumAge: 0,distanceFilter:0.1 });
   }
 
