@@ -155,11 +155,10 @@ export default class Index extends Component {
         this.setState({location:location});
          let dist = this.distance(this.state.lat, this.state.long, this.state.location.latitude, this.state.location.longitude, "K");
          this.setState({ dist })
-        console.log(location);
       },
       (error) => console.log(error.message),
       // (error) => Alert.alert('Peringatan!', 'Kesalahan mengambil lokasi, periksa GPS Anda'),
-      { enableHighAccuracy: false, timeout: 10000, maximumAge: 0, distanceFilter: 0.1 });
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 0.1 });
       this.watchID = Geolocation.watchPosition(
         (lastPosition) => {
           const location = {
@@ -170,11 +169,10 @@ export default class Index extends Component {
         let dist = this.distance(this.state.lat, this.state.long, this.state.location.latitude, this.state.location.longitude, "K");
         
         this.setState({ dist })
-        console.log(lastPosition);
       },
       // (error) => alert(JSON.stringify(error)),
       (error) => console.log(error.message),
-      { enableHighAccuracy: false, timeout: 20000, maximumAge: 0,distanceFilter:0.1 });
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000,distanceFilter:0.1 });
   }
 
   getUserLogin = async () => {
@@ -232,9 +230,9 @@ export default class Index extends Component {
 
   distToMeter=()=>{
     if (this.state.dist <= 1) {
-      return this.state.dist*1000;
+      return (this.state.dist*1000).toString();
     }else{
-      return this.state.dist
+      return (this.state.dist).toString();
     }
   }
 

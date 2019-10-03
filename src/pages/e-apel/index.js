@@ -92,9 +92,9 @@ export default class Index extends Component {
 
   distToMeter=()=>{
     if (this.state.dist <= 1) {
-      return this.state.dist*1000;
+      return (this.state.dist*1000).toString();
     }else{
-      return this.state.dist
+      return (this.state.dist).toString();
     }
   }
 
