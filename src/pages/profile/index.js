@@ -245,7 +245,6 @@ export default class Index extends Component {
   }
 
   textDistance = () => {
-    // return <Text>{this.state.dist}</Text>
     if (this.state.dist > 0.1) { //jika jarak 0.1km atau 100m
       return <Text style={{ fontWeight: 'bold', fontSize: 17 }}>Anda tidak berada pada lokasi Apel, lokasi Anda berjarak {this.distToMeter()} {this.meterOrKilo()}</Text>
     } else {
