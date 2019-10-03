@@ -4,6 +4,7 @@ import { User } from '../../storage/async-storage'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { Text, View, KeyboardAvoidingView, Image, PermissionsAndroid, BackHandler, DeviceEventEmitter } from 'react-native'
 import { Container, Item, Input, Icon, Button, Card, Toast } from 'native-base'
+import NetInfo from '../../components/netinfo'
 // import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 
 export default class Index extends Component {
@@ -102,59 +103,61 @@ export default class Index extends Component {
           textContent={'Loading...'}
           textStyle={{color:'#FFF'}}
         />
-        <View style={{flex:1, paddingHorizontal:5, justifyContent:'center'}}>
-          <KeyboardAvoidingView behavior="padding">
-            <View style={{justifyContent:'center', flexDirection:'row'}}>
-              <Image
-                style={{width:110, height:143}}
-                source={require('../../assets/icons/logo_kab_probolinggo.png')}
-                />
-            </View>
-            <Card style={{paddingHorizontal:10, paddingVertical:10, marginTop:10}}>
-              <View style={{justifyContent: 'center', marginBottom:20, flexDirection:'row'}}>
-                <Text style={{fontSize:16, textAlign:'center'}}>
-                  Aplikasi e-Apel {"\n"}
-                  Pemerintah Kabupaten Probolinggo
-                </Text>
+        <NetInfo>
+          <View style={{flex:1, paddingHorizontal:5, justifyContent:'center'}}>
+            <KeyboardAvoidingView behavior="padding">
+              <View style={{justifyContent:'center', flexDirection:'row'}}>
+                <Image
+                  style={{width:110, height:143}}
+                  source={require('../../assets/icons/logo_kab_probolinggo.png')}
+                  />
               </View>
-              <View style={{justifyContent: 'center', flexDirection:'row'}}>
-                <Text style={{fontSize:20, fontWeight:'bold', marginBottom:10, textAlign:'center'}}>
-                  LOGIN
-                </Text>
-              </View>
-              <Item error={hasErrorUsername}>
-                <Icon active name='person' />
-                <Input placeholder='ID Mesin' onChangeText={(username) => this.setState({username})}/>
-              </Item>
-              <Text style={{color:'red'}}>{this.state.validation.username}</Text>
-              <Item error={hasErrorPassword}>
-                <Icon active name='lock' />
-                <Input secureTextEntry={!this.state.showPassword} placeholder='Password' onChangeText={(password) => this.setState({password})}/>
-                <Button iconLeft dark transparent onPress={() => this.toggleHideShowPassword()}>
-                  <Icon name={this.state.showPassword ? 'eye' : 'eye-off'}/>
-                </Button>
-              </Item>
-              <Text style={{color:'red'}}>{this.state.validation.password}</Text>
-              <Item>
-                <Icon active name='barcode' />
-                <Input value={this.state.imei} disabled/>
-              </Item>
-              <View style={{marginTop:10, flexDirection:'row', justifyContent:'space-between'}}>
-                <View style={{flexDirection:'row', alignItems:'center'}}>
-                  {/* <CheckBox checked={this.state.remember_me} onPress={this.toggleRememberMe} style={{marginRight:15}} />
-                  <Text>Remember Me</Text> */}
+              <Card style={{paddingHorizontal:10, paddingVertical:10, marginTop:10}}>
+                <View style={{justifyContent: 'center', marginBottom:20, flexDirection:'row'}}>
+                  <Text style={{fontSize:16, textAlign:'center'}}>
+                    Aplikasi e-Apel {"\n"}
+                    Pemerintah Kabupaten Probolinggo
+                  </Text>
                 </View>
-                <View style={{flexDirection:'row'}}>
-                  <Button block info style={{backgroundColor:"#2089dc", height:40, paddingHorizontal:20}}
-                    onPress={() => this.login()}
-                  >
-                    <Text style={{color:'white', fontSize:16, fontWeight:'bold'}}> Masuk </Text>
+                <View style={{justifyContent: 'center', flexDirection:'row'}}>
+                  <Text style={{fontSize:20, fontWeight:'bold', marginBottom:10, textAlign:'center'}}>
+                    LOGIN
+                  </Text>
+                </View>
+                <Item error={hasErrorUsername}>
+                  <Icon active name='person' />
+                  <Input placeholder='ID Mesin' onChangeText={(username) => this.setState({username})}/>
+                </Item>
+                <Text style={{color:'red'}}>{this.state.validation.username}</Text>
+                <Item error={hasErrorPassword}>
+                  <Icon active name='lock' />
+                  <Input secureTextEntry={!this.state.showPassword} placeholder='Password' onChangeText={(password) => this.setState({password})}/>
+                  <Button iconLeft dark transparent onPress={() => this.toggleHideShowPassword()}>
+                    <Icon name={this.state.showPassword ? 'eye' : 'eye-off'}/>
                   </Button>
+                </Item>
+                <Text style={{color:'red'}}>{this.state.validation.password}</Text>
+                <Item>
+                  <Icon active name='barcode' />
+                  <Input value={this.state.imei} disabled/>
+                </Item>
+                <View style={{marginTop:10, flexDirection:'row', justifyContent:'space-between'}}>
+                  <View style={{flexDirection:'row', alignItems:'center'}}>
+                    {/* <CheckBox checked={this.state.remember_me} onPress={this.toggleRememberMe} style={{marginRight:15}} />
+                    <Text>Remember Me</Text> */}
+                  </View>
+                  <View style={{flexDirection:'row'}}>
+                    <Button block info style={{backgroundColor:"#2089dc", height:40, paddingHorizontal:20}}
+                      onPress={() => this.login()}
+                    >
+                      <Text style={{color:'white', fontSize:16, fontWeight:'bold'}}> Masuk </Text>
+                    </Button>
+                  </View>
                 </View>
-              </View>
-            </Card>
-          </KeyboardAvoidingView>
-        </View>
+              </Card>
+            </KeyboardAvoidingView>
+          </View>
+        </NetInfo>
       </Container>
     );
   }

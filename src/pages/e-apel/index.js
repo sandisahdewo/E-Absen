@@ -90,6 +90,22 @@ export default class Index extends Component {
     return dist.toFixed(3);
   }
 
+  distToMeter=()=>{
+    if (this.state.dist <= 1) {
+      return this.state.dist*1000;
+    }else{
+      return this.state.dist
+    }
+  }
+
+  meterOrKilo=()=>{
+    if (this.state.dist <= 1) {
+      return <Text>Meter</Text>;
+    } else {
+      return <Text>Kilometer</Text>;
+    }
+  }
+
 
   keyExtractor = (item, index) => index.toString();
 
@@ -144,9 +160,9 @@ export default class Index extends Component {
     }
 
     if (this.state.dist > 0.1) {
-      return <Text>Hai {this.state.user.pegawai.nama}, lokasi Anda berjarak {this.state.dist} Kilometer, Anda tidak boleh checkin</Text>
+      return <Text>Hai {this.state.user.pegawai.nama}, lokasi Anda berjarak {this.distToMeter()} {this.meterOrKilo()}, Anda tidak boleh checkin</Text>
     } else {
-      return <Text>Hai {this.state.user.pegawai.nama}, lokasi Anda berjarak {this.state.dist} Kilometer, silakan cek in untuk mengikuti apel.</Text>
+      return <Text>Hai {this.state.user.pegawai.nama}, lokasi Anda berjarak {this.distToMeter()} {this.meterOrKilo()}, silakan cek in untuk mengikuti apel.</Text>
     }
   }
 
