@@ -112,13 +112,13 @@ export default class Index extends Component {
         {apelCloseExist && 
         <View style={{flex:1, marginHorizontal:10}}>
           <View style={{marginBottom:10}}>
-            <Text>Laporan e-Apel, Tanggal {this.state.statistik.apel.tanggal_view} periode {this.state.statistik.apel.periode} sebagai berikut:</Text>
+            <Text>Laporan Presensi, Tanggal {this.state.statistik.apel.tanggal_view} periode {this.state.statistik.apel.periode} sebagai berikut:</Text>
           </View>
 
           <View style={{backgroundColor: 'red', padding:15}}>
             <View style={{flexDirection:'row'}}>
               <Icon name="bar-chart" size={24} type='font-awesome' iconStyle={{marginRight:5}} color='white' />
-              <Text style={{color:'white', fontSize:18}}>Statistik Apel Satuan Kerja {this.state.statistik.satker.satuan_kerja}</Text>
+              <Text style={{color:'white', fontSize:18}}>Statistik Presensi Satuan Kerja {this.state.statistik.satker.satuan_kerja}</Text>
             </View>
           </View>
 
@@ -136,7 +136,7 @@ export default class Index extends Component {
               leftIcon={
                 <Icon name="check" size={24} type='font-awesome' iconStyle={{marginRight:5}} color='green' />
               }
-              title='Hadir Apel'
+              title='Hadir'
               rightTitle={`${this.state.statistik.hadir} Orang`}
               rightTitleStyle={{color:'white', backgroundColor:'green', borderRadius:13, paddingHorizontal:10}}
               bottomDivider={true}
@@ -218,12 +218,12 @@ export default class Index extends Component {
         }
         {apelNotExist && 
           <View style={{justifyContent:'center', alignItems:'center', flex:1}}>
-            <Text style={{fontSize:18}}>Tidak ada apel hari ini</Text>
+            <Text style={{fontSize:18}}>Tidak ada absen hari ini</Text>
           </View>
         }
         {apelCloseNotExist && 
           <View style={{justifyContent:'center', alignItems:'center', flex:1}}>
-            <Text style={{fontSize:18}}>Apel periode sekarang belum tutup</Text>
+            <Text style={{fontSize:18}}>Absen periode sekarang belum tutup</Text>
           </View>
         }
       </View>

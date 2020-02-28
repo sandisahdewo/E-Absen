@@ -284,14 +284,14 @@ export default class Index extends Component {
             <Text style={{fontSize: 20, fontWeight: 'bold', color:'black'}}>{this.state.user.name}</Text>
             <View style={{flexDirection:'row'}}>
               <Button 
-                title="Rekap Apel"
+                title="Rekap Presensi"
                 type="outline"
                 buttonStyle={{padding:3, paddingTop:-2, marginTop:14, backgroundColor:'rgba(255, 255, 255, 0.8)'}}
                 onPress={() => this.props.navigation.navigate('RekapAbsenIndex')}
               />
               { this.state.user.admin_satker && 
                 <Button 
-                  title="Statistik Peserta Apel"
+                  title="Statistik Presensi"
                   type="outline"
                   buttonStyle={{padding:3, paddingTop:-2, marginTop:14, borderColor:'red', marginLeft:10, backgroundColor:'rgba(255, 255, 255, 0.8)'}}
                   titleStyle={{color:'red'}}
@@ -324,8 +324,8 @@ export default class Index extends Component {
             {this.state.apelData.map((val, key) => {
               // Ada apel dan ada action izin atau checkin
               if(val.action != undefined) {
-                const textStatus = val.action_status == 'izin' ? 'Mengisi Izin' : 'Mengikuti Apel'
-                const textMessage = val.action_status == 'izin' ? 'Terimakasih telah mengisi izin' : 'Terimakasih telah mengikuti apel'
+                const textStatus = val.action_status == 'izin' ? 'Izin' : 'Absen'
+                const textMessage = val.action_status == 'izin' ? 'Terimakasih telah mengisi izin' : 'Terimakasih telah melakukan absen'
               
                 return (
                   <Card key={key} style={{padding:15}}>
@@ -353,7 +353,7 @@ export default class Index extends Component {
                     <Card key={key} style={{padding:15}}>
                       <View style={{flexDirection:'row'}}>
                         <View style={{flex:1}}>
-                          <Text style={{fontSize:14}}>Apel {val.periode} dilaksanakan pada: {val.jam_apel}</Text>
+                          <Text style={{fontSize:14}}>Absensi {val.periode} dilaksanakan pada: {val.jam_apel}</Text>
                           {this.textDistance()}
                         </View>
                         <View style={{justifyContent:'center', flex:0.4}}>
@@ -374,8 +374,8 @@ export default class Index extends Component {
                     <Card key={key} style={{padding:15}}>
                       <View style={{flexDirection:'row'}}>
                         <View style={{flex:1}}>
-                          <Text style={{fontSize:14}}>Apel {val.periode} dilaksanakan pada: {val.jam_apel}</Text>
-                          <Text style={{fontWeight:'bold', fontSize:17}}>Telah melewati waktu checkin apel</Text>
+                          <Text style={{fontSize:14}}>Absensi {val.periode} dilaksanakan pada: {val.jam_apel}</Text>
+                          <Text style={{fontWeight:'bold', fontSize:17}}>Telah melewati waktu checkin absensi</Text>
                         </View>
                         <View style={{justifyContent:'center', flex:0.4}}>
                           <Icon
@@ -394,8 +394,8 @@ export default class Index extends Component {
                     <Card key={key} style={{padding:15}}>
                       <View style={{flexDirection:'row'}}>
                         <View style={{flex:1}}>
-                          <Text style={{fontSize:14}}>Apel {val.periode} dilaksanakan pada: {val.jam_apel}</Text>
-                          <Text style={{fontWeight:'bold', fontSize:17}}>Apel belum dimulai</Text>
+                          <Text style={{fontSize:14}}>Absensi {val.periode} dilaksanakan pada: {val.jam_apel}</Text>
+                          <Text style={{fontWeight:'bold', fontSize:17}}>Absensi belum dimulai</Text>
                         </View>
                         <View style={{justifyContent:'center', flex:0.4}}>
                           <Icon
@@ -417,7 +417,7 @@ export default class Index extends Component {
               <Card style={{padding:15}}>
                 <View style={{flexDirection:'row'}}>
                   <View style={{flex:1}}>
-                    <Text style={{fontWeight:'bold', fontSize:17}}>Tidak ada Apel</Text>
+                    <Text style={{fontWeight:'bold', fontSize:17}}>Tidak ada Absensi</Text>
                   </View>
                 </View>
               </Card>

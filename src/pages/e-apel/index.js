@@ -160,9 +160,9 @@ export default class Index extends Component {
     }
 
     if (this.state.dist > 0.1) {
-      return <Text>Hai {this.state.user.pegawai.nama}, lokasi Anda berjarak {this.distToMeter()} {this.meterOrKilo()}, Anda tidak boleh checkin</Text>
+      return <Text>Hai {this.state.user.pegawai.nama}, lokasi Anda berjarak {this.distToMeter()} {this.meterOrKilo()}, Anda tidak dapat melakukan absen.</Text>
     } else {
-      return <Text>Hai {this.state.user.pegawai.nama}, lokasi Anda berjarak {this.distToMeter()} {this.meterOrKilo()}, silakan cek in untuk mengikuti apel.</Text>
+      return <Text>Hai {this.state.user.pegawai.nama}, lokasi Anda berjarak {this.distToMeter()} {this.meterOrKilo()}, silakan melakukan absen.</Text>
     }
   }
 
@@ -241,7 +241,7 @@ export default class Index extends Component {
     APIApel.Checkin(formData)
       .then(res => {
         Toast.show({
-          text: 'Check in apel berhasil!',
+          text: 'Absen berhasil!',
           buttonText: 'Okay',
           type:'success',
           duration: 5000

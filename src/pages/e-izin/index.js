@@ -127,7 +127,7 @@ export default class Index extends Component {
         .then(res => {
           if(res.success) {
             Toast.show({
-              text: 'Izin apel berhasil!',
+              text: 'Izin berhasil disimpan!',
               buttonText: 'Okay',
               type:'success',
               duration: 5000
@@ -137,7 +137,7 @@ export default class Index extends Component {
           } else {
             this.setState({spinner: false})
             Toast.show({
-              text: 'Izin apel gagal disimpan!',
+              text: 'Izin gagal disimpan!',
               buttonText: 'Okay',
               type:'danger',
               duration: 5000
@@ -179,7 +179,7 @@ export default class Index extends Component {
               <View style={{ flex: 1, padding: 8 }}>
               
                 <View>
-                  <Text style={{fontWeight:'bold', fontSize:16}}>Anda saat ini izin tidak mengikuti apel, silakan isi data dibawah ini:</Text>
+                  <Text style={{fontWeight:'bold', fontSize:16}}>Anda saat ini sedang izin, silakan isi data dibawah ini:</Text>
                 </View>
                 {/* Maps */}
                 <View style={styles.mapContainer}>
@@ -217,7 +217,7 @@ export default class Index extends Component {
 
                 {/* Status Perizinan */}
                 <View>
-                  <Text style={{fontSize:14, fontWeight:'bold'}}>Status Perizinan: </Text>
+                  <Text style={{fontSize:14, fontWeight:'bold'}}>Status Izin: </Text>
                   <Picker
                     note
                     mode="dropdown"

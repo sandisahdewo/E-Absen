@@ -109,14 +109,14 @@ export default class Index extends Component {
               <View style={{justifyContent:'center', flexDirection:'row'}}>
                 <Image
                   style={{width:110, height:143}}
-                  source={require('../../assets/icons/logo_kab_probolinggo.png')}
+                  source={require('../../assets/icons/logo.png')}
                   />
               </View>
               <Card style={{paddingHorizontal:10, paddingVertical:10, marginTop:10}}>
                 <View style={{justifyContent: 'center', marginBottom:20, flexDirection:'row'}}>
                   <Text style={{fontSize:16, textAlign:'center'}}>
-                    Aplikasi e-Apel {"\n"}
-                    Pemerintah Kabupaten Probolinggo
+                    Aplikasi Presensi Geolocation {"\n"}
+                    Limakode
                   </Text>
                 </View>
                 <View style={{justifyContent: 'center', flexDirection:'row'}}>
